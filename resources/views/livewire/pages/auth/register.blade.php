@@ -58,35 +58,35 @@ new #[Layout('layouts.guest')] class extends Component
 <div>
 
     <div class="text-center mb-6">
-        <h1 class="text-7xl font-semibold text-gray-800">Create Your Account</h1>
+        <h1 class="text-lg font-semibold text-gray-800">Create Your Account</h1>
     </div>
     <form wire:submit.prevent="register">
         @csrf <!-- Include CSRF token for security -->
 
         <!-- Name -->
         <div class="mt-4">
-            <x-input-label for="name" :value="__('Name')" />
+            <x-input-label for="name"  />
             <x-text-input wire:model="name" id="name" class="block mt-1 w-full" type="text" name="name" placeholder="Name" required autofocus autocomplete="name" />
             <x-input-error :messages="$errors->get('name')" class="mt-2" />
         </div>
 
         <!-- Email Address -->
         <div class="mt-4">
-            <x-input-label for="email" :value="__('Email')" />
+            <x-input-label for="email"  />
             <x-text-input wire:model="email" id="email" class="block mt-1 w-full" type="email" name="email" placeholder="Email" required autocomplete="username" />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
         <!-- DSWD ID -->
         <div class="mt-4">
-            <x-input-label for="dswd_id" :value="__('DSWD ID')" />
+            <x-input-label for="dswd_id" />
             <x-text-input wire:model="dswd_id" id="dswd_id" class="block mt-1 w-full" type="text" name="dswd_id" placeholder="DSWD ID Number" required autocomplete="dswd_id" />
             <x-input-error :messages="$errors->get('dswd_id')" class="mt-2" />
         </div>
 
         <!-- Section -->
         <div class="mt-4">
-            <x-input-label for="section" :value="__('Section')" />
+            <x-input-label for="section"  />
             <select id="section" name="section" wire:model="section"
                 class="block mt-1 w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
                 <option disabled selected>Select Section</option>
@@ -99,14 +99,14 @@ new #[Layout('layouts.guest')] class extends Component
 
         <!-- Password -->
         <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
+            <x-input-label for="password" />
             <x-text-input wire:model="password" id="password" class="block mt-1 w-full" type="password" name="password" placeholder="Password" required autocomplete="new-password" />
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
 
         <!-- Confirm Password -->
         <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
+            <x-input-label for="password_confirmation"  />
             <x-text-input wire:model="password_confirmation" id="password_confirmation" class="block mt-1 w-full" type="password" name="password_confirmation" placeholder="Confirm Password" required autocomplete="new-password" />
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
         </div>

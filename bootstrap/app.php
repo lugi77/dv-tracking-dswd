@@ -13,7 +13,8 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
 
-            'verify.otp' => \App\Http\Middleware\VerifyOtp::class,
+            'check.section' => \App\Http\Middleware\CheckSection::class,
+            'PreventBackHistory' => \App\Http\Middleware\PreventBackHistory::class,
 
         ]);
     })
