@@ -36,23 +36,21 @@ class OtpVerify extends Component
     /**
      * Redirect user to their specific dashboard based on their section.
      *
-     * @return \Illuminate\Http\RedirectResponse
      */
     protected function redirectToDashboard()
     {
         $user = Auth::user();
 
-        switch ($user->section) {
-            case 0:
-                return redirect()->route('admin'); // Admin Dashboard
-            case 1:
-                return redirect()->route('budget'); // Budget Dashboard
-            case 2:
-                return redirect()->route('accounting'); // Accounting Dashboard
-            case 3:
-                return redirect()->route('cash'); // Cash Dashboard
-            default:
-                return redirect()->route('home')->withErrors(['msg' => 'Unauthorized access']);
+        if ($user->section === 0) {
+            return redirect()->route('admin'); // Admin Dashboard
+        } elseif ($user->section === 1) {
+            return redirect()->route('budget'); // Budget Dashboard
+        } elseif ($user->section === 2) {
+            return redirect()->route('accounting'); // Accounting Dashboard
+        } elseif ($user->section === 3) {
+            return redirect()->route('cash'); // Cash Dashboard
+        } else {
+            return abort(401, 'Unauthorized');
         }
     }
 
