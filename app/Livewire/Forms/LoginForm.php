@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Livewire\Attributes\Validate;
+use Illuminate\Auth\Events\Lockout;
 use Livewire\Form;
 use App\Mail\OtpMail;
 use Carbon\Carbon;

@@ -12,19 +12,19 @@ class UserDashboardController extends Controller
      */
     public function index()
     {
+
         $user = Auth::user();
 
-        switch ($user->section) {
-            case 0:
-                return view('dashboard.admin'); // Admin Dashboard
-            case 1:
-                return view('dashboard.budget'); // Budget Dashboard
-            case 2:
-                return view('dashboard.accounting'); // Accounting Dashboard
-            case 3:
-                return view('dashboard.cash'); // Cash Dashboard
-            default:
-                return redirect()->route('home')->withErrors(['msg' => 'Unauthorized access']);
+        if ($user->section === 0) {
+            return view('dashboard.admin'); // Admin Dashboard
+        } elseif ($user->section === 1) {
+            return view('dashboard.budget'); // Budget Dashboard
+        } elseif ($user->section === 2) {
+            return view('dashboard.accounting'); // Accounting Dashboard
+        } elseif ($user->section === 3) {
+            return view('dashboard.cash'); // Cash Dashboard
+        } else {
+            return abort(401, 'Unauthorized');
         }
     }
 }
