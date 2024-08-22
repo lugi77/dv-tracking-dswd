@@ -6,11 +6,10 @@ use App\Http\Controllers\UserDashboardController;
 
 Route::redirect('/', '/login');
 
+Route::get('/otp-verify', OtpVerify::class)->name('otp.verify')->middleware('auth');
+
+
 Route::middleware(['auth'])->group(function () {
-    // OTP Verification Route
-    Route::get('/otp-verify', OtpVerify::class)->name('otp.verify');
-    
-    // User Dashboard Routes
     Route::get('/home', [UserDashboardController::class, 'index'])->name('home');
 
     Route::view('profile', 'profile')->name('profile');
