@@ -9,7 +9,7 @@ class OtpController extends Controller
 
     public function index(){
         
-        return view('otp.verify');
+        return view('show-otp');
 
     }
     

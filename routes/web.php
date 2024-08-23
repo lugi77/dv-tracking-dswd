@@ -4,12 +4,12 @@ use Illuminate\Support\Facades\Route;
 use App\Livewire\OtpVerify;
 use App\Http\Controllers\UserDashboardController; 
 
-Route::redirect('/', '/login');
+Route::redirect('/', '/login')->name('home');
 
-Route::get('/otp-verify', OtpVerify::class)->name('otp.verify')->middleware('auth');
+Route::get('/otp-verify', OtpVerify::class)->name('otp-verify')->middleware('auth');
 
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'otp', 'PreventBackHistory'])->group(function () {
     Route::get('/home', [UserDashboardController::class, 'index'])->name('home');
 
     Route::view('profile', 'profile')->name('profile');

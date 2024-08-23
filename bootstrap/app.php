@@ -16,6 +16,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'check.section' => \App\Http\Middleware\CheckSection::class,
             'PreventBackHistory' => \App\Http\Middleware\PreventBackHistory::class,
             'auth.check' => \App\Http\Middleware\EnsureAuthenticated::class,
+            'otp' => \App\Http\Middleware\EnsureOtpIsVerified::class,
 
         ]);
     })

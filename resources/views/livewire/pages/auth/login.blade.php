@@ -20,7 +20,7 @@ new #[Layout('layouts.guest')] class extends Component
 
     Session::regenerate();
 
-    $this->redirect(route('otp.verify'));
+    $this->redirect(route('otp-verify'));
 }
 }; ?>
 
