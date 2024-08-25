@@ -105,10 +105,10 @@
                     </div>
 
                     <!-- Table Wrapper for Horizontal Scrolling -->
-                    <div class="min-h-100 overflow-x-auto">
+                    <div class="min-h-[25rem] overflow-x-auto">
                         <div class="max-h-96 overflow-y-auto">
                             <table class="min-w-full bg-white">
-                                <thead class="bg-green-600 text-white">
+                                <thead class="bg-green-600 text-white sticky top-0">
                                     <tr>
                                         <th class="py-3 px-4 text-center border-b border-r border-gray-300">Date
                                             Received</th>
@@ -166,6 +166,7 @@
                             </table>
                         </div>
                     </div>
+
 
                     <!-- Pagination Links -->
                     <div class="mt-4">

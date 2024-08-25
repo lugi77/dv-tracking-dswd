@@ -104,7 +104,7 @@
                               <div class="text-right">
                                  <button type="button"
                                     class="bg-red-500 hover:bg-red-400 text-white font-bold py-2 px-4 border-b-4 border-red-700 hover:border-red-500 rounded"
-                                    @click="$emit('closeModal')">Cancel</button>
+                                    @click="modelOpen = false">Cancel</button>
                                  <button type="submit"
                                     class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded">Save</button>
                               </div>
@@ -156,10 +156,10 @@
             </div>
 
             <!-- Table Wrapper for Horizontal Scrolling -->
-            <div class="min-h-100 overflow-x-auto">
+            <div class="min-h-[25rem] overflow-x-auto">
                <div class="max-h-96 overflow-y-auto">
                   <table class="min-w-full bg-white">
-                     <thead class="bg-green-600 text-white">
+                     <thead class="bg-green-600 text-white sticky top-0">
                         <tr>
                            <th class="py-2 px-2 text-center border-b border-r border-l border-gray-300">ID No.</th>
                            <th class="py-2 px-2 text-center border-b border-r border-gray-300">DRN No.</th>
