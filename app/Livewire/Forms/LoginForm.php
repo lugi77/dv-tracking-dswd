@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Livewire\Attributes\Validate;
+use Illuminate\Auth\Events\Lockout;
 use Livewire\Form;
 use App\Mail\OtpMail;
 use Carbon\Carbon;
@@ -53,7 +54,7 @@ class LoginForm extends Form
         $user = Auth::user();
         $otp = rand(100000, 999999); // Generate a 6-digit OTP
         $user->otp = $otp;
-        $user->otp_expires_at = Carbon::now()->addMinutes(10); // OTP valid for 10 minutes
+        $user->otp_expires_at = Carbon::now()->addMinutes(2); // OTP valid for 10 minutes
         $user->save();
 
         Mail::to($user->email)->send(new OtpMail($otp));

@@ -41,7 +41,7 @@ class User extends Authenticatable
     {
         $otp = Str::random(6); // Generate a 6-digit OTP
         $this->otp = $otp;
-        $this->otp_expires_at = Carbon::now()->addMinutes(5); // Set expiration time to 5 minutes
+        $this->otp_expires_at = Carbon::now()->addMinutes(2); // Set expiration time to 2 minutes
         $this->save();
 
         // Send OTP via email
