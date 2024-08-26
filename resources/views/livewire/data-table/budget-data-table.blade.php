@@ -156,8 +156,8 @@
             </div>
 
             <!-- Table Wrapper for Horizontal Scrolling -->
-            <div class="min-h-[25rem] overflow-x-auto">
-               <div class="max-h-96 overflow-y-auto">
+            <div class="min-h-[35rem] overflow-x-auto">
+               <div class="max-h-[40rem] overflow-y-auto">
                   <table class="min-w-full bg-white">
                      <thead class="bg-green-600 text-white sticky top-0">
                         <tr>
