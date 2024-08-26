@@ -184,26 +184,26 @@
                      <tbody>
                         @forelse($budgetRecords as $entry)
                      <tr>
-                        <td class="py-3 px-4 border-b border-r border-l border-gray-300">{{ $entry->id }}</td>
-                        <td class="py-3 px-4 border-b border-r border-gray-300">{{ $entry->drnNum }}</td>
-                        <td class="py-3 px-4 border-b border-r border-gray-300">{{ $entry->dvNum }}</td>
-                        <td class="py-3 px-4 border-b border-r border-gray-300">{{ $entry->incomingDate}}</td>
-                        <td class="py-3 px-4 border-b border-r border-gray-300">{{ $entry->payee }}</td>
-                        <td class="py-3 px-4 border-b border-r border-gray-300">{{ $entry->particulars }}</td>
-                        <td class="py-3 px-4 border-b border-r border-gray-300">{{ $entry->program }}</td>
-                        <td class="py-3 px-4 border-b border-r border-gray-300">{{ $entry->controller }}</td>
-                        <td class="py-3 px-4 text-right border-b border-r border-gray-300">
+                        <td class="py-2 px-2 border-b border-r border-l border-gray-300 text-center">{{ $entry->id }}</td>
+                        <td class="py-2 px-2 border-b border-r border-gray-300 text-center">{{ $entry->drnNum }}</td>
+                        <td class="py-2 px-2 border-b border-r border-gray-300 text-center">{{ $entry->dvNum }}</td>
+                        <td class="py-2 px-2 border-b border-r border-gray-300 text-center">{{ $entry->incomingDate}}</td>
+                        <td class="py-2 px-2 border-b border-r border-gray-300 text-center">{{ $entry->payee }}</td>
+                        <td class="py-2 px-2 border-b border-r border-gray-300 text-center">{{ $entry->particulars }}</td>
+                        <td class="py-2 px-2 border-b border-r border-gray-300 text-center">{{ $entry->program }}</td>
+                        <td class="py-2 px-2 border-b border-r border-gray-300 text-center">{{ $entry->controller }}</td>
+                        <td class="py-2 px-2 border-b border-r border-gray-300 text-center">
                           ₱{{ number_format($entry->gross_amount, 2) }}
                         </td>
-                        <td class="py-3 px-4 text-right border-b border-r border-gray-300">
+                        <td class="py-2 px-4 border-b border-r border-gray-300 text-center">
                           ₱{{ number_format($entry->final_amount_norsa, 2) }}
                         </td>
-                        <td class="py-3 px-4 border-b border-r border-gray-300">{{ $entry->fund_cluster }}</td>
-                        <td class="py-3 px-4 border-b border-r border-gray-300">{{ $entry->appropriation }}</td>
-                        <td class="py-3 px-4 border-b border-r border-gray-300">{{ $entry->remarks }}</td>
-                        <td class="py-3 px-4 border-b border-r border-gray-300">{{ $entry->orsNum }}</td>
-                        <td class="py-3 px-4 border-b border-r border-gray-300">{{ $entry->outgoingDate }}</td>
-                        <td class="py-3 px-4 border-b border-r border-gray-300">{{ ucfirst($entry->status) }}</td>
+                        <td class="py-2 px-2 border-b border-r border-gray-300 text-center">{{ $entry->fund_cluster }}</td>
+                        <td class="py-2 px-2 border-b border-r border-gray-300 text-center">{{ $entry->appropriation }}</td>
+                        <td class="py-2 px-2 border-b border-r border-gray-300 text-center">{{ $entry->remarks }}</td>
+                        <td class="py-2 px-2 border-b border-r border-gray-300 text-center">{{ $entry->orsNum }}</td>
+                        <td class="py-2 px-2 border-b border-r border-gray-300 text-center">{{ $entry->outgoingDate }}</td>
+                        <td class="py-2 px-2 border-b border-r border-gray-300 text-center">{{ ucfirst($entry->status) }}</td>
                      </tr>
                   @empty
                <tr>
@@ -219,7 +219,7 @@
             </div>
 
             <!-- Pagination Links -->
-            <div class="mt-2">
+            <div class="mt-1">
                {{ $budgetRecords->links() }}
             </div>
          </div>
