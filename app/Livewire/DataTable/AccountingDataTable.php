@@ -13,28 +13,14 @@ class AccountingDataTable extends Component
     use WithPagination;
 
     public $search = '';
-    public $perPage = 50;
+    public  $perPage = 50;
 
     // Form inputs
-    public $date_received;
-    public $dvNum;
-    public $dvNum2;
-    public $ap_no;
-    public $gross_amount;
-    public $tax;
-    public $other_deduction;
-    public $net_amount;
-    public $final_gross_amount;
-    public $final_net_amount;
-    public $program_unit;
-    public $date_returned_to_end_user;
-    public $date_compiled_to_end_user;
-    public $no_of_days;
-    public $outgoing_processor;
-    public $outgoing_certifier;
-    public $remarks;
-    public $outgoing_date;
-    public $action;
+    public  $date_received, $dvNum, $dvNum2, $ap_no, $gross_amount, $tax, 
+    $other_deduction, $net_amount, $final_gross_amount, $final_net_amount, 
+    $program_unit, $date_returned_to_end_user, $date_compiled_to_end_user, 
+    $no_of_days, $outgoing_processor, $outgoing_certifier, $remarks,
+     $outgoing_date, $action;
 
     public $isEditing = false;
     public $entryId;
@@ -61,7 +47,7 @@ class AccountingDataTable extends Component
         'action' => 'nullable|string',
     ];
 
-    public function saveEntry()
+     function saveEntry()
     {
         $this->validate();
 
@@ -124,10 +110,10 @@ class AccountingDataTable extends Component
         $this->entryId = null;
 
         // Emit event to close the modal
-        $this->dispatchBrowserEvent('entry-saved');
+        $this->dispatch('entry-saved');
     }
 
-    public function resetInputFields()
+     function resetInputFields()
     {
         $this->date_received = '';
         $this->dvNum = '';
@@ -150,7 +136,7 @@ class AccountingDataTable extends Component
         $this->action = '';
     }
 
-    public function editEntry($id)
+     function editEntry($id)
     {
         $entry = Accounting::findOrFail($id);
 
@@ -178,7 +164,7 @@ class AccountingDataTable extends Component
         $this->isEditing = true;
     }
 
-    public function render()
+     function render()
     {
         $accountingRecords = Accounting::where('dvNum', 'like', '%' . $this->search . '%')
             ->orWhere('program_unit', 'like', '%' . $this->search . '%')

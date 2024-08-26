@@ -3,7 +3,7 @@
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
             <div class="p-6 text-gray-900">
 
-                <div x-data="{ modelOpen: false }">
+                <div x-data="{ modelOpen: false }" x-on:entry-saved.window="modelOpen = false">
                     <!-- Modal -->
                     <div x-show="modelOpen" class="fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title"
                         role="dialog" aria-modal="true">
@@ -30,61 +30,136 @@
                                 class="inline-block w-full max-w-xl p-8 mt-4 overflow-hidden text-left transition-all transform bg-white rounded-lg shadow-xl 2xl:max-w-2xl">
                                 <div class="p-2">
                                     <div class="text-lg">Edit Entry</div>
-                                    <div>
-                                        @if (session()->has('message'))
-                                            <div class="alert alert-success">
-                                                {{ session('message') }}
+
+                                    <form wire:submit.prevent="saveEntry">
+                                        @csrf <!-- CSRF token for form protection -->
+                                        <div class="mt-4 space-y-4">
+                                            <div class="flex flex-wrap -mx-2">
+                                                <div class="w-1/2 px-2">
+                                                    <label class="block text-sm font-medium text-gray-700">Date
+                                                        Received</label>
+                                                    <input type="date" wire:model.defer="date_received"
+                                                        class="border rounded px-4 py-2 w-full">
+                                                </div>
+                                                <div class="w-1/2 px-2">
+                                                    <label class="block text-sm font-medium text-gray-700">DV
+                                                        Number</label>
+                                                    <input type="text" wire:model.defer="dvNum"
+                                                        class="border rounded px-4 py-2 w-full">
+                                                </div>
+                                                <div class="w-1/2 px-2">
+                                                    <label class="block text-sm font-medium text-gray-700">DV Number
+                                                        2</label>
+                                                    <input type="text" wire:model.defer="dvNum2"
+                                                        class="border rounded px-4 py-2 w-full">
+                                                </div>
+                                                <div class="w-1/2 px-2">
+                                                    <label class="block text-sm font-medium text-gray-700">AP
+                                                        Number</label>
+                                                    <input type="text" wire:model.defer="ap_no"
+                                                        class="border rounded px-4 py-2 w-full">
+                                                </div>
+                                                <div class="w-1/2 px-2">
+                                                    <label class="block text-sm font-medium text-gray-700">Gross
+                                                        Amount</label>
+                                                    <input type="number" wire:model.defer="gross_amount"
+                                                        class="border rounded px-4 py-2 w-full">
+                                                </div>
+                                                <div class="w-1/2 px-2">
+                                                    <label class="block text-sm font-medium text-gray-700">Tax</label>
+                                                    <input type="number" wire:model.defer="tax"
+                                                        class="border rounded px-4 py-2 w-full">
+                                                </div>
+                                                <div class="w-1/2 px-2">
+                                                    <label class="block text-sm font-medium text-gray-700">Other
+                                                        Deductions</label>
+                                                    <input type="number" wire:model.defer="other_deduction"
+                                                        class="border rounded px-4 py-2 w-full">
+                                                </div>
+                                                <div class="w-1/2 px-2">
+                                                    <label class="block text-sm font-medium text-gray-700">Net
+                                                        Amount</label>
+                                                    <input type="number" wire:model.defer="net_amount"
+                                                        class="border rounded px-4 py-2 w-full">
+                                                </div>
+                                                <div class="w-1/2 px-2">
+                                                    <label class="block text-sm font-medium text-gray-700">Final Gross
+                                                        Amount</label>
+                                                    <input type="number" wire:model.defer="final_gross_amount"
+                                                        class="border rounded px-4 py-2 w-full">
+                                                </div>
+                                                <div class="w-1/2 px-2">
+                                                    <label class="block text-sm font-medium text-gray-700">Final Net
+                                                        Amount</label>
+                                                    <input type="number" wire:model.defer="final_net_amount"
+                                                        class="border rounded px-4 py-2 w-full">
+                                                </div>
+                                                <div class="w-full px-2">
+                                                    <label class="block text-sm font-medium text-gray-700">Program
+                                                        Unit</label>
+                                                    <input type="text" wire:model.defer="program_unit"
+                                                        class="border rounded px-4 py-2 w-full">
+                                                </div>
+                                                <div class="w-1/2 px-2">
+                                                    <label class="block text-sm font-medium text-gray-700">Date Returned
+                                                        to End User</label>
+                                                    <input type="date" wire:model.defer="date_returned_to_end_user"
+                                                        class="border rounded px-4 py-2 w-full">
+                                                </div>
+                                                <div class="w-1/2 px-2">
+                                                    <label class="block text-sm font-medium text-gray-700">Date Compiled
+                                                        to End User</label>
+                                                    <input type="date" wire:model.defer="date_compiled_to_end_user"
+                                                        class="border rounded px-4 py-2 w-full">
+                                                </div>
+                                                <div class="w-1/2 px-2">
+                                                    <label class="block text-sm font-medium text-gray-700">No. of
+                                                        Days</label>
+                                                    <input type="number" wire:model.defer="no_of_days"
+                                                        class="border rounded px-4 py-2 w-full">
+                                                </div>
+                                                <div class="w-1/2 px-2">
+                                                    <label class="block text-sm font-medium text-gray-700">Outgoing
+                                                        Processor</label>
+                                                    <input type="text" wire:model.defer="outgoing_processor"
+                                                        class="border rounded px-4 py-2 w-full">
+                                                </div>
+                                                <div class="w-1/2 px-2">
+                                                    <label class="block text-sm font-medium text-gray-700">Outgoing
+                                                        Certifier</label>
+                                                    <input type="text" wire:model.defer="outgoing_certifier"
+                                                        class="border rounded px-4 py-2 w-full">
+                                                </div>
+                                                <div class="w-full px-2">
+                                                    <label
+                                                        class="block text-sm font-medium text-gray-700">Remarks</label>
+                                                    <input type="text" wire:model.defer="remarks"
+                                                        class="border rounded px-4 py-2 w-full">
+                                                </div>
+                                                <div class="w-1/2 px-2">
+                                                    <label class="block text-sm font-medium text-gray-700">Outgoing
+                                                        Date</label>
+                                                    <input type="date" wire:model.defer="outgoing_date"
+                                                        class="border rounded px-4 py-2 w-full">
+                                                </div>
+                                                <div class="w-full px-2">
+                                                    <label
+                                                        class="block text-sm font-medium text-gray-700">Action</label>
+                                                    <input type="text" wire:model.defer="action"
+                                                        class="border rounded px-4 py-2 w-full">
+                                                </div>
                                             </div>
-                                        @endif
-                                    </div>
-                                    <div class="mt-4 space-y-4">
-                                        <div class="flex">
-                                            <input type="date" placeholder="Date Received"
-                                                wire:model.defer="date_received"
-                                                class="border rounded px-4 py-2 w-full mr-2">
-                                            <input type="text" placeholder="DV No." wire:model.defer="dvNum"
-                                                class="border rounded px-4 py-2 w-full mr-2">
-                                            <select wire:model.defer="payment_type"
-                                                class="border rounded px-4 py-2 w-full mr-2">
-                                                <option value="">Payment Type</option>
-                                                <option value="ADA">ADA</option>
-                                                <option value="Cheque">Cheque</option>
-                                            </select>
-                                            <input type="text" placeholder="CHECK/ADA No."
-                                                wire:model.defer="check_ada_no" class="border rounded px-4 py-2 w-full">
-                                        </div>
-                                        <div class="flex">
-                                            <input type="text" placeholder="Gross Amount"
-                                                wire:model.defer="gross_amount"
-                                                class="border rounded px-4 py-2 w-full mr-2">
-                                            <input type="text" placeholder="Net Amount" wire:model.defer="net_amount"
-                                                class="border rounded px-4 py-2 w-full mr-2">
-                                            <input type="text" placeholder="Final Net Amount"
-                                                wire:model.defer="final_net_amount"
-                                                class="border rounded px-4 py-2 w-full ">
                                         </div>
 
-                                        <input type="date" placeholder="Date Issued" wire:model.defer="date_issued"
-                                            class="border rounded px-4 py-2 w-full">
-                                        <input type="text" placeholder="Receipt No." wire:model.defer="receipt_no"
-                                            class="border rounded px-4 py-2 w-full">
-                                        <input type="text" placeholder="Remarks" wire:model.defer="remarks"
-                                            class="border rounded px-4 py-2 w-full">
-                                        <input type="date" placeholder="Outgoing Date" wire:model.defer="outgoing_date"
-                                            class="border rounded px-4 py-2 w-full">
-                                        <select wire:model.defer="action" class="border rounded px-4 py-2 w-full">
-                                            <option value="">Select Action</option>
-                                            <option value="Approved">Approved</option>
-                                            <option value="Deny">Deny</option>
-                                        </select>
-                                    </div>
+                                        <div class="p-4 text-right">
+                                            <button type="button" class="bg-red-500 text-white px-4 py-2 rounded"
+                                                @click="modelOpen = false">Cancel</button>
+                                            <button type="submit"
+                                                class="bg-blue-500 text-white px-4 py-2 rounded">Save</button>
+                                        </div>
+                                    </form>
                                 </div>
-                                <div class="p-4 text-right">
-                                    <button type="button" class="bg-red-500 text-white px-4 py-2 rounded"
-                                        @click="modelOpen = false">Cancel</button>
-                                    <button type="button" class="bg-blue-500 text-white px-4 py-2 rounded"
-                                        @click="$wire.saveEntry(); modelOpen = false;">Save</button>
-                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -93,6 +168,14 @@
                     <div class="mb-4 flex items-center justify-between">
                         <input type="text" placeholder="Search..." wire:model.live.debounce.500ms="search"
                             class="border rounded p-2 w-64" />
+
+                        <div>
+                            @if (session()->has('message'))
+                                <div class="alert alert-success">
+                                    {{ session('message') }}
+                                </div>
+                            @endif
+                        </div>
 
                         <div class="flex items-center ml-auto">
                             <!-- Pagination -->
@@ -105,28 +188,42 @@
                     </div>
 
                     <!-- Table Wrapper for Horizontal Scrolling -->
-                    <div class="min-h-[25rem] overflow-x-auto">
-                        <div class="max-h-96 overflow-y-auto">
+                    <div class="min-h-[35rem] overflow-x-auto">
+                        <div class="max-h-[40rem] overflow-y-auto">
                             <table class="min-w-full bg-white">
-                                <thead class="bg-green-600 text-white sticky top-0">
+                                <thead class="bg-blue-600 text-white sticky top-0">
                                     <tr>
                                         <th class="py-3 px-4 text-center border-b border-r border-gray-300">Date
                                             Received</th>
-                                        <th class="py-3 px-4 text-center border-b border-r border-gray-300">DV No</th>
-                                        <th class="py-3 px-4 text-center border-b border-r border-gray-300">Payment Type
+                                        <th class="py-3 px-4 text-center border-b border-r border-gray-300">DV Number
                                         </th>
-                                        <th class="py-3 px-4 text-center border-b border-r border-gray-300">Check/ADA No
+                                        <th class="py-3 px-4 text-center border-b border-r border-gray-300">DV Number 2
+                                        </th>
+                                        <th class="py-3 px-4 text-center border-b border-r border-gray-300">AP Number
                                         </th>
                                         <th class="py-3 px-4 text-center border-b border-r border-gray-300">Gross Amount
                                         </th>
+                                        <th class="py-3 px-4 text-center border-b border-r border-gray-300">Tax</th>
+                                        <th class="py-3 px-4 text-center border-b border-r border-gray-300">Other
+                                            Deductions</th>
                                         <th class="py-3 px-4 text-center border-b border-r border-gray-300">Net Amount
                                         </th>
+                                        <th class="py-3 px-4 text-center border-b border-r border-gray-300">Final Gross
+                                            Amount</th>
                                         <th class="py-3 px-4 text-center border-b border-r border-gray-300">Final Net
                                             Amount</th>
-                                        <th class="py-3 px-4 text-center border-b border-r border-gray-300">Date Issued
+                                        <th class="py-3 px-4 text-center border-b border-r border-gray-300">Program Unit
                                         </th>
-                                        <th class="py-3 px-4 text-center border-b border-r border-gray-300">Receipt No
+                                        <th class="py-3 px-4 text-center border-b border-r border-gray-300">Date
+                                            Returned</th>
+                                        <th class="py-3 px-4 text-center border-b border-r border-gray-300">Date
+                                            Compiled</th>
+                                        <th class="py-3 px-4 text-center border-b border-r border-gray-300">No. of Days
                                         </th>
+                                        <th class="py-3 px-4 text-center border-b border-r border-gray-300">Outgoing
+                                            Processor</th>
+                                        <th class="py-3 px-4 text-center border-b border-r border-gray-300">Outgoing
+                                            Certifier</th>
                                         <th class="py-3 px-4 text-center border-b border-r border-gray-300">Remarks</th>
                                         <th class="py-3 px-4 text-center border-b border-r border-gray-300">Outgoing
                                             Date</th>
@@ -134,53 +231,82 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($cashRecords as $record)
-                                        <tr @click="$wire.editEntry({{ $record->id }}); modelOpen = true;">
-                                            <td class="py-3 px-4 border-b border-r border-gray-300">
-                                                {{ $record->date_received }}
+                                    @forelse ($accountingRecords as $entry)
+                                        <tr @click="$wire.editEntry({{ $entry->id }}); modelOpen = true;">
+                                            <td class="py-3 px-4 text-center border-b border-r border-gray-300">
+                                                {{ $entry->date_received }}
                                             </td>
-                                            <td class="py-3 px-4 border-b border-r border-gray-300">{{ $record->dvNum }}
+                                            <td class="py-3 px-4 text-center border-b border-r border-gray-300">
+                                                {{ $entry->dvNum }}
                                             </td>
-                                            <td class="py-3 px-4 border-b border-r border-gray-300">
-                                                {{ $record->payment_type }}
+                                            <td class="py-3 px-4 text-center border-b border-r border-gray-300">
+                                                {{ $entry->dvNum2 }}
                                             </td>
-                                            <td class="py-3 px-4 border-b border-r border-gray-300">
-                                                {{ $record->check_ada_no }}
+                                            <td class="py-3 px-4 text-center border-b border-r border-gray-300">
+                                                {{ $entry->ap_no }}
                                             </td>
-                                            <td class="py-3 px-4 text-right border-b border-r border-gray-300">
-                                                {{ $record->gross_amount }}
+                                            <td class="py-3 px-4 text-center border-b border-r border-gray-300">
+                                                {{ $entry->gross_amount }}
                                             </td>
-                                            <td class="py-3 px-4 text-right border-b border-r border-gray-300">
-                                                {{ $record->net_amount }}
+                                            <td class="py-3 px-4 text-center border-b border-r border-gray-300">
+                                                {{ $entry->tax }}
                                             </td>
-                                            <td class="py-3 px-4 text-right border-b border-r border-gray-300">
-                                                {{ $record->final_net_amount }}
+                                            <td class="py-3 px-4 text-center border-b border-r border-gray-300">
+                                                {{ $entry->other_deduction }}
                                             </td>
-                                            <td class="py-3 px-4 border-b border-r border-gray-300">
-                                                {{ $record->date_issued }}
+                                            <td class="py-3 px-4 text-center border-b border-r border-gray-300">
+                                                {{ $entry->net_amount }}
                                             </td>
-                                            <td class="py-3 px-4 border-b border-r border-gray-300">
-                                                {{ $record->receipt_no }}
+                                            <td class="py-3 px-4 text-center border-b border-r border-gray-300">
+                                                {{ $entry->final_gross_amount }}
                                             </td>
-                                            <td class="py-3 px-4 border-b border-r border-gray-300">{{ $record->remarks }}
+                                            <td class="py-3 px-4 text-center border-b border-r border-gray-300">
+                                                {{ $entry->final_net_amount }}
                                             </td>
-                                            <td class="py-3 px-4 border-b border-r border-gray-300">
-                                                {{ $record->outgoing_date }}
+                                            <td class="py-3 px-4 text-center border-b border-r border-gray-300">
+                                                {{ $entry->program_unit }}
                                             </td>
-                                            <td class="py-3 px-4 border-b border-r border-gray-300">{{ $record->action }}
+                                            <td class="py-3 px-4 text-center border-b border-r border-gray-300">
+                                                {{ $entry->date_returned_to_end_user }}
+                                            </td>
+                                            <td class="py-3 px-4 text-center border-b border-r border-gray-300">
+                                                {{ $entry->date_compiled_to_end_user }}
+                                            </td>
+                                            <td class="py-3 px-4 text-center border-b border-r border-gray-300">
+                                                {{ $entry->no_of_days }}
+                                            </td>
+                                            <td class="py-3 px-4 text-center border-b border-r border-gray-300">
+                                                {{ $entry->outgoing_processor }}
+                                            </td>
+                                            <td class="py-3 px-4 text-center border-b border-r border-gray-300">
+                                                {{ $entry->outgoing_certifier }}
+                                            </td>
+                                            <td class="py-3 px-4 text-center border-b border-r border-gray-300">
+                                                {{ $entry->remarks }}
+                                            </td>
+                                            <td class="py-3 px-4 text-center border-b border-r border-gray-300">
+                                                {{ $entry->outgoing_date }}
+                                            </td>
+                                            <td class="py-3 px-4 text-center border-b border-r border-gray-300">
+                                                {{ $entry->action }}
                                             </td>
                                         </tr>
-                                    @endforeach
+                                    @empty
+                                        <tr>
+                                            <td class="py-3 px-4 text-center border-b border-r border-gray-300"
+                                                colspan="20">No entries found</td>
+                                        </tr>
+                                    @endforelse
                                 </tbody>
                             </table>
                         </div>
+
                     </div>
-
-
                     <!-- Pagination Links -->
                     <div class="mt-4">
-                        {{ $cashRecords->links() }}
+                        {{ $accountingRecords->links() }}
                     </div>
+
                 </div>
 
             </div>
