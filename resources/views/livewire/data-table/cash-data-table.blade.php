@@ -28,11 +28,11 @@
                                 x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
                                 x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                                 class="inline-block w-full max-w-xl p-8 mt-4 overflow-hidden text-left transition-all transform bg-white rounded-lg shadow-xl 2xl:max-w-2xl">
-                                <div class="p-2">
-                                    <div class="text-lg">Edit Entry</div>
 
-                                    <form wire:submit.prevent="saveEntry">
-                                        @csrf <!-- CSRF token for form protection -->
+                                <form wire:submit.prevent="saveEntry">
+                                    @csrf <!-- CSRF token for form protection -->
+                                    <div class="p-2">
+                                        <div class="text-lg">Edit Entry</div>
                                         <div class="mt-4 space-y-4">
                                             <div class="flex">
                                                 <input type="date" placeholder="Date Received"
@@ -84,10 +84,10 @@
                                             <button type="submit"
                                                 class="bg-blue-500 text-white px-4 py-2 rounded">Save</button>
                                         </div>
-                                    </form>
-                                </div>
-
+                                    </div>
                             </div>
+                            </form>
+
                         </div>
                     </div>
 
@@ -184,12 +184,12 @@
                                 </tbody>
                             </table>
                         </div>
-                        
+
                     </div>
                     <!-- Pagination Links -->
                     <div class="mt-4">
-                            {{ $cashRecords->links() }}
-                        </div>
+                        {{ $cashRecords->links() }}
+                    </div>
 
                 </div>
 
