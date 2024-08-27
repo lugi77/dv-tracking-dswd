@@ -65,7 +65,7 @@
             <p>Hello,</p>
             <p>Your OTP code is:</p>
             <p class="otp-code">{{ $otp }}</p>
-            <p>This code will expire in 10 minutes.</p>
+            <p>This code will expire in 2 minutes.</p>
             <p>If you did not request this code, please ignore this email.</p>
         </div>
         <div class="footer">
