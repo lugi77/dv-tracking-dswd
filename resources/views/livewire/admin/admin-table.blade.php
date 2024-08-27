@@ -8,6 +8,7 @@
                     <li class="mb-2">
                         <a href="#" class="block p-2 rounded bg-gray-200 hover:bg-gray-300">Pending Account</a>
                     </li>
+                    <br>
                     <li class="mb-2">
                         <a href="#" class="block p-2 rounded bg-gray-200 hover:bg-gray-300">Edit Profile</a>
                     </li>
@@ -33,6 +34,7 @@
                 <thead class="bg-blue-600 text-white">
                     <tr>
                         <th class="py-3 px-4 text-left border-b border-r border-gray-300">User</th>
+                        <th class="py-3 px-4 text-left border-b border-r border-gray-300">Dswd ID</th>
                         <th class="py-3 px-4 text-left border-b border-r border-gray-300">Email</th>
                         <th class="py-3 px-4 text-left border-b border-r border-gray-300">Section</th>
                         <th class="py-3 px-4 text-center border-b border-r border-gray-300">Action</th>
