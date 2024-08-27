@@ -21,7 +21,7 @@ class EnsureOtpIsVerified
         // Check if the OTP is not verified
         if ($user && !$user->otp_verified) {
             // Redirect to the OTP verification page
-            return redirect()->route('otp.verify');
+            return redirect()->route('otp-verify');
         }
 
         return $next($request);

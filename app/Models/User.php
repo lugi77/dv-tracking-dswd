@@ -19,6 +19,7 @@ class User extends Authenticatable
         'email',
         'dswd_id',
         'section',
+        'is_approved',
         'password',
         'otp',
         'otp_expires_at',
