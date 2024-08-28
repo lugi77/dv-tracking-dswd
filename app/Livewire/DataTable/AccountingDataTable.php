@@ -13,7 +13,7 @@ class AccountingDataTable extends Component
     use WithPagination;
 
     public $search = '';
-    public  $perPage = 50;
+    public  $perPage = 10;
 
     // Form inputs
     public  $date_received, $dvNum, $dvNum2, $ap_no, $gross_amount, $tax, 

@@ -194,107 +194,107 @@
                             <table class="min-w-full bg-white">
                                 <thead class="bg-green-600 text-white sticky top-0">
                                     <tr>
-                                        <th class="py-3 px-4 text-center border-b border-r border-gray-300">Date
+                                        <th class="py-2 px-2 text-center border-b border-r border-gray-300">Date
                                             Received</th>
-                                        <th class="py-3 px-4 text-center border-b border-r border-gray-300">DV Number
+                                        <th class="py-2 px-2 text-center border-b border-r border-gray-300">DV Number
                                         </th>
-                                        <th class="py-3 px-4 text-center border-b border-r border-gray-300">DV Number 2
+                                        <th class="py-2 px-2 text-center border-b border-r border-gray-300">DV Number 2
                                         </th>
-                                        <th class="py-3 px-4 text-center border-b border-r border-gray-300">AP Number
+                                        <th class="py-2 px-2 text-center border-b border-r border-gray-300">AP Number
                                         </th>
-                                        <th class="py-3 px-4 text-center border-b border-r border-gray-300">Gross Amount
+                                        <th class="py-2 px-2 text-center border-b border-r border-gray-300">Gross Amount
                                         </th>
-                                        <th class="py-3 px-4 text-center border-b border-r border-gray-300">Tax</th>
-                                        <th class="py-3 px-4 text-center border-b border-r border-gray-300">Other
+                                        <th class="py-2 px-2 text-center border-b border-r border-gray-300">Tax</th>
+                                        <th class="py-2 px-2 text-center border-b border-r border-gray-300">Other
                                             Deductions</th>
-                                        <th class="py-3 px-4 text-center border-b border-r border-gray-300">Net Amount
+                                        <th class="py-2 px-2 text-center border-b border-r border-gray-300">Net Amount
                                         </th>
-                                        <th class="py-3 px-4 text-center border-b border-r border-gray-300">Final Gross
+                                        <th class="py-2 px-2 text-center border-b border-r border-gray-300">Final Gross
                                             Amount</th>
-                                        <th class="py-3 px-4 text-center border-b border-r border-gray-300">Final Net
+                                        <th class="py-2 px-2 text-center border-b border-r border-gray-300">Final Net
                                             Amount</th>
-                                        <th class="py-3 px-4 text-center border-b border-r border-gray-300">Program Unit
+                                        <th class="py-2 px-2 text-center border-b border-r border-gray-300">Program Unit
                                         </th>
-                                        <th class="py-3 px-4 text-center border-b border-r border-gray-300">Date
+                                        <th class="py-2 px-2 text-center border-b border-r border-gray-300">Date
                                             Returned</th>
-                                        <th class="py-3 px-4 text-center border-b border-r border-gray-300">Date
+                                        <th class="py-2 px-2 text-center border-b border-r border-gray-300">Date
                                             Compiled</th>
-                                        <th class="py-3 px-4 text-center border-b border-r border-gray-300">No. of Days
+                                        <th class="py-2 px-2 text-center border-b border-r border-gray-300">No. of Days
                                         </th>
-                                        <th class="py-3 px-4 text-center border-b border-r border-gray-300">Outgoing
+                                        <th class="py-2 px-2 text-center border-b border-r border-gray-300">Outgoing
                                             Processor</th>
-                                        <th class="py-3 px-4 text-center border-b border-r border-gray-300">Outgoing
+                                        <th class="py-2 px-2 text-center border-b border-r border-gray-300">Outgoing
                                             Certifier</th>
-                                        <th class="py-3 px-4 text-center border-b border-r border-gray-300">Remarks</th>
-                                        <th class="py-3 px-4 text-center border-b border-r border-gray-300">Outgoing
+                                        <th class="py-2 px-2 text-center border-b border-r border-gray-300">Remarks</th>
+                                        <th class="py-2 px-2 text-center border-b border-r border-gray-300">Outgoing
                                             Date</th>
-                                        <th class="py-3 px-4 text-center border-b border-r border-gray-300">Action</th>
+                                        <th class="py-2 px-2 text-center border-b border-r border-gray-300">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @forelse ($accountingRecords as $entry)
                                         <tr @click="$wire.editEntry({{ $entry->id }}); modelOpen = true;">
-                                            <td class="py-3 px-4 text-center border-b border-r border-gray-300">
+                                            <td class="py-2 px-2 text-center border-b border-r border-gray-300">
                                                 {{ $entry->date_received }}
                                             </td>
-                                            <td class="py-3 px-4 text-center border-b border-r border-gray-300">
+                                            <td class="py-2 px-2 text-center border-b border-r border-gray-300">
                                                 {{ $entry->dvNum }}
                                             </td>
-                                            <td class="py-3 px-4 text-center border-b border-r border-gray-300">
+                                            <td class="py-2 px-2 text-center border-b border-r border-gray-300">
                                                 {{ $entry->dvNum2 }}
                                             </td>
-                                            <td class="py-3 px-4 text-center border-b border-r border-gray-300">
+                                            <td class="py-2 px-2 text-center border-b border-r border-gray-300">
                                                 {{ $entry->ap_no }}
                                             </td>
-                                            <td class="py-3 px-4 text-center border-b border-r border-gray-300">
+                                            <td class="py-2 px-2 text-center border-b border-r border-gray-300">
                                                 {{ $entry->gross_amount }}
                                             </td>
-                                            <td class="py-3 px-4 text-center border-b border-r border-gray-300">
+                                            <td class="py-2 px-2 text-center border-b border-r border-gray-300">
                                                 {{ $entry->tax }}
                                             </td>
-                                            <td class="py-3 px-4 text-center border-b border-r border-gray-300">
+                                            <td class="py-2 px-2 text-center border-b border-r border-gray-300">
                                                 {{ $entry->other_deduction }}
                                             </td>
-                                            <td class="py-3 px-4 text-center border-b border-r border-gray-300">
+                                            <td class="py-2 px-2 text-center border-b border-r border-gray-300">
                                                 {{ $entry->net_amount }}
                                             </td>
-                                            <td class="py-3 px-4 text-center border-b border-r border-gray-300">
+                                            <td class="py-2 px-2 text-center border-b border-r border-gray-300">
                                                 {{ $entry->final_gross_amount }}
                                             </td>
-                                            <td class="py-3 px-4 text-center border-b border-r border-gray-300">
+                                            <td class="py-2 px-2 text-center border-b border-r border-gray-300">
                                                 {{ $entry->final_net_amount }}
                                             </td>
-                                            <td class="py-3 px-4 text-center border-b border-r border-gray-300">
+                                            <td class="py-2 px-2 text-center border-b border-r border-gray-300">
                                                 {{ $entry->program_unit }}
                                             </td>
-                                            <td class="py-3 px-4 text-center border-b border-r border-gray-300">
+                                            <td class="py-2 px-2 text-center border-b border-r border-gray-300">
                                                 {{ $entry->date_returned_to_end_user }}
                                             </td>
-                                            <td class="py-3 px-4 text-center border-b border-r border-gray-300">
+                                            <td class="py-2 px-2 text-center border-b border-r border-gray-300">
                                                 {{ $entry->date_compiled_to_end_user }}
                                             </td>
-                                            <td class="py-3 px-4 text-center border-b border-r border-gray-300">
+                                            <td class="py-2 px-2 text-center border-b border-r border-gray-300">
                                                 {{ $entry->no_of_days }}
                                             </td>
-                                            <td class="py-3 px-4 text-center border-b border-r border-gray-300">
+                                            <td class="py-2 px-2 text-center border-b border-r border-gray-300">
                                                 {{ $entry->outgoing_processor }}
                                             </td>
-                                            <td class="py-3 px-4 text-center border-b border-r border-gray-300">
+                                            <td class="py-2 px-2 text-center border-b border-r border-gray-300">
                                                 {{ $entry->outgoing_certifier }}
                                             </td>
-                                            <td class="py-3 px-4 text-center border-b border-r border-gray-300">
+                                            <td class="py-2 px-2 text-center border-b border-r border-gray-300">
                                                 {{ $entry->remarks }}
                                             </td>
-                                            <td class="py-3 px-4 text-center border-b border-r border-gray-300">
+                                            <td class="py-2 px-2 text-center border-b border-r border-gray-300">
                                                 {{ $entry->outgoing_date }}
                                             </td>
-                                            <td class="py-3 px-4 text-center border-b border-r border-gray-300">
+                                            <td class="py-2 px-2 text-center border-b border-r border-gray-300">
                                                 {{ $entry->action }}
                                             </td>
                                         </tr>
                                     @empty
                                         <tr>
-                                            <td class="py-3 px-4 text-center border-b border-r border-gray-300"
+                                            <td class="py-2 px-2 text-center border-b border-r border-gray-300"
                                                 colspan="20">No entries found</td>
                                         </tr>
                                     @endforelse

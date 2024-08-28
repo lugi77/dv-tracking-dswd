@@ -120,64 +120,64 @@
                             <table class="min-w-full bg-white">
                                 <thead class="bg-green-600 text-white sticky top-0">
                                     <tr>
-                                        <th class="py-3 px-4 text-center border-b border-r border-gray-300">Date
+                                        <th class="py-2 px-2 text-center border-b border-r border-gray-300">Date
                                             Received</th>
-                                        <th class="py-3 px-4 text-center border-b border-r border-gray-300">DV No</th>
-                                        <th class="py-3 px-4 text-center border-b border-r border-gray-300">Payment Type
+                                        <th class="py-2 px-2 text-center border-b border-r border-gray-300">DV No</th>
+                                        <th class="py-2 px-2 text-center border-b border-r border-gray-300">Payment Type
                                         </th>
-                                        <th class="py-3 px-4 text-center border-b border-r border-gray-300">Check/ADA No
+                                        <th class="py-2 px-2 text-center border-b border-r border-gray-300">Check/ADA No
                                         </th>
-                                        <th class="py-3 px-4 text-center border-b border-r border-gray-300">Gross Amount
+                                        <th class="py-2 px-2 text-center border-b border-r border-gray-300">Gross Amount
                                         </th>
-                                        <th class="py-3 px-4 text-center border-b border-r border-gray-300">Net Amount
+                                        <th class="py-2 px-2 text-center border-b border-r border-gray-300">Net Amount
                                         </th>
-                                        <th class="py-3 px-4 text-center border-b border-r border-gray-300">Final Net
+                                        <th class="py-2 px-2 text-center border-b border-r border-gray-300">Final Net
                                             Amount</th>
-                                        <th class="py-3 px-4 text-center border-b border-r border-gray-300">Date Issued
+                                        <th class="py-2 px-2 text-center border-b border-r border-gray-300">Date Issued
                                         </th>
-                                        <th class="py-3 px-4 text-center border-b border-r border-gray-300">Receipt No
+                                        <th class="py-2 px-2 text-center border-b border-r border-gray-300">Receipt No
                                         </th>
-                                        <th class="py-3 px-4 text-center border-b border-r border-gray-300">Remarks</th>
-                                        <th class="py-3 px-4 text-center border-b border-r border-gray-300">Outgoing
+                                        <th class="py-2 px-2 text-center border-b border-r border-gray-300">Remarks</th>
+                                        <th class="py-2 px-2 text-center border-b border-r border-gray-300">Outgoing
                                             Date</th>
-                                        <th class="py-3 px-4 text-center border-b border-r border-gray-300">Action</th>
+                                        <th class="py-2 px-2 text-center border-b border-r border-gray-300">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach($cashRecords as $record)
                                         <tr @click="$wire.editEntry({{ $record->id }}); modelOpen = true;">
-                                            <td class="py-3 px-4 border-b border-r border-gray-300">
+                                            <td class="py-2 px-2 border-b border-r border-gray-300">
                                                 {{ $record->date_received }}
                                             </td>
-                                            <td class="py-3 px-4 border-b border-r border-gray-300">{{ $record->dvNum }}
+                                            <td class="py-2 px-2 border-b border-r border-gray-300">{{ $record->dvNum }}
                                             </td>
-                                            <td class="py-3 px-4 border-b border-r border-gray-300">
+                                            <td class="py-2 px-2 border-b border-r border-gray-300">
                                                 {{ $record->payment_type }}
                                             </td>
-                                            <td class="py-3 px-4 border-b border-r border-gray-300">
+                                            <td class="py-2 px-2 border-b border-r border-gray-300">
                                                 {{ $record->check_ada_no }}
                                             </td>
-                                            <td class="py-3 px-4 text-right border-b border-r border-gray-300">
+                                            <td class="py-2 px-2 text-right border-b border-r border-gray-300">
                                                 {{ $record->gross_amount }}
                                             </td>
-                                            <td class="py-3 px-4 text-right border-b border-r border-gray-300">
+                                            <td class="py-2 px-2 text-right border-b border-r border-gray-300">
                                                 {{ $record->net_amount }}
                                             </td>
-                                            <td class="py-3 px-4 text-right border-b border-r border-gray-300">
+                                            <td class="py-2 px-2 text-right border-b border-r border-gray-300">
                                                 {{ $record->final_net_amount }}
                                             </td>
-                                            <td class="py-3 px-4 border-b border-r border-gray-300">
+                                            <td class="py-2 px-2 border-b border-r border-gray-300">
                                                 {{ $record->date_issued }}
                                             </td>
-                                            <td class="py-3 px-4 border-b border-r border-gray-300">
+                                            <td class="py-2 px-2 border-b border-r border-gray-300">
                                                 {{ $record->receipt_no }}
                                             </td>
-                                            <td class="py-3 px-4 border-b border-r border-gray-300">{{ $record->remarks }}
+                                            <td class="py-2 px-2 border-b border-r border-gray-300">{{ $record->remarks }}
                                             </td>
-                                            <td class="py-3 px-4 border-b border-r border-gray-300">
+                                            <td class="py-2 px-2 border-b border-r border-gray-300">
                                                 {{ $record->outgoing_date }}
                                             </td>
-                                            <td class="py-3 px-4 border-b border-r border-gray-300">{{ $record->action }}
+                                            <td class="py-2 px-2 border-b border-r border-gray-300">{{ $record->action }}
                                             </td>
                                         </tr>
                                     @endforeach
