@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
 
         User::factory()->create([
             'name' => 'Admin',
-            'email' => 'test@example.com',
+            'email' => 'luigillorando7@gmail.com',
             'dswd_id' => '2020-00194',
             'section' => '0',
             'is_approved' => '1',

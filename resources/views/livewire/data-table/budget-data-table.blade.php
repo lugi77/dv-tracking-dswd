@@ -139,7 +139,7 @@
                      &times;
                    </button>
                  </div>
-              @endif
+                  @endif
                </div>
             </div>
 
