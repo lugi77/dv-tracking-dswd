@@ -32,7 +32,7 @@
                                 <form wire:submit.prevent="saveEntry">
                                     @csrf <!-- CSRF token for form protection -->
                                     <div class="p-2">
-                                        <div class="text-lg">Edit Entry</div>
+                                        <div class="text-lg font-bold mb-2 text-center">Edit Entry</div>
                                         <div class="mt-4 space-y-4">
                                             <div class="flex">
                                                 <input type="date" placeholder="Date Received"
