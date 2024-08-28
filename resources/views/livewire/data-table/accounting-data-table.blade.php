@@ -29,138 +29,139 @@
                                 x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                                 class="inline-block w-full max-w-xl p-8 mt-4 overflow-hidden text-left transition-all transform bg-white rounded-lg shadow-xl 2xl:max-w-2xl">
                                 <div class="p-2">
-                                    <div class="text-lg">Edit Entry</div>
+                                    <div class="text-lg font-bold mb-2 text-center">Edit Entry</div>
 
                                     <form wire:submit.prevent="saveEntry">
                                         @csrf <!-- CSRF token for form protection -->
-                                        <div class="mt-4 space-y-4">
-                                            <div class="flex flex-wrap -mx-2">
-                                                <div class="w-1/2 px-2">
-                                                    <label class="block text-sm font-medium text-gray-700">Date
-                                                        Received</label>
-                                                    <input type="date" wire:model.defer="date_received"
-                                                        class="border rounded px-4 py-2 w-full">
-                                                </div>
-                                                <div class="w-1/2 px-2">
-                                                    <label class="block text-sm font-medium text-gray-700">DV
-                                                        Number</label>
-                                                    <input type="text" wire:model.defer="dvNum"
-                                                        class="border rounded px-4 py-2 w-full">
-                                                </div>
-                                                <div class="w-1/2 px-2">
-                                                    <label class="block text-sm font-medium text-gray-700">DV Number
-                                                        2</label>
-                                                    <input type="text" wire:model.defer="dvNum2"
-                                                        class="border rounded px-4 py-2 w-full">
-                                                </div>
-                                                <div class="w-1/2 px-2">
-                                                    <label class="block text-sm font-medium text-gray-700">AP
-                                                        Number</label>
-                                                    <input type="text" wire:model.defer="ap_no"
-                                                        class="border rounded px-4 py-2 w-full">
-                                                </div>
-                                                <div class="w-1/2 px-2">
-                                                    <label class="block text-sm font-medium text-gray-700">Gross
-                                                        Amount</label>
-                                                    <input type="number" wire:model.defer="gross_amount"
-                                                        class="border rounded px-4 py-2 w-full">
-                                                </div>
-                                                <div class="w-1/2 px-2">
-                                                    <label class="block text-sm font-medium text-gray-700">Tax</label>
-                                                    <input type="number" wire:model.defer="tax"
-                                                        class="border rounded px-4 py-2 w-full">
-                                                </div>
-                                                <div class="w-1/2 px-2">
-                                                    <label class="block text-sm font-medium text-gray-700">Other
-                                                        Deductions</label>
-                                                    <input type="number" wire:model.defer="other_deduction"
-                                                        class="border rounded px-4 py-2 w-full">
-                                                </div>
-                                                <div class="w-1/2 px-2">
-                                                    <label class="block text-sm font-medium text-gray-700">Net
-                                                        Amount</label>
-                                                    <input type="number" wire:model.defer="net_amount"
-                                                        class="border rounded px-4 py-2 w-full">
-                                                </div>
-                                                <div class="w-1/2 px-2">
-                                                    <label class="block text-sm font-medium text-gray-700">Final Gross
-                                                        Amount</label>
-                                                    <input type="number" wire:model.defer="final_gross_amount"
-                                                        class="border rounded px-4 py-2 w-full">
-                                                </div>
-                                                <div class="w-1/2 px-2">
-                                                    <label class="block text-sm font-medium text-gray-700">Final Net
-                                                        Amount</label>
-                                                    <input type="number" wire:model.defer="final_net_amount"
-                                                        class="border rounded px-4 py-2 w-full">
-                                                </div>
-                                                <div class="w-full px-2">
-                                                    <label class="block text-sm font-medium text-gray-700">Program
-                                                        Unit</label>
-                                                    <input type="text" wire:model.defer="program_unit"
-                                                        class="border rounded px-4 py-2 w-full">
-                                                </div>
-                                                <div class="w-1/2 px-2">
-                                                    <label class="block text-sm font-medium text-gray-700">Date Returned
-                                                        to End User</label>
-                                                    <input type="date" wire:model.defer="date_returned_to_end_user"
-                                                        class="border rounded px-4 py-2 w-full">
-                                                </div>
-                                                <div class="w-1/2 px-2">
-                                                    <label class="block text-sm font-medium text-gray-700">Date Compiled
-                                                        to End User</label>
-                                                    <input type="date" wire:model.defer="date_compiled_to_end_user"
-                                                        class="border rounded px-4 py-2 w-full">
-                                                </div>
-                                                <div class="w-1/2 px-2">
-                                                    <label class="block text-sm font-medium text-gray-700">No. of
-                                                        Days</label>
-                                                    <input type="number" wire:model.defer="no_of_days"
-                                                        class="border rounded px-4 py-2 w-full">
-                                                </div>
-                                                <div class="w-1/2 px-2">
-                                                    <label class="block text-sm font-medium text-gray-700">Outgoing
-                                                        Processor</label>
-                                                    <input type="text" wire:model.defer="outgoing_processor"
-                                                        class="border rounded px-4 py-2 w-full">
-                                                </div>
-                                                <div class="w-1/2 px-2">
-                                                    <label class="block text-sm font-medium text-gray-700">Outgoing
-                                                        Certifier</label>
-                                                    <input type="text" wire:model.defer="outgoing_certifier"
-                                                        class="border rounded px-4 py-2 w-full">
-                                                </div>
-                                                <div class="w-full px-2">
-                                                    <label
-                                                        class="block text-sm font-medium text-gray-700">Remarks</label>
-                                                    <input type="text" wire:model.defer="remarks"
-                                                        class="border rounded px-4 py-2 w-full">
-                                                </div>
-                                                <div class="w-1/2 px-2">
-                                                    <label class="block text-sm font-medium text-gray-700">Outgoing
-                                                        Date</label>
-                                                    <input type="date" wire:model.defer="outgoing_date"
-                                                        class="border rounded px-4 py-2 w-full">
-                                                </div>
-                                                <div class="w-full px-2">
-                                                    <label
-                                                        class="block text-sm font-medium text-gray-700">Action</label>
-                                                    <input type="text" wire:model.defer="action"
-                                                        class="border rounded px-4 py-2 w-full">
-                                                </div>
+
+
+                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                            <div class="px-2">
+                                                <label class="block text-sm font-medium text-gray-700">Date
+                                                    Received</label>
+                                                <input type="date" wire:model.defer="date_received"
+                                                    class="border rounded px-1 py-1 w-full">
+                                            </div>
+                                            <div class="px-2">
+                                                <label class="block text-sm font-medium text-gray-700">DV Number</label>
+                                                <input type="text" wire:model.defer="dvNum"
+                                                    class="border rounded px-2 py-1 w-full">
+                                            </div>
+                                            <div class="px-2">
+                                                <label class="block text-sm font-medium text-gray-700">DV Number
+                                                    2</label>
+                                                <input type="text" wire:model.defer="dvNum2"
+                                                    class="border rounded px-2 py-1 w-full">
+                                            </div>
+                                            <div class="px-2">
+                                                <label class="block text-sm font-medium text-gray-700">AP Number</label>
+                                                <input type="text" wire:model.defer="ap_no"
+                                                    class="border rounded px-2 py-1 w-full">
+                                            </div>
+                                            <div class="px-2">
+                                                <label class="block text-sm font-medium text-gray-700">Gross
+                                                    Amount</label>
+                                                <input type="number" wire:model.defer="gross_amount"
+                                                    class="border rounded px-2 py-1 w-full">
+                                            </div>
+                                            <div class="px-2">
+                                                <label class="block text-sm font-medium text-gray-700">Tax</label>
+                                                <input type="number" wire:model.defer="tax"
+                                                    class="border rounded px-2 py-1 w-full">
+                                            </div>
+                                            <div class="px-2">
+                                                <label class="block text-sm font-medium text-gray-700">Other
+                                                    Deductions</label>
+                                                <input type="number" wire:model.defer="other_deduction"
+                                                    class="border rounded px-2 py-1 w-full">
+                                            </div>
+                                            <div class="px-2">
+                                                <label class="block text-sm font-medium text-gray-700">Net
+                                                    Amount</label>
+                                                <input type="number" wire:model.defer="net_amount"
+                                                    class="border rounded px-2 py-1 w-full">
+                                            </div>
+                                            <div class="px-2">
+                                                <label class="block text-sm font-medium text-gray-700">Final Gross
+                                                    Amount</label>
+                                                <input type="number" wire:model.defer="final_gross_amount"
+                                                    class="border rounded px-2 py-1 w-full">
+                                            </div>
+                                            <div class="px-2">
+                                                <label class="block text-sm font-medium text-gray-700">Final Net
+                                                    Amount</label>
+                                                <input type="number" wire:model.defer="final_net_amount"
+                                                    class="border rounded px-2 py-1 w-full">
+                                            </div>
+                                            <div class="px-2">
+                                                <label class="block text-sm font-medium text-gray-700">Program
+                                                    Unit</label>
+                                                <input type="text" wire:model.defer="program_unit"
+                                                    class="border rounded px-2 py-1 w-full">
+                                            </div>
+                                            <div class="px-2">
+                                                <label class="block text-sm font-medium text-gray-700">Date Returned to
+                                                    End User</label>
+                                                <input type="date" wire:model.defer="date_returned_to_end_user"
+                                                    class="border rounded px-2 py-1 w-full">
+                                            </div>
+                                            <div class="px-2">
+                                                <label class="block text-sm font-medium text-gray-700">Date Compiled to
+                                                    End User</label>
+                                                <input type="date" wire:model.defer="date_compiled_to_end_user"
+                                                    class="border rounded px-2 py-1 w-full">
+                                            </div>
+                                            <div class="px-2">
+                                                <label class="block text-sm font-medium text-gray-700">No. of
+                                                    Days</label>
+                                                <input type="number" wire:model.defer="no_of_days"
+                                                    class="border rounded px-2 py-1 w-full">
+                                            </div>
+                                            <div class="px-2">
+                                                <label class="block text-sm font-medium text-gray-700">Outgoing
+                                                    Processor</label>
+                                                <input type="text" wire:model.defer="outgoing_processor"
+                                                    class="border rounded px-2 py-1 w-full">
+                                            </div>
+                                            <div class="px-2">
+                                                <label class="block text-sm font-medium text-gray-700">Outgoing
+                                                    Certifier</label>
+                                                <input type="text" wire:model.defer="outgoing_certifier"
+                                                    class="border rounded px-2 py-1 w-full">
+                                            </div>
+                                            <div class="px-2">
+                                                <label class="block text-sm font-medium text-gray-700">Outgoing
+                                                    Date</label>
+                                                <input type="date" wire:model.defer="outgoing_date"
+                                                    class="border rounded px-2 py-1 w-full">
+                                            </div>
+                                            <div class="px-2">
+                                                <label class="block text-sm font-medium text-gray-700">Action</label>
+                                                <input type="text" wire:model.defer="action"
+                                                    class="border rounded px-2 py-1 w-full">
+                                            </div>
+                                            <div class="px-2">
+                                                <label class="block text-sm font-medium text-gray-700">Remarks</label>
+                                                <input type="text" wire:model.defer="remarks"
+                                                    class="border rounded px-2 py-1 w-full">
                                             </div>
                                         </div>
 
-                                        <div class="p-4 text-right">
-                                            <button type="button" class="bg-red-500 text-white px-4 py-2 rounded"
-                                                @click="modelOpen = false">Cancel</button>
-                                            <button type="submit"
-                                                class="bg-blue-500 text-white px-4 py-2 rounded">Save</button>
-                                        </div>
-                                    </form>
                                 </div>
-
+                                <div class="p-4 text-right">
+                                    <button type="button"
+                                        class="bg-red-500 hover:bg-red-400 text-white font-bold py-2 px-4 border-b-4 border-red-700 hover:border-red-500 rounded"
+                                        @click="modelOpen = false">Cancel</button>
+                                    <button type="submit"
+                                        class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded">Save</button>
+                                </div>
                             </div>
+
+
+                            </form>
+
+
+
                         </div>
                     </div>
 
@@ -191,7 +192,7 @@
                     <div class="min-h-[35rem] overflow-x-auto">
                         <div class="max-h-[40rem] overflow-y-auto">
                             <table class="min-w-full bg-white">
-                                <thead class="bg-blue-600 text-white sticky top-0">
+                                <thead class="bg-green-600 text-white sticky top-0">
                                     <tr>
                                         <th class="py-3 px-4 text-center border-b border-r border-gray-300">Date
                                             Received</th>
