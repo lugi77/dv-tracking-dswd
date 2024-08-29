@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('accounting', function (Blueprint $table) {
             $table->id();
             $table->date('date_received')->nullable();
-            $table->string('dvNum')->nullable();
-            $table->string('dvNum2')->nullable();
+            $table->integer('dv_no')->nullable();
+            $table->integer('dv_no2')->nullable();
             $table->string('ap_no')->nullable();
             $table->decimal('gross_amount', 15, 2)->nullable();
             $table->decimal('tax', 15, 2)->nullable();
@@ -25,7 +25,7 @@ return new class extends Migration
             $table->decimal('final_net_amount', 15, 2)->nullable();
             $table->string('program_unit')->nullable();
             $table->date('date_returned_to_end_user')->nullable();
-            $table->date('date_compiled_to_end_user')->nullable();
+            $table->date('date_complied_to_end_user')->nullable();
             $table->integer('no_of_days')->nullable();
             $table->string('outgoing_processor')->nullable();
             $table->string('outgoing_certifier')->nullable();

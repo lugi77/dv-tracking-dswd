@@ -20,6 +20,8 @@ class Cash extends Model
         'date_issued',
         'receipt_no',
         'remarks',
+        'payee',
+        'particulars',
         'outgoing_date',
         'action',
     ];

@@ -15,7 +15,7 @@ class CashDataTable extends Component
     public $perPage = 10;
 
     // Form inputs
-    public $date_received, $dvNum, $payment_type, $check_ada_no, $gross_amount, $net_amount, $final_net_amount, $date_issued, $receipt_no, $remarks, $outgoing_date, $action;
+    public $date_received, $dvNum, $payment_type, $check_ada_no, $gross_amount, $net_amount, $final_net_amount, $date_issued, $receipt_no, $remarks, $payee, $particulars, $outgoing_date, $action;
     public $isEditing = false;
     public $entryId;
 
@@ -30,6 +30,8 @@ class CashDataTable extends Component
         'date_issued' => 'required|date',
         'receipt_no' => 'required|string|max:255',
         'remarks' => 'nullable|string|max:1000',
+        'payee' => 'required|string|max:255',
+        'particulars' => 'required|string|max:255',
         'outgoing_date' => 'required|date',
         'action' => 'required|string|max:255',
     ];
@@ -53,6 +55,8 @@ class CashDataTable extends Component
                 'date_issued' => $this->date_issued,
                 'receipt_no' => $this->receipt_no,
                 'remarks' => $this->remarks,
+                'payee' => $this->payee,
+                'particalars' =>$this->particulars,
                 'outgoing_date' => $this->outgoing_date,
                 'action' => $this->action,
             ]);
@@ -62,7 +66,7 @@ class CashDataTable extends Component
             // Create a new entry
             Cash::create([
                 'date_received' => $this->date_received,
-                'dvNum' => $this->dvNum,
+                'dv_no' => $this->dvNum,
                 'payment_type' => $this->payment_type,
                 'check_ada_no' => $this->check_ada_no,
                 'gross_amount' => $this->gross_amount,
@@ -71,6 +75,8 @@ class CashDataTable extends Component
                 'date_issued' => $this->date_issued,
                 'receipt_no' => $this->receipt_no,
                 'remarks' => $this->remarks,
+                'payee' => $this->payee,
+                'particalars' =>$this->particulars,
                 'outgoing_date' => $this->outgoing_date,
                 'action' => $this->action,
             ]);
@@ -98,6 +104,8 @@ class CashDataTable extends Component
         $this->date_issued = '';
         $this->receipt_no = '';
         $this->remarks = '';
+        $this->payee = '';
+        $this->particulars = '';    
         $this->outgoing_date = '';
         $this->action = '';
     }
@@ -115,6 +123,8 @@ class CashDataTable extends Component
         $this->date_issued = $entry->date_issued;
         $this->receipt_no = $entry->receipt_no;
         $this->remarks = $entry->remarks;
+        $this->payee = $entry->payee;
+        $this->particular = $entry->particular;
         $this->outgoing_date = $entry->outgoing_date;
         $this->action = $entry->action;
 

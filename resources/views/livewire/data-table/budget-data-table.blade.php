@@ -1,5 +1,5 @@
 <div class="py-12">
-   <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+   <div class="max-w-9xl mx-auto sm:px-6 lg:px-8">
       <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
          <div class="p-4 text-gray-900">
 
@@ -25,80 +25,101 @@
                         x-transition:leave="transition ease-in duration-200 transform"
                         x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
                         x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                        class="inline-block w-full max-w-xl p-4 mt-2 overflow-hidden text-left transition-all transform bg-white rounded-lg shadow-xl 2xl:max-w-2xl">
+                        class="inline-block w-full max-w-4xl p-4 mt-2 overflow-hidden text-left transition-all transform bg-white rounded-lg shadow-xl 2xl:max-w-6xl">
 
                         <form wire:submit.prevent="saveEntry">
                            @csrf
                            <div class="p-2">
                               <div class="text-lg font-bold mb-2 text-center">Create New Budget Entry</div>
-
+                              
                               <!-- DV No., Account ID, and DRN No. -->
-                              <div class="flex mb-2">
-                                 <input type="text" wire:model="dvNum" placeholder="DV No."
-                                    class="border rounded px-4 py-2 w-full mr-2">
-                                 <input type="text" wire:model="accountID" placeholder="Account ID"
-                                    class="border rounded px-4 py-2 w-full mr-2">
-                                 <input type="text" wire:model="drnNum" placeholder="DRN No."
-                                    class="border rounded px-4 py-2 w-full">
-                              </div>
-
-                              <!-- Program ID, Controller ID, and Program -->
-                              <div class="flex mb-2">
-                                 <input type="text" wire:model="programID" placeholder="Program ID"
-                                    class="border rounded px-4 py-2 w-full mr-2">
-                                 <input type="text" wire:model="controllerID" placeholder="Controller ID"
-                                    class="border rounded px-4 py-2 w-full mr-2">
-                                 <input type="text" wire:model="program" placeholder="Program"
-                                    class="border rounded px-4 py-2 w-full">
+                              <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-2">
+                                 <div>
+                                    <label class="block text-sm font-medium text-gray-700">Drn No.</label>
+                                    <input type="text" wire:model="drnNum" class="border rounded px-4 py-2 w-full">
+                                 </div>
+                                 <div>
+                                    <label class="block text-sm font-medium text-gray-700">DV No.</label>
+                                    <input type="text" wire:model="dvNum" class="border rounded px-4 py-2 w-full">
+                                 </div>
+                                 <div>
+                                    <label class="block text-sm font-medium text-gray-700">Program</label>
+                                    <input type="text" wire:model="program" class="border rounded px-4 py-2 w-full">
+                                 </div>
                               </div>
 
                               <!-- Payee, Particulars, and Controller -->
-                              <div class="flex mb-2">
-                                 <input type="text" wire:model="payee" placeholder="Payee"
-                                    class="border rounded px-4 py-2 w-full mr-2">
-                                 <input type="text" wire:model="particulars" placeholder="Particulars"
-                                    class="border rounded px-4 py-2 w-full mr-2">
-                                 <input type="text" wire:model="controller" placeholder="Controller"
-                                    class="border rounded px-4 py-2 w-full">
+                              <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-2">
+                              <div>
+                                    <label class="block text-sm font-medium text-gray-700">Particulars</label>
+                                    <input type="text" wire:model="particulars" class="border rounded px-4 py-2 w-full">
+                                 </div>
+                                 <div>
+                                    <label class="block text-sm font-medium text-gray-700">Fund Cluster</label>
+                                    <input type="text" wire:model="fund_cluster" class="border rounded px-4 py-2 w-full">
+                                 </div>
+                                 <div>
+                                    <label class="block text-sm font-medium text-gray-700">Budget Controller</label>
+                                    <input type="text" wire:model="controller" class="border rounded px-4 py-2 w-full">
+                                 </div>
                               </div>
 
-                              <!-- Gross Amount and Final Amount NORSA -->
-                              <div class="flex mb-2">
-                                 <input type="number" step="0.01" wire:model="gross_amount" placeholder="Gross Amount"
-                                    class="border rounded px-4 py-2 w-full mr-2">
-                                 <input type="number" step="0.01" wire:model="final_amount_norsa"
-                                    placeholder="Final Amount NORSA" class="border rounded px-4 py-2 w-full">
+                              <!-- Gross Amount, Final Amount NORSA, ORS No. -->
+                              <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-2">
+                                 <div>
+                                    <label class="block text-sm font-medium text-gray-700">Gross Amount</label>
+                                    <input type="number" step="0.01" wire:model="gross_amount" class="border rounded px-4 py-2 w-full">
+                                 </div>
+                                 <div>
+                                    <label class="block text-sm font-medium text-gray-700">ORS No.</label>
+                                    <input type="text" wire:model="orsNum" class="border rounded px-4 py-2 w-full">
+                                 </div>
+                                 <div>
+                                    <label class="block text-sm font-medium text-gray-700">Final Amount NORSA</label>
+                                    <input type="number" step="0.01" wire:model="final_amount_norsa" class="border rounded px-4 py-2 w-full">
+                                 </div>
                               </div>
 
-                              <!-- Fund Cluster and Appropriation -->
-                              <div class="flex mb-2">
-                                 <input type="text" wire:model="fund_cluster" placeholder="Fund Cluster"
-                                    class="border rounded px-4 py-2 w-full mr-2">
-                                 <input type="text" wire:model="appropriation" placeholder="Appropriation"
-                                    class="border rounded px-4 py-2 w-full">
+                              <!-- Fund Cluster, Appropriation -->
+                              <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-2">
+                              <div>
+                                    <label class="block text-sm font-medium text-gray-700">Payee</label>
+                                    <input type="text" wire:model="payee" class="border rounded px-4 py-2 w-full">
+                                 </div>                                                              
+                                 <div>
+                                    <label class="block text-sm font-medium text-gray-700">Appropriation</label>
+                                    <input type="text" wire:model="appropriation" class="border rounded px-4 py-2 w-full">
+                                 </div>
                               </div>
 
-                              <!-- Incoming Date, ORS No., and Outgoing Date -->
-                              <div class="flex mb-2">
-                                 <input type="date" wire:model="incomingDate"
-                                    class="border rounded px-4 py-2 w-full mr-2">
-                                 <input type="text" wire:model="orsNum" placeholder="ORS No."
-                                    class="border rounded px-4 py-2 w-full mr-2">
-                                 <input type="date" wire:model="outgoingDate" class="border rounded px-4 py-2 w-full">
+                              <!-- Incoming Date, Outgoing Date -->
+                              <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-2">
+                                 <div>
+                                    <label class="block text-sm font-medium text-gray-700">Incoming Date</label>
+                                    <input type="date" wire:model="incomingDate" class="border rounded px-4 py-2 w-full">
+                                 </div>
+                                 <div>
+                                    <label class="block text-sm font-medium text-gray-700">Outgoing Date</label>
+                                    <input type="date" wire:model="outgoingDate" class="border rounded px-4 py-2 w-full">
+                                 </div>
                               </div>
 
-                              <!-- Remarks and Status -->
-                              <textarea wire:model="remarks" placeholder="Remarks"
-                                 class="border rounded px-4 py-2 w-full mb-2"></textarea>
+                              <!-- Remarks -->
+                              <div class="mb-4">
+                                 <label class="block text-sm font-medium text-gray-700">Remarks</label>
+                                 <textarea wire:model="remarks" class="border rounded px-4 py-2 w-full"></textarea>
+                              </div>
 
-                              <div class="flex mb-2">
-                                 <select wire:model="status" class="border rounded px-4 py-2 w-full">
-                                    <option value="">Select Status</option>
+                              <!-- Action -->
+                                <div class="mb-4 text-center">
+                                  <label class="block text-sm font-medium text-gray-700">Action</label>
+                                  <select wire:model="status" class="border rounded px-4 py-2 mx-auto">
+                                    <option value="">Select Action</option>
                                     <option value="Pending">Pending</option>
                                     <option value="Completed">Completed</option>
                                     <option value="Cancelled">Cancelled</option>
-                                 </select>
-                              </div>
+                                  </select>
+                                </div>
 
                               <!-- Buttons -->
                               <div class="text-right">
@@ -139,7 +160,7 @@
                      &times;
                    </button>
                  </div>
-                  @endif
+              @endif
                </div>
             </div>
 
@@ -204,16 +225,20 @@
                           ₱{{ number_format($entry->final_amount_norsa, 2) }}
                         </td>
                         <td class="py-2 px-2 border-b border-r border-gray-300 text-center">
-                          {{ $entry->fund_cluster }}</td>
+                          {{ $entry->fund_cluster }}
+                        </td>
                         <td class="py-2 px-2 border-b border-r border-gray-300 text-center">
-                          {{ $entry->appropriation }}</td>
+                          {{ $entry->appropriation }}
+                        </td>
                         <td class="py-2 px-2 border-b border-r border-gray-300 text-center">{{ $entry->remarks }}
                         </td>
                         <td class="py-2 px-2 border-b border-r border-gray-300 text-center">{{ $entry->orsNum }}</td>
                         <td class="py-2 px-2 border-b border-r border-gray-300 text-center">
-                          {{ $entry->outgoingDate }}</td>
+                          {{ $entry->outgoingDate }}
+                        </td>
                         <td class="py-2 px-2 border-b border-r border-gray-300 text-center">
-                          {{ ucfirst($entry->status) }}</td>
+                          {{ ucfirst($entry->status) }}
+                        </td>
                      </tr>
                   @empty
                <tr>
