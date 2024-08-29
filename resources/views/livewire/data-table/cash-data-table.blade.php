@@ -158,36 +158,24 @@
                     <div class="min-h-[35rem] overflow-x-auto">
                         <div class="max-h-[40rem] overflow-y-auto">
                             <table class="min-w-full bg-white">
-                                <thead class="bg-green-600 text-white sticky top-0">
+                                <thead class="bg-blue-500 text-white sticky top-0">
                                     <tr>
-                                        <th class="py-2 px-2 text-center border-b border-r border-gray-300">Date
-                                            Received</th>
-                                        <th class="py-2 px-2 text-center border-b border-r border-gray-300">DV No</th>
-            
-                                        <th class="py-2 px-2 text-center border-b border-r border-gray-300">Payment Type
-                                        </th>
-                                        <th class="py-2 px-2 text-center border-b border-r border-gray-300">Check/ADA No
-                                        </th>
-                                        <th class="py-2 px-2 text-center border-b border-r border-gray-300">Gross Amount
-                                        </th>
-                                        <th class="py-2 px-2 text-center border-b border-r border-gray-300">Net Amount
-                                        </th>
-                                        <th class="py-2 px-2 text-center border-b border-r border-gray-300">Final Net
-                                            Amount</th>
-                                        <th class="py-2 px-2 text-center border-b border-r border-gray-300">Date Issued
-                                        </th>
-                                        <th class="py-2 px-2 text-center border-b border-r border-gray-300">Receipt No
-                                        </th>
-                                        <th class="py-2 px-2 text-center border-b border-r border-gray-300">Payee</th>
-                                        <th class="py-2 px-2 text-center border-b border-r border-gray-300">Particulars
-                                        </th>
-                                        <th class="py-2 px-2 text-center border-b border-r border-gray-300">Remarks</th>
-                                        <th class="py-2 px-2 text-center border-b border-r border-gray-300">Outgoing
-                                            Date</th>
-                                        <th class="py-2 px-2 text-center border-b border-r border-gray-300">Action</th>
+                                        <th class="py-2 px-4 text-center font-bold min-w-[150px]">Date Received</th>
+                                        <th class="py-2 px-4 text-center font-bold min-w-[150px]">DV No</th>
+                                        <th class="py-2 px-4 text-center font-bold min-w-[150px]">Payment Type</th>
+                                        <th class="py-2 px-4 text-center font-bold min-w-[150px]">Check/ADA No</th>
+                                        <th class="py-2 px-4 text-center font-bold min-w-[150px]">Gross Amount</th>
+                                        <th class="py-2 px-4 text-center font-bold min-w-[150px]">Net Amount</th>
+                                        <th class="py-2 px-4 text-center font-bold min-w-[150px]">Final Net Amount</th>
+                                        <th class="py-2 px-4 text-center font-bold min-w-[150px]">Date Issued</th>
+                                        <th class="py-2 px-4 text-center font-bold min-w-[150px]">Receipt No</th>
+                                        <th class="py-2 px-4 text-center font-bold min-w-[200px]">Payee</th>
+                                        <th class="py-2 px-4 text-center font-bold min-w-[200px]">Particulars</th>
+                                        <th class="py-2 px-4 text-center font-bold min-w-[200px]">Remarks</th>
+                                        <th class="py-2 px-4 text-center font-bold min-w-[150px]">Outgoing Date</th>
+                                        <th class="py-2 px-4 text-center font-bold min-w-[150px]">Action</th>
                                     </tr>
                                 </thead>
-
                                 <tbody>
                                     @foreach($cashRecords as $record)
                                         <tr @click="$wire.editEntry({{ $record->id }}); modelOpen = true;">

@@ -27,13 +27,13 @@
                                 x-transition:leave="transition ease-in duration-200 transform"
                                 x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
                                 x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                                class="inline-block w-full max-w-xl p-8 mt-4 overflow-hidden text-left transition-all transform bg-white rounded-lg shadow-xl 2xl:max-w-2xl">
+                                class="inline-block w-full max-w-4xl p-4 mt-4 overflow-hidden text-left transition-all transform bg-white rounded-lg shadow-xl 2xl:max-w-6xl">
                                 <div class="p-2">
                                     <div class="text-lg font-bold mb-2 text-center">Edit Entry</div>
 
                                     <form wire:submit.prevent="saveEntry">
                                         @csrf <!-- CSRF token for form protection -->
-                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                                             <div class="px-2">
                                                 <label class="block text-sm font-medium text-gray-700">Date
                                                     Received</label>
@@ -190,43 +190,43 @@
                     <div class="min-h-[35rem] overflow-x-auto">
                         <div class="max-h-[40rem] overflow-y-auto">
                             <table class="min-w-full bg-white">
-                                <thead class="bg-green-600 text-white sticky top-0">
+                                <thead class="bg-blue-500 text-white sticky top-0">
                                     <tr>
-                                        <th class="py-2 px-2 text-center border-b border-r border-gray-300">Date
+                                        <th class="py-2 px-4 text-center font-bold min-w-[150px]">Date
                                             Received</th>
-                                        <th class="py-2 px-2 text-center border-b border-r border-gray-300">DV Number
+                                        <th class="py-2 px-4 text-center font-bold min-w-[150px]">DV Number
                                         </th>
-                                        <th class="py-2 px-2 text-center border-b border-r border-gray-300">DV Number 2
+                                        <th class="py-2 px-4 text-center font-bold min-w-[150px]">DV Number 2
                                         </th>
-                                        <th class="py-2 px-2 text-center border-b border-r border-gray-300">AP Number
+                                        <th class="py-2 px-4 text-center font-bold min-w-[150px]">AP Number
                                         </th>
-                                        <th class="py-2 px-2 text-center border-b border-r border-gray-300">Gross Amount
+                                        <th class="py-2 px-4 text-center font-bold min-w-[150px]">Gross Amount
                                         </th>
-                                        <th class="py-2 px-2 text-center border-b border-r border-gray-300">Tax</th>
-                                        <th class="py-2 px-2 text-center border-b border-r border-gray-300">Other
+                                        <th class="py-2 px-4 text-center font-bold min-w-[150px]">Tax</th>
+                                        <th class="py-2 px-4 text-center font-bold min-w-[150px]">Other
                                             Deductions</th>
-                                        <th class="py-2 px-2 text-center border-b border-r border-gray-300">Net Amount
+                                        <th class="py-2 px-4 text-center font-bold min-w-[150px]">Net Amount
                                         </th>
-                                        <th class="py-2 px-2 text-center border-b border-r border-gray-300">Final Gross
+                                        <th class="py-2 px-4 text-center font-bold min-w-[150px]">Final Gross
                                             Amount</th>
-                                        <th class="py-2 px-2 text-center border-b border-r border-gray-300">Final Net
+                                        <th class="py-2 px-4 text-center font-bold min-w-[150px]">Final Net
                                             Amount</th>
-                                        <th class="py-2 px-2 text-center border-b border-r border-gray-300">Program Unit
+                                        <th class="py-2 px-4 text-center font-bold min-w-[150px]">Program Unit
                                         </th>
-                                        <th class="py-2 px-2 text-center border-b border-r border-gray-300">Date
+                                        <th class="py-2 px-4 text-center font-bold min-w-[150px]">Date
                                             Returned</th>
-                                        <th class="py-2 px-2 text-center border-b border-r border-gray-300">Date
+                                        <th class="py-2 px-4 text-center font-bold min-w-[150px]">Date
                                             Compiled</th>
-                                        <th class="py-2 px-2 text-center border-b border-r border-gray-300">No. of Days
+                                        <th class="py-2 px-4 text-center font-bold min-w-[150px]">No. of Days
                                         </th>
-                                        <th class="py-2 px-2 text-center border-b border-r border-gray-300">Outgoing
+                                        <th class="py-2 px-4 text-center font-bold min-w-[150px]">Outgoing
                                             Processor</th>
-                                        <th class="py-2 px-2 text-center border-b border-r border-gray-300">Outgoing
+                                        <th class="py-2 px-4 text-center font-bold min-w-[150px]">Outgoing
                                             Certifier</th>
-                                        <th class="py-2 px-2 text-center border-b border-r border-gray-300">Remarks</th>
-                                        <th class="py-2 px-2 text-center border-b border-r border-gray-300">Outgoing
+                                        <th class="py-2 px-4 text-center font-bold min-w-[150px]">Remarks</th>
+                                        <th class="py-2 px-4 text-center font-bold min-w-[150px]">Outgoing
                                             Date</th>
-                                        <th class="py-2 px-2 text-center border-b border-r border-gray-300">Action</th>
+                                        <th class="py-2 px-4 text-center font-bold min-w-[150px]">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
