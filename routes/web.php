@@ -13,11 +13,9 @@ use App\Livewire\DataTable\BudgetDataTable;
 Route::redirect('/', '/login')->name('login');
 
 
-
+Route::get('/otp-verify', OtpVerify::class)->name('otp-verify')->middleware('auth');
 
 Route::middleware(['auth', 'otp', 'PreventBackHistory'])->group(function () {
-
-    Route::get('/otp-verify', OtpVerify::class)->name('otp-verify')->middleware('auth');
     
     Route::get('/home', [UserDashboardController::class, 'index'])->name('home');
 

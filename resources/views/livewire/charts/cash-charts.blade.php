@@ -45,7 +45,7 @@
                     <tbody>
                         <tr>
                             <td class="border px-4 py-2">AICS</td>
-                            <td class="border px-4 py-2">469</td>
+                            <td class="border px-4 py-2">1000</td>
                             <td class="border px-4 py-2">₱84,944,891.12</td>
                         </tr>
                         <tr>
