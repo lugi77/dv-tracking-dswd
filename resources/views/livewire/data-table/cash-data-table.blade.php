@@ -109,8 +109,11 @@
                                                     <label for="action" class="block text-sm font-medium text-gray-700">Action</label>
                                                     <select id="action" wire:model.defer="action" class="border rounded px-4 py-2 w-full">
                                                         <option value="">Select Action</option>
-                                                        <option value="Approved">Approved</option>
-                                                        <option value="Deny">Deny</option>
+                                                        <option value="Issuance Approved">Issuance Approved</option>
+                                                        <option value="Forward to Accounting">Forward to Accounting</option>
+                                                        <option value="Forward to Budget Unit">Forward to Budget Unit</option>
+                                                        <option value="Return to End User">Return to End User</option>
+                                                    </select>
                                                     </select>
                                                 </div>
                                             </div>
@@ -146,7 +149,7 @@
 
                         <div class="flex items-center ml-auto">
                             <!-- Pagination -->
-                            <select wire:model="perPage" class="border rounded px-4 py-2 mr-2">
+                            <select wire:model="perPage" class="border rounded px-8 py-2 mr-2">
                                 <option value="2">2 per page</option>
                                 <option value="10">10 per page</option>
                                 <option value="20">20 per page</option>

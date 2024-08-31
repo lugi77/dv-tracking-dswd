@@ -135,8 +135,26 @@
                                             </div>
                                             <div class="px-2">
                                                 <label class="block text-sm font-medium text-gray-700">Action</label>
-                                                <input type="text" wire:model.defer="action"
-                                                    class="border rounded px-2 py-1 w-full">
+                                                <select wire:model.defer="action" class="border rounded px-2 py-1 w-full">
+                                                    <option value="Processing">Processing</option>
+                                                    <option value="Forward to ARDA">Forward to ARDA</option>
+                                                    <option value="Forward to ARDO">Forward to ARDO</option>
+                                                    <option value="Forward to Cash">Forward to Cash</option>
+                                                    <option value="Forward to Chief - FMD">Forward to Chief - FMD</option>
+                                                    <option value="Forward to DRMD">Forward to DRMD</option>
+                                                    <option value="Forward to HRMDD">Forward to HRMDD</option>
+                                                    <option value="Forward to ORD">Forward to ORD</option>
+                                                    <option value="Forward to PPD">Forward to PPD</option>
+                                                    <option value="Forward to Promotive Services Division">Forward to Promotive Services Division</option>
+                                                    <option value="Forward to Protective Services Division">Forward to Protective Services Division</option>
+                                                    <option value="Forward to HR - PAS">Forward to HR - PAS</option>
+                                                    <option value="Forward to Admin">Forward to Admin</option>
+                                                    <option value="Return to End User">Return to End User</option>
+                                                    <option value="Return to Budget">Return to Budget</option>
+                                                    <option value="Complied">Complied</option>
+                                                    <option value="Cancelled">Cancelled</option>
+                                                    <option value="For Approval">For Approval</option>
+                                                </select>
                                             </div>
                                             <div class="px-2">
                                                 <label class="block text-sm font-medium text-gray-700">Remarks</label>
@@ -178,7 +196,7 @@
 
                         <div class="flex items-center ml-auto">
                             <!-- Pagination -->
-                            <select wire:model="perPage" class="border rounded px-4 py-2 mr-2">
+                            <select wire:model="perPage" class="border rounded px-8 py-2 mr-2">
                                 <option value="2">2 per page</option>
                                 <option value="10">10 per page</option>
                                 <option value="20">20 per page</option>

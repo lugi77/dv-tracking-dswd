@@ -31,7 +31,7 @@
                            @csrf
                            <div class="p-2">
                               <div class="text-lg font-bold mb-2 text-center">Create New Budget Entry</div>
-                              
+
                               <!-- DV No., Account ID, and DRN No. -->
                               <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-2">
                                  <div>
@@ -50,13 +50,18 @@
 
                               <!-- Payee, Particulars, and Controller -->
                               <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-2">
-                              <div>
+                                 <div>
                                     <label class="block text-sm font-medium text-gray-700">Particulars</label>
                                     <input type="text" wire:model="particulars" class="border rounded px-4 py-2 w-full">
                                  </div>
                                  <div>
                                     <label class="block text-sm font-medium text-gray-700">Fund Cluster</label>
-                                    <input type="text" wire:model="fund_cluster" class="border rounded px-4 py-2 w-full">
+                                    <select wire:model="fund_cluster" class="border rounded px-4 py-2 w-full">
+                                       <option value="FUND 101">FUND 101</option>
+                                       <option value="FUND 102">FUND 102</option>
+                                       <option value="FUND 171">FUND 171</option>
+                                       <option value="TRUST FUND">TRUST FUND</option>
+                                    </select>
                                  </div>
                                  <div>
                                     <label class="block text-sm font-medium text-gray-700">Budget Controller</label>
@@ -68,7 +73,8 @@
                               <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-2">
                                  <div>
                                     <label class="block text-sm font-medium text-gray-700">Gross Amount</label>
-                                    <input type="number" step="0.01" wire:model="gross_amount" class="border rounded px-4 py-2 w-full">
+                                    <input type="number" step="0.01" wire:model="gross_amount"
+                                       class="border rounded px-4 py-2 w-full">
                                  </div>
                                  <div>
                                     <label class="block text-sm font-medium text-gray-700">ORS No.</label>
@@ -76,19 +82,21 @@
                                  </div>
                                  <div>
                                     <label class="block text-sm font-medium text-gray-700">Final Amount NORSA</label>
-                                    <input type="number" step="0.01" wire:model="final_amount_norsa" class="border rounded px-4 py-2 w-full">
+                                    <input type="number" step="0.01" wire:model="final_amount_norsa"
+                                       class="border rounded px-4 py-2 w-full">
                                  </div>
                               </div>
 
                               <!-- Fund Cluster, Appropriation -->
                               <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-2">
-                              <div>
+                                 <div>
                                     <label class="block text-sm font-medium text-gray-700">Payee</label>
                                     <input type="text" wire:model="payee" class="border rounded px-4 py-2 w-full">
-                                 </div>                                                              
+                                 </div>
                                  <div>
                                     <label class="block text-sm font-medium text-gray-700">Appropriation</label>
-                                    <input type="text" wire:model="appropriation" class="border rounded px-4 py-2 w-full">
+                                    <input type="text" wire:model="appropriation"
+                                       class="border rounded px-4 py-2 w-full">
                                  </div>
                               </div>
 
@@ -96,11 +104,13 @@
                               <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-2">
                                  <div>
                                     <label class="block text-sm font-medium text-gray-700">Incoming Date</label>
-                                    <input type="date" wire:model="incomingDate" class="border rounded px-4 py-2 w-full">
+                                    <input type="date" wire:model="incomingDate"
+                                       class="border rounded px-4 py-2 w-full">
                                  </div>
                                  <div>
                                     <label class="block text-sm font-medium text-gray-700">Outgoing Date</label>
-                                    <input type="date" wire:model="outgoingDate" class="border rounded px-4 py-2 w-full">
+                                    <input type="date" wire:model="outgoingDate"
+                                       class="border rounded px-4 py-2 w-full">
                                  </div>
                               </div>
 
@@ -111,15 +121,35 @@
                               </div>
 
                               <!-- Action -->
-                                <div class="mb-4 text-center">
-                                  <label class="block text-sm font-medium text-gray-700">Action</label>
-                                  <select wire:model="status" class="border rounded px-4 py-2 mx-auto">
+                              <div class="mb-4 text-center">
+                                 <label class="block text-sm font-medium text-gray-700">Action</label>
+                                 <select wire:model="status"
+                                    class="border-1 border-solid rounded text-center px-4 py-2 mx-auto">>
                                     <option value="">Select Action</option>
-                                    <option value="Pending">Pending</option>
-                                    <option value="Completed">Completed</option>
-                                    <option value="Cancelled">Cancelled</option>
-                                  </select>
-                                </div>
+                                    <option value="FOR PROCESSING">FOR PROCESSING</option>
+                                    <option value="FORWARD TO ACCOUNTING">FORWARD TO ACCOUNTING</option>
+                                    <option value="FORWARD TO ARDA">FORWARD TO ARDA</option>
+                                    <option value="FORWARD TO ARDO">FORWARD TO ARDO</option>
+                                    <option value="FORWARD TO BAC">FORWARD TO BAC</option>
+                                    <option value="FORWARD TO CASH">FORWARD TO CASH</option>
+                                    <option value="FORWARD TO CHIEF - FMD">FORWARD TO CHIEF - FMD</option>
+                                    <option value="FORWARD TO DRMD">FORWARD TO DRMD</option>
+                                    <option value="FORWARD TO END USER">FORWARD TO END USER</option>
+                                    <option value="FORWARD TO HRMDD">FORWARD TO HRMDD</option>
+                                    <option value="FORWARD TO ORD">FORWARD TO ORD</option>
+                                    <option value="FORWARD TO PPD">FORWARD TO PPD</option>
+                                    <option value="FORWARD TO PROCUREMENT">FORWARD TO PROCUREMENT</option>
+                                    <option value="FORWARD TO PROMOTIVE SERVICES DIVISION">FORWARD TO PROMOTIVE SERVICES
+                                       DIVISION</option>
+                                    <option value="FORWARD TO PROTECTIVE SERVICES DIVISION">FORWARD TO PROTECTIVE
+                                       SERVICES DIVISION</option>
+                                    <option value="FORWARD TO RECORDS">FORWARD TO RECORDS</option>
+                                    <option value="FORWARD TO SUPPLY">FORWARD TO SUPPLY</option>
+                                    <option value="RETURN TO END USER">RETURN TO END USER</option>
+                                    <option value="RETURN TO BUDGET">RETURN TO BUDGET</option>
+                                 </select>
+                                 </select>
+                              </div>
 
                               <!-- Buttons -->
                               <div class="text-right">
@@ -169,7 +199,7 @@
                <input type="text" placeholder="Search..." wire:model.live.debounce.500ms="search"
                   class="border rounded p-2 w-64" />
 
-               <select wire:model="perPage" class="border rounded px-4 py-2 mb-4">
+               <select wire:model="perPage" class="border rounded px-8 py-2 mb-4">
                   <option value="5">5 per page</option>
                   <option value="10">10 per page</option>
                   <option value="25">25 per page</option>
@@ -180,26 +210,25 @@
             <div class="min-h-[35rem] overflow-x-auto">
                <div class="max-h-[40rem] overflow-y-auto">
                   <table class="min-w-full bg-white">
-                     <thead class="bg-green-600 text-white sticky top-0">
+                     <thead class="bg-blue-500 text-white sticky top-0">
                         <tr>
-                           <th class="py-2 px-2 text-center border-b border-r border-l border-gray-300">ID No.</th>
-                           <th class="py-2 px-2 text-center border-b border-r border-gray-300">DRN No.</th>
-                           <th class="py-2 px-2 text-center border-b border-r border-gray-300">DV No.</th>
-                           <th class="py-2 px-2 text-center border-b border-r border-gray-300">Incoming Date</th>
-                           <th class="py-2 px-2 text-center border-b border-r border-gray-300">Payee</th>
-                           <th class="py-2 px-2 text-center border-b border-r border-gray-300">Particulars</th>
-                           <th class="py-2 px-2 text-center border-b border-r border-gray-300">Program/Unit</th>
-                           <th class="py-2 px-2 text-center border-b border-r border-gray-300">Budget Controller
-                              Assigned
-                           </th>
-                           <th class="py-2 px-2 text-right border-b border-r border-gray-300">Gross Amount</th>
-                           <th class="py-2 px-2 text-right border-b border-r border-gray-300">Final Amount</th>
-                           <th class="py-2 px-2 text-center border-b border-r border-gray-300">Fund Cluster</th>
-                           <th class="py-2 px-2 text-center border-b border-r border-gray-300">Appropriation</th>
-                           <th class="py-2 px-2 text-center border-b border-r border-gray-300">Remarks</th>
-                           <th class="py-2 px-2 text-center border-b border-r border-gray-300">ORS No.</th>
-                           <th class="py-2 px-2 text-center border-b border-r border-gray-300">Outgoing Date</th>
-                           <th class="py-2 px-2 text-center border-b border-r border-gray-300">Action</th>
+                           <th class="py-2 px-4 text-center font-bold min-w-[50px]">ID No.</th>
+                           <th class="py-2 px-4 text-center font-bold min-w-[150px]">DRN No.</th>
+                           <th class="py-2 px-4 text-center font-bold min-w-[150px]">DV No.</th>
+                           <th class="py-2 px-4 text-center font-bold min-w-[150px]">Incoming Date</th>
+                           <th class="py-2 px-4 text-center font-bold min-w-[150px]">Payee</th>
+                           <th class="py-2 px-4 text-center font-bold min-w-[150px]">Particulars</th>
+                           <th class="py-2 px-4 text-center font-bold min-w-[150px]">Program/Unit</th>
+                           <th class="py-2 px-4 text-center font-bold min-w-[190px]">Budget Controller Assigned</th>
+                           <th class="py-2 px-4 text-right font-bold min-w-[160px]">Gross Amount</th>
+                           <th class="py-2 px-4 text-right font-bold min-w-[150px]">Final Amount</th>
+                           <th class="py-2 px-4 text-center font-bold min-w-[150px]">Fund Cluster</th>
+                           <th class="py-2 px-4 text-center font-bold min-w-[150px]">Appropriation</th>
+                           <th class="py-2 px-4 text-center font-bold min-w-[250px]">Remarks</th>
+                           <th class="py-2 px-4 text-center font-bold min-w-[150px]">ORS No.</th>
+                           <th class="py-2 px-4 text-center font-bold min-w-[150px]">Outgoing Date</th>
+                           <th class="py-2 px-4 text-center font-bold min-w-[200px]">Action</th>
+                        </tr>
                         </tr>
                      </thead>
                      <tbody>
