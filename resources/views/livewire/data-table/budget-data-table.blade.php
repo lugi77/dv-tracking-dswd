@@ -32,19 +32,28 @@
                            <div class="p-2">
                               <div class="text-lg font-bold mb-2 text-center">Create New Budget Entry</div>
 
+                              @if ($errors->any())
+                          <div class="bg-red-100 text-red-700 border border-red-400 rounded px-4 py-2 mb-4">
+                            <strong>Error:</strong> Please correct the highlighted fields.
+                          </div>
+                       @endif
+
                               <!-- DV No., Account ID, and DRN No. -->
                               <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-2">
                                  <div>
                                     <label class="block text-sm font-medium text-gray-700">Drn No.</label>
-                                    <input type="text" wire:model="drnNum" class="border rounded px-4 py-2 w-full">
+                                    <input type="text" wire:model="drn_no" class="border rounded px-4 py-2 w-full">
+                                    @error('drn_no') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                                  </div>
                                  <div>
                                     <label class="block text-sm font-medium text-gray-700">DV No.</label>
-                                    <input type="text" wire:model="dvNum" class="border rounded px-4 py-2 w-full">
+                                    <input type="text" wire:model="dv_no" class="border rounded px-4 py-2 w-full">
+                                    @error('dv_no') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                                  </div>
                                  <div>
                                     <label class="block text-sm font-medium text-gray-700">Program</label>
                                     <input type="text" wire:model="program" class="border rounded px-4 py-2 w-full">
+                                    @error('program') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                                  </div>
                               </div>
 
@@ -53,6 +62,8 @@
                                  <div>
                                     <label class="block text-sm font-medium text-gray-700">Particulars</label>
                                     <input type="text" wire:model="particulars" class="border rounded px-4 py-2 w-full">
+                                    @error('particulars') <span class="text-red-600 text-sm">{{ $message }}</span>
+                           @enderror
                                  </div>
                                  <div>
                                     <label class="block text-sm font-medium text-gray-700">Fund Cluster</label>
@@ -62,10 +73,15 @@
                                        <option value="FUND 171">FUND 171</option>
                                        <option value="TRUST FUND">TRUST FUND</option>
                                     </select>
+                                    @error('fund_cluster') <span class="text-red-600 text-sm">{{ $message }}</span>
+                           @enderror
                                  </div>
                                  <div>
                                     <label class="block text-sm font-medium text-gray-700">Budget Controller</label>
-                                    <input type="text" wire:model="controller" class="border rounded px-4 py-2 w-full">
+                                    <input type="text" wire:model="budget_controller"
+                                       class="border rounded px-4 py-2 w-full">
+                                    @error('budget_controller') <span class="text-red-600 text-sm">{{ $message }}</span>
+                           @enderror
                                  </div>
                               </div>
 
@@ -75,28 +91,36 @@
                                     <label class="block text-sm font-medium text-gray-700">Gross Amount</label>
                                     <input type="number" step="0.01" wire:model="gross_amount"
                                        class="border rounded px-4 py-2 w-full">
+                                    @error('gross_amount') <span class="text-red-600 text-sm">{{ $message }}</span>
+                           @enderror
                                  </div>
                                  <div>
                                     <label class="block text-sm font-medium text-gray-700">ORS No.</label>
                                     <input type="text" wire:model="orsNum" class="border rounded px-4 py-2 w-full">
+                                    @error('orsNum') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                                  </div>
                                  <div>
                                     <label class="block text-sm font-medium text-gray-700">Final Amount NORSA</label>
                                     <input type="number" step="0.01" wire:model="final_amount_norsa"
                                        class="border rounded px-4 py-2 w-full">
+                                    @error('final_amount_norsa') <span
+                              class="text-red-600 text-sm">{{ $message }}</span> @enderror
                                  </div>
                               </div>
 
-                              <!-- Fund Cluster, Appropriation -->
+                              <!-- Payee, Appropriation -->
                               <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-2">
                                  <div>
                                     <label class="block text-sm font-medium text-gray-700">Payee</label>
                                     <input type="text" wire:model="payee" class="border rounded px-4 py-2 w-full">
+                                    @error('payee') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                                  </div>
                                  <div>
                                     <label class="block text-sm font-medium text-gray-700">Appropriation</label>
                                     <input type="text" wire:model="appropriation"
                                        class="border rounded px-4 py-2 w-full">
+                                    @error('appropriation') <span class="text-red-600 text-sm">{{ $message }}</span>
+                           @enderror
                                  </div>
                               </div>
 
@@ -106,11 +130,15 @@
                                     <label class="block text-sm font-medium text-gray-700">Incoming Date</label>
                                     <input type="date" wire:model="incomingDate"
                                        class="border rounded px-4 py-2 w-full">
+                                    @error('incomingDate') <span class="text-red-600 text-sm">{{ $message }}</span>
+                           @enderror
                                  </div>
                                  <div>
                                     <label class="block text-sm font-medium text-gray-700">Outgoing Date</label>
                                     <input type="date" wire:model="outgoingDate"
                                        class="border rounded px-4 py-2 w-full">
+                                    @error('outgoingDate') <span class="text-red-600 text-sm">{{ $message }}</span>
+                           @enderror
                                  </div>
                               </div>
 
@@ -118,13 +146,15 @@
                               <div class="mb-4">
                                  <label class="block text-sm font-medium text-gray-700">Remarks</label>
                                  <textarea wire:model="remarks" class="border rounded px-4 py-2 w-full"></textarea>
+                                 @error('remarks') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                               </div>
 
                               <!-- Action -->
                               <div class="mb-4 text-center">
                                  <label class="block text-sm font-medium text-gray-700">Action</label>
                                  <select wire:model="status"
-                                    class="border-1 border-solid rounded text-center px-4 py-2 mx-auto">>
+                                    class="border-1 border-solid rounded text-center px-4 py-2 mx-auto">
+                                    <option value="">Select Action</option>
                                     <option value="">Select Action</option>
                                     <option value="FOR PROCESSING">FOR PROCESSING</option>
                                     <option value="FORWARD TO ACCOUNTING">FORWARD TO ACCOUNTING</option>
@@ -148,7 +178,7 @@
                                     <option value="RETURN TO END USER">RETURN TO END USER</option>
                                     <option value="RETURN TO BUDGET">RETURN TO BUDGET</option>
                                  </select>
-                                 </select>
+                                 @error('status') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                               </div>
 
                               <!-- Buttons -->
@@ -173,31 +203,39 @@
                      Entry</button>
                </div>
 
-               <div>
-                  @if (session()->has('message'))
-                 <div
-                   class="flex items-center justify-between max-w-sm mx-auto mt-4 bg-green-100 border border-green-300 text-green-800 px-4 py-3 rounded-md shadow-md">
-                   <span class="flex items-center">
-                     <svg class="w-5 h-5 mr-2 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd"
-                          d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v3a1 1 0 002 0V7zm-1 5a1.5 1.5 0 100 3 1.5 1.5 0 000-3z"
-                          clip-rule="evenodd" />
-                     </svg>
-                     {{ session('message') }}
-                   </span>
-                   <button class="text-green-600 hover:text-green-800"
-                     onclick="this.parentElement.style.display='none';">
-                     &times;
-                   </button>
-                 </div>
-              @endif
-               </div>
+
+
+
+
             </div>
 
             <!-- Search Input -->
             <div class="mb-1 flex items-center justify-between">
                <input type="text" placeholder="Search..." wire:model.live.debounce.500ms="search"
                   class="border rounded p-2 w-64" />
+
+               <!-- Alerts -->
+               <div class="flex space-x-4">
+                  @if (session()->has('error'))
+                 <div x-data="{ show: true }" x-show="show"
+                   class="bg-red-100 text-red-800 border border-red-300 rounded-md px-4 py-2 text-sm relative">
+                   {{ session('error') }}
+                   <button @click="show = false" class="absolute top-1 right-1 text-red-600 hover:text-red-800">
+                     &times;
+                   </button>
+                 </div>
+              @endif
+
+                  @if (session()->has('message'))
+                 <div x-data="{ show: true }" x-show="show"
+                   class="bg-green-100 text-green-800 border border-green-300 rounded-md px-4 py-2 text-sm relative">
+                   {{ session('message') }}
+                   <button @click="show = false" class="absolute top-1 right-1 text-green-600 hover:text-green-800">
+                     &times;
+                   </button>
+                 </div>
+              @endif
+               </div>
 
                <select wire:model="perPage" class="border rounded px-8 py-2 mb-4">
                   <option value="5">5 per page</option>
@@ -219,25 +257,26 @@
                            <th class="py-2 px-4 text-center font-bold min-w-[150px]">Payee</th>
                            <th class="py-2 px-4 text-center font-bold min-w-[150px]">Particulars</th>
                            <th class="py-2 px-4 text-center font-bold min-w-[150px]">Program/Unit</th>
-                           <th class="py-2 px-4 text-center font-bold min-w-[190px]">Budget Controller Assigned</th>
-                           <th class="py-2 px-4 text-right font-bold min-w-[160px]">Gross Amount</th>
+                           <th class="py-2 px-4 text-center font-bold min-w-[150px]">Budget Controller Assigned</th>
+                           <th class="py-2 px-4 text-right font-bold min-w-[150px]">Gross Amount</th>
                            <th class="py-2 px-4 text-right font-bold min-w-[150px]">Final Amount</th>
                            <th class="py-2 px-4 text-center font-bold min-w-[150px]">Fund Cluster</th>
                            <th class="py-2 px-4 text-center font-bold min-w-[150px]">Appropriation</th>
-                           <th class="py-2 px-4 text-center font-bold min-w-[250px]">Remarks</th>
+                           <th class="py-2 px-4 text-center font-bold min-w-[150px]">Remarks</th>
                            <th class="py-2 px-4 text-center font-bold min-w-[150px]">ORS No.</th>
                            <th class="py-2 px-4 text-center font-bold min-w-[150px]">Outgoing Date</th>
-                           <th class="py-2 px-4 text-center font-bold min-w-[200px]">Action</th>
+                           <th class="py-2 px-4 text-center font-bold min-w-[150px]">Status</th>
+                           <th class="py-2 px-4 text-center font-bold min-w-[150px]">Actions</th>
                         </tr>
                         </tr>
                      </thead>
                      <tbody>
                         @forelse($budgetRecords as $entry)
-                     <tr>
+                     <tr class="hover:bg-gray-100 cursor-pointer">
                         <td class="py-2 px-2 border-b border-r border-l border-gray-300 text-center">{{ $entry->id }}
                         </td>
-                        <td class="py-2 px-2 border-b border-r border-gray-300 text-center">{{ $entry->drnNum }}</td>
-                        <td class="py-2 px-2 border-b border-r border-gray-300 text-center">{{ $entry->dvNum }}</td>
+                        <td class="py-2 px-2 border-b border-r border-gray-300 text-center">{{ $entry->drn_no }}</td>
+                        <td class="py-2 px-2 border-b border-r border-gray-300 text-center">{{ $entry->dv_no }}</td>
                         <td class="py-2 px-2 border-b border-r border-gray-300 text-center">{{ $entry->incomingDate}}
                         </td>
                         <td class="py-2 px-2 border-b border-r border-gray-300 text-center">{{ $entry->payee }}</td>
@@ -245,7 +284,8 @@
                         </td>
                         <td class="py-2 px-2 border-b border-r border-gray-300 text-center">{{ $entry->program }}
                         </td>
-                        <td class="py-2 px-2 border-b border-r border-gray-300 text-center">{{ $entry->controller }}
+                        <td class="py-2 px-2 border-b border-r border-gray-300 text-center">
+                          {{ $entry->budget_controller }}
                         </td>
                         <td class="py-2 px-2 border-b border-r border-gray-300 text-center">
                           ₱{{ number_format($entry->gross_amount, 2) }}
@@ -268,6 +308,23 @@
                         <td class="py-2 px-2 border-b border-r border-gray-300 text-center">
                           {{ ucfirst($entry->status) }}
                         </td>
+                        <td class="py-2 px-2 border-b border-r border-gray-300 text-center">
+                          <button wire:click="sendToAccounting({{ $entry->id }})"
+                            class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                            <!-- SVG Icon -->
+                            <svg class="h-5 w-5 text-white mr-2" viewBox="0 0 24 24" fill="none"
+                              stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                              stroke-linejoin="round">
+                              <line x1="22" y1="2" x2="11" y2="13" />
+                              <polygon points="22 2 15 22 11 13 2 9 22 2" />
+                            </svg>
+                            <!-- Button Text -->
+                            Forward to Accounting
+                          </button>
+
+
+                        </td>
+
                      </tr>
                   @empty
                <tr>

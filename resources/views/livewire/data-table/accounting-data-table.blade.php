@@ -31,6 +31,14 @@
                                 <div class="p-2">
                                     <div class="text-lg font-bold mb-2 text-center">Edit Entry</div>
 
+                                    <div>
+                                        @if (session()->has('message'))
+                                            <div class="alert alert-success">
+                                                {{ session('message') }}
+                                            </div>
+                                        @endif
+                                    </div>
+
                                     <form wire:submit.prevent="saveEntry">
                                         @csrf <!-- CSRF token for form protection -->
                                         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
@@ -42,13 +50,13 @@
                                             </div>
                                             <div class="px-2">
                                                 <label class="block text-sm font-medium text-gray-700">DV Number</label>
-                                                <input type="text" wire:model.defer="dvNum"
+                                                <input type="text" wire:model.defer="dv_no"
                                                     class="border rounded px-2 py-1 w-full">
                                             </div>
                                             <div class="px-2">
                                                 <label class="block text-sm font-medium text-gray-700">DV Number
                                                     2</label>
-                                                <input type="text" wire:model.defer="dvNum2"
+                                                <input type="text" wire:model.defer="dv_no2"
                                                     class="border rounded px-2 py-1 w-full">
                                             </div>
                                             <div class="px-2">
@@ -104,9 +112,9 @@
                                                     class="border rounded px-2 py-1 w-full">
                                             </div>
                                             <div class="px-2">
-                                                <label class="block text-sm font-medium text-gray-700">Date Compiled to
+                                                <label class="block text-sm font-medium text-gray-700">Date Complied to
                                                     End User</label>
-                                                <input type="date" wire:model.defer="date_compiled_to_end_user"
+                                                <input type="date" wire:model.defer="date_complied_to_end_user"
                                                     class="border rounded px-2 py-1 w-full">
                                             </div>
                                             <div class="px-2">
@@ -134,19 +142,23 @@
                                                     class="border rounded px-2 py-1 w-full">
                                             </div>
                                             <div class="px-2">
-                                                <label class="block text-sm font-medium text-gray-700">Action</label>
-                                                <select wire:model.defer="action" class="border rounded px-2 py-1 w-full">
+                                                <label class="block text-sm font-medium text-gray-700">Status</label>
+                                                <select wire:model.defer="status"
+                                                    class="border rounded px-2 py-1 w-full">
                                                     <option value="Processing">Processing</option>
                                                     <option value="Forward to ARDA">Forward to ARDA</option>
                                                     <option value="Forward to ARDO">Forward to ARDO</option>
                                                     <option value="Forward to Cash">Forward to Cash</option>
-                                                    <option value="Forward to Chief - FMD">Forward to Chief - FMD</option>
+                                                    <option value="Forward to Chief - FMD">Forward to Chief - FMD
+                                                    </option>
                                                     <option value="Forward to DRMD">Forward to DRMD</option>
                                                     <option value="Forward to HRMDD">Forward to HRMDD</option>
                                                     <option value="Forward to ORD">Forward to ORD</option>
                                                     <option value="Forward to PPD">Forward to PPD</option>
-                                                    <option value="Forward to Promotive Services Division">Forward to Promotive Services Division</option>
-                                                    <option value="Forward to Protective Services Division">Forward to Protective Services Division</option>
+                                                    <option value="Forward to Promotive Services Division">Forward to
+                                                        Promotive Services Division</option>
+                                                    <option value="Forward to Protective Services Division">Forward to
+                                                        Protective Services Division</option>
                                                     <option value="Forward to HR - PAS">Forward to HR - PAS</option>
                                                     <option value="Forward to Admin">Forward to Admin</option>
                                                     <option value="Return to End User">Return to End User</option>
@@ -172,31 +184,45 @@
                                         class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded">Save</button>
                                 </div>
                             </div>
-
-
                             </form>
-
-
-
                         </div>
                     </div>
-
                     <!-- Search Input -->
                     <div class="mb-4 flex items-center justify-between">
+                        <!-- Search Input -->
                         <input type="text" placeholder="Search..." wire:model.live.debounce.500ms="search"
-                            class="border rounded p-2 w-64" />
+                            class="border border-gray-300 rounded-md px-4 py-2 w-64 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
 
-                        <div>
+                        <!-- Alerts -->
+                        <div class="flex space-x-4">
+                            @if (session()->has('error'))
+                                <div x-data="{ show: true }" x-show="show"
+                                    class="bg-red-100 text-red-800 border border-red-300 rounded-md px-4 py-2 text-sm relative">
+                                    {{ session('error') }}
+                                    <button @click="show = false"
+                                        class="absolute top-1 right-1 text-red-600 hover:text-red-800">
+                                        &times;
+                                    </button>
+                                </div>
+                            @endif
+
                             @if (session()->has('message'))
-                                <div class="alert alert-success">
+                                <div x-data="{ show: true }" x-show="show"
+                                    class="bg-green-100 text-green-800 border border-green-300 rounded-md px-4 py-2 text-sm relative">
                                     {{ session('message') }}
+                                    <button @click="show = false"
+                                        class="absolute top-1 right-1 text-green-600 hover:text-green-800">
+                                        &times;
+                                    </button>
                                 </div>
                             @endif
                         </div>
 
-                        <div class="flex items-center ml-auto">
-                            <!-- Pagination -->
-                            <select wire:model="perPage" class="border rounded px-8 py-2 mr-2">
+
+                        <!-- Pagination -->
+                        <div class="flex items-center">
+                            <select wire:model="perPage"
+                                class="border border-gray-300 rounded-md px-4 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
                                 <option value="2">2 per page</option>
                                 <option value="10">10 per page</option>
                                 <option value="20">20 per page</option>
@@ -234,7 +260,7 @@
                                         <th class="py-2 px-4 text-center font-bold min-w-[150px]">Date
                                             Returned</th>
                                         <th class="py-2 px-4 text-center font-bold min-w-[150px]">Date
-                                            Compiled</th>
+                                            Complied</th>
                                         <th class="py-2 px-4 text-center font-bold min-w-[150px]">No. of Days
                                         </th>
                                         <th class="py-2 px-4 text-center font-bold min-w-[150px]">Outgoing
@@ -244,20 +270,21 @@
                                         <th class="py-2 px-4 text-center font-bold min-w-[150px]">Remarks</th>
                                         <th class="py-2 px-4 text-center font-bold min-w-[150px]">Outgoing
                                             Date</th>
+                                        <th class="py-2 px-4 text-center font-bold min-w-[150px]">Status</th>
                                         <th class="py-2 px-4 text-center font-bold min-w-[150px]">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @forelse ($accountingRecords as $entry)
-                                        <tr @click="$wire.editEntry({{ $entry->id }}); modelOpen = true;">
+                                        <tr class="hover:bg-gray-100 cursor-pointer">
                                             <td class="py-2 px-2 text-center border-b border-r border-gray-300">
                                                 {{ $entry->date_received }}
                                             </td>
                                             <td class="py-2 px-2 text-center border-b border-r border-gray-300">
-                                                {{ $entry->dvNum }}
+                                                {{ $entry->dv_no }}
                                             </td>
                                             <td class="py-2 px-2 text-center border-b border-r border-gray-300">
-                                                {{ $entry->dvNum2 }}
+                                                {{ $entry->dv_no2 }}
                                             </td>
                                             <td class="py-2 px-2 text-center border-b border-r border-gray-300">
                                                 {{ $entry->ap_no }}
@@ -287,7 +314,7 @@
                                                 {{ $entry->date_returned_to_end_user }}
                                             </td>
                                             <td class="py-2 px-2 text-center border-b border-r border-gray-300">
-                                                {{ $entry->date_compiled_to_end_user }}
+                                                {{ $entry->date_complied_to_end_user }}
                                             </td>
                                             <td class="py-2 px-2 text-center border-b border-r border-gray-300">
                                                 {{ $entry->no_of_days }}
@@ -305,7 +332,37 @@
                                                 {{ $entry->outgoing_date }}
                                             </td>
                                             <td class="py-2 px-2 text-center border-b border-r border-gray-300">
-                                                {{ $entry->action }}
+                                                {{ $entry->status }}
+                                            </td>
+                                            <td class="py-2 px-2 text-center border-b border-r border-gray-300">
+                                                <button wire:click="sendToCash({{ $entry->id }})"
+                                                    class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                                                    <!-- SVG Icon -->
+                                                    <svg class="h-5 w-5 text-white mr-2" viewBox="0 0 24 24" fill="none"
+                                                        stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                        stroke-linejoin="round">
+                                                        <line x1="22" y1="2" x2="11" y2="13" />
+                                                        <polygon points="22 2 15 22 11 13 2 9 22 2" />
+                                                    </svg>
+                                                    <!-- Button Text -->
+                                                    Send to Cash
+                                                </button>
+
+                                                <button @click="$wire.editEntry({{ $entry->id }}); modelOpen = true;"
+                                                    class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                                    <!-- SVG Icon -->
+                                                    <svg class="h-5 w-5 text-white mr-2" viewBox="0 0 24 24"
+                                                        stroke-width="2" stroke="currentColor" fill="none"
+                                                        stroke-linecap="round" stroke-linejoin="round">
+                                                        <path stroke="none" d="M0 0h24v24H0z" />
+                                                        <path
+                                                            d="M9 7h-3a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-3" />
+                                                        <path d="M9 15h3l8.5 -8.5a1.5 1.5 0 0 0 -3 -3l-8.5 8.5v3" />
+                                                        <line x1="16" y1="5" x2="19" y2="8" />
+                                                    </svg>
+                                                    <!-- Button Text -->
+                                                    Edit
+                                                </button>
                                             </td>
                                         </tr>
                                     @empty

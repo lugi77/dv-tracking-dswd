@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('accounting', function (Blueprint $table) {
             $table->id();
             $table->date('date_received')->nullable();
-            $table->integer('dv_no')->nullable();
-            $table->integer('dv_no2')->nullable();
+            $table->string('dv_no')->nullable();
+            $table->string('dv_no2')->nullable();
             $table->string('ap_no')->nullable();
             $table->decimal('gross_amount', 15, 2)->nullable();
             $table->decimal('tax', 15, 2)->nullable();
@@ -31,7 +31,7 @@ return new class extends Migration
             $table->string('outgoing_certifier')->nullable();
             $table->text('remarks')->nullable();
             $table->date('outgoing_date')->nullable();
-            $table->string('action')->nullable();
+            $table->string('status')->nullable();
             $table->timestamps();
         });
     }

@@ -42,8 +42,8 @@
                                                         class="border rounded px-4 py-2 w-full">
                                                 </div>
                                                 <div>
-                                                    <label for="dvNum" class="block text-sm font-medium text-gray-700">DV No.</label>
-                                                    <input type="text" id="dvNum" wire:model.defer="dvNum" class="border rounded px-4 py-2 w-full">
+                                                    <label for="dv_no" class="block text-sm font-medium text-gray-700">DV No.</label>
+                                                    <input type="text" id="dv_no" wire:model.defer="dv_no" class="border rounded px-4 py-2 w-full">
                                                 </div>
                                                 <div>
                                                     <label for="payment_type" class="block text-sm font-medium text-gray-700">Payment Type</label>
@@ -106,9 +106,9 @@
                                                     <input type="text" id="remarks" wire:model.defer="remarks" class="border rounded px-4 py-2 w-full">
                                                 </div>
                                                 <div class="md:col-span-3">
-                                                    <label for="action" class="block text-sm font-medium text-gray-700">Action</label>
-                                                    <select id="action" wire:model.defer="action" class="border rounded px-4 py-2 w-full">
-                                                        <option value="">Select Action</option>
+                                                    <label for="status" class="block text-sm font-medium text-gray-700">Action</label>
+                                                    <select id="status" wire:model.defer="status" class="border rounded px-4 py-2 w-full">
+                                                        <option value="">Select Status</option>
                                                         <option value="Issuance Approved">Issuance Approved</option>
                                                         <option value="Forward to Accounting">Forward to Accounting</option>
                                                         <option value="Forward to Budget Unit">Forward to Budget Unit</option>
@@ -136,20 +136,40 @@
 
                     <!-- Search Input -->
                     <div class="mb-4 flex items-center justify-between">
+                        <!-- Search Input -->
                         <input type="text" placeholder="Search..." wire:model.live.debounce.500ms="search"
-                            class="border rounded p-2 w-64" />
+                            class="border border-gray-300 rounded-md px-4 py-2 w-64 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
 
-                        <div>
+                        <!-- Alerts -->
+                        <div class="flex space-x-4">
+                            @if (session()->has('error'))
+                                <div x-data="{ show: true }" x-show="show"
+                                    class="bg-red-100 text-red-800 border border-red-300 rounded-md px-4 py-2 text-sm relative">
+                                    {{ session('error') }}
+                                    <button @click="show = false"
+                                        class="absolute top-1 right-1 text-red-600 hover:text-red-800">
+                                        &times;
+                                    </button>
+                                </div>
+                            @endif
+
                             @if (session()->has('message'))
-                                <div class="alert alert-success">
+                                <div x-data="{ show: true }" x-show="show"
+                                    class="bg-green-100 text-green-800 border border-green-300 rounded-md px-4 py-2 text-sm relative">
                                     {{ session('message') }}
+                                    <button @click="show = false"
+                                        class="absolute top-1 right-1 text-green-600 hover:text-green-800">
+                                        &times;
+                                    </button>
                                 </div>
                             @endif
                         </div>
 
-                        <div class="flex items-center ml-auto">
-                            <!-- Pagination -->
-                            <select wire:model="perPage" class="border rounded px-8 py-2 mr-2">
+
+                        <!-- Pagination -->
+                        <div class="flex items-center">
+                            <select wire:model="perPage"
+                                class="border border-gray-300 rounded-md px-4 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
                                 <option value="2">2 per page</option>
                                 <option value="10">10 per page</option>
                                 <option value="20">20 per page</option>
@@ -176,15 +196,17 @@
                                         <th class="py-2 px-4 text-center font-bold min-w-[200px]">Particulars</th>
                                         <th class="py-2 px-4 text-center font-bold min-w-[200px]">Remarks</th>
                                         <th class="py-2 px-4 text-center font-bold min-w-[150px]">Outgoing Date</th>
+                                        <th class="py-2 px-4 text-center font-bold min-w-[150px]">Status</th>
                                         <th class="py-2 px-4 text-center font-bold min-w-[150px]">Action</th>
+                                        
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach($cashRecords as $record)
-                                        <tr @click="$wire.editEntry({{ $record->id }}); modelOpen = true;">
+                                        <tr class="hover:bg-gray-100 cursor-pointer">
                                             <td class="py-2 px-2 border-b border-r border-gray-300">
                                                 {{ $record->date_received }}</td>
-                                            <td class="py-2 px-2 border-b border-r border-gray-300">{{ $record->dvNum }}
+                                            <td class="py-2 px-2 border-b border-r border-gray-300">{{ $record->dv_no }}
                                             </td>
                                             <td class="py-2 px-2 border-b border-r border-gray-300">
                                                 {{ $record->payment_type }}</td>
@@ -208,7 +230,24 @@
                                             </td>
                                             <td class="py-2 px-2 border-b border-r border-gray-300">
                                                 {{ $record->outgoing_date }}</td>
-                                            <td class="py-2 px-2 border-b border-r border-gray-300">{{ $record->action }}
+                                            <td class="py-2 px-2 border-b border-r border-gray-300">{{ $record->status }}
+                                            </td>
+                                            <td class="py-2 px-2 text-center border-b border-r border-gray-300">
+                                                <button @click="$wire.editEntry({{ $record->id }}); modelOpen = true;"
+                                                    class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                                    <!-- SVG Icon -->
+                                                    <svg class="h-5 w-5 text-white mr-2" viewBox="0 0 24 24"
+                                                        stroke-width="2" stroke="currentColor" fill="none"
+                                                        stroke-linecap="round" stroke-linejoin="round">
+                                                        <path stroke="none" d="M0 0h24v24H0z" />
+                                                        <path
+                                                            d="M9 7h-3a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-3" />
+                                                        <path d="M9 15h3l8.5 -8.5a1.5 1.5 0 0 0 -3 -3l-8.5 8.5v3" />
+                                                        <line x1="16" y1="5" x2="19" y2="8" />
+                                                    </svg>
+                                                    <!-- Button Text -->
+                                                    Edit
+                                                </button>
                                             </td>
                                         </tr>
                                     @endforeach

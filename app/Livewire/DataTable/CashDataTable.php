@@ -15,13 +15,13 @@ class CashDataTable extends Component
     public $perPage = 10;
 
     // Form inputs
-    public $date_received, $dvNum, $payment_type, $check_ada_no, $gross_amount, $net_amount, $final_net_amount, $date_issued, $receipt_no, $remarks, $payee, $particulars, $outgoing_date, $action;
+    public $date_received, $dv_no, $payment_type, $check_ada_no, $gross_amount, $net_amount, $final_net_amount, $date_issued, $receipt_no, $remarks, $payee, $particulars, $outgoing_date, $status;
     public $isEditing = false;
     public $entryId;
 
     protected $rules = [
         'date_received' => 'required|date',
-        'dvNum' => 'required|string|max:255',
+        'dv_no' => 'required|string|max:10',
         'payment_type' => 'required|string|max:255',
         'check_ada_no' => 'required|string|max:255',
         'gross_amount' => 'required|numeric',
@@ -33,7 +33,7 @@ class CashDataTable extends Component
         'payee' => 'required|string|max:255',
         'particulars' => 'required|string|max:255',
         'outgoing_date' => 'required|date',
-        'action' => 'required|string|max:255',
+        'status' => 'required|string|max:255',
     ];
 
     public function saveEntry()
@@ -46,7 +46,7 @@ class CashDataTable extends Component
 
             $entry->update([
                 'date_received' => $this->date_received,
-                'dvNum' => $this->dvNum,
+                'dv_no' => $this->dv_no,
                 'payment_type' => $this->payment_type,
                 'check_ada_no' => $this->check_ada_no,
                 'gross_amount' => $this->gross_amount,
@@ -56,9 +56,9 @@ class CashDataTable extends Component
                 'receipt_no' => $this->receipt_no,
                 'remarks' => $this->remarks,
                 'payee' => $this->payee,
-                'particalars' =>$this->particulars,
+                'particulars' =>$this->particulars,
                 'outgoing_date' => $this->outgoing_date,
-                'action' => $this->action,
+                'status' => $this->status,
             ]);
 
             session()->flash('message', 'Entry updated successfully.');
@@ -66,7 +66,7 @@ class CashDataTable extends Component
             // Create a new entry
             Cash::create([
                 'date_received' => $this->date_received,
-                'dv_no' => $this->dvNum,
+                'dv_no' => $this->dv_no,
                 'payment_type' => $this->payment_type,
                 'check_ada_no' => $this->check_ada_no,
                 'gross_amount' => $this->gross_amount,
@@ -76,9 +76,9 @@ class CashDataTable extends Component
                 'receipt_no' => $this->receipt_no,
                 'remarks' => $this->remarks,
                 'payee' => $this->payee,
-                'particalars' =>$this->particulars,
+                'particulars' =>$this->particulars,
                 'outgoing_date' => $this->outgoing_date,
-                'action' => $this->action,
+                'status' => $this->status,
             ]);
 
             session()->flash('message', 'Entry created successfully.');
@@ -95,7 +95,7 @@ class CashDataTable extends Component
     public function resetInputFields()
     {
         $this->date_received = '';
-        $this->dvNum = '';          
+        $this->dv_no = '';          
         $this->payment_type = '';
         $this->check_ada_no = '';
         $this->gross_amount = '';
@@ -107,14 +107,14 @@ class CashDataTable extends Component
         $this->payee = '';
         $this->particulars = '';    
         $this->outgoing_date = '';
-        $this->action = '';
+        $this->status = '';
     }
 
     public function editEntry($id)
     {
         $entry = Cash::findOrFail($id);
         $this->date_received = $entry->date_received;
-        $this->dvNum = $entry->dvNum;
+        $this->dv_no = $entry->dv_no;
         $this->payment_type = $entry->payment_type;
         $this->check_ada_no = $entry->check_ada_no;
         $this->gross_amount = $entry->gross_amount;
@@ -124,9 +124,9 @@ class CashDataTable extends Component
         $this->receipt_no = $entry->receipt_no;
         $this->remarks = $entry->remarks;
         $this->payee = $entry->payee;
-        $this->particular = $entry->particular;
+        $this->particulars = $entry->particulars;
         $this->outgoing_date = $entry->outgoing_date;
-        $this->action = $entry->action;
+        $this->status = $entry->status;
 
         $this->entryId = $id;
         $this->isEditing = true;
@@ -134,7 +134,7 @@ class CashDataTable extends Component
 
     public function render()
     {
-        $cashRecords = Cash::where('dvNum', 'like', '%' . $this->search . '%')
+        $cashRecords = Cash::where('dv_no', 'like', '%' . $this->search . '%')
             ->orWhere('payment_type', 'like', '%' . $this->search . '%')
             ->paginate($this->perPage);
 

@@ -11,7 +11,7 @@ class Cash extends Model
     protected $table = 'cash';
     protected $fillable = [
         'date_received',
-        'dvNum',
+        'dv_no',
         'payment_type',
         'check_ada_no',
         'gross_amount',
@@ -23,6 +23,11 @@ class Cash extends Model
         'payee',
         'particulars',
         'outgoing_date',
-        'action',
+        'status',
     ];
+
+    public function accounting()
+    {
+        return $this->belongsTo(Accounting::class, 'dv_no', 'dv_no');
+    }
 }

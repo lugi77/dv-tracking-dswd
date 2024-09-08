@@ -2,6 +2,7 @@
 
 namespace App\Livewire\DataTable;
 use App\Models\Budget;
+use App\Models\Accounting;
 use Livewire\Attributes\Layout;
 use Livewire\WithPagination;
 use Livewire\Component;
@@ -15,23 +16,22 @@ class BudgetDataTable extends Component
     public $perPage = '10';
 
     // Form inputs
-    public $dvNum, $accountID, $programID, $controllerID, $drnNum, $incomingDate,
-    $payee, $particulars, $etal, $program, $controller, $gross_amount,
+    public $dv_no, $drn_no, $incomingDate,
+    $payee, $particulars, $etal, $program, $budget_controller, $gross_amount,
     $final_amount_norsa, $fund_cluster, $appropriation, $remarks, $orsNum,
     $outgoingDate, $status;
 
+    public $isEditing = false;
+    public $entryId;
+
     protected $rules = [
-        'dvNum' => 'required|string|max:10',
-        'accountID' => 'required|string|max:20',
-        'programID' => 'required|integer',
-        'controllerID' => 'required|integer',
-        'drnNum' => 'required|string|max:100',
+        'dv_no' => 'required|string|max:10',
+        'drn_no' => 'required|string|max:100',
         'incomingDate' => 'required|date',
         'payee' => 'required|string|max:150',
         'particulars' => 'required|string|max:250',
-        'etal' => 'nullable|string|max:250',
         'program' => 'required|string|max:30',
-        'controller' => 'required|string|max:75',
+        'budget_controller' => 'required|string|max:75',
         'gross_amount' => 'required|numeric|min:0',
         'final_amount_norsa' => 'required|numeric|min:0',
         'fund_cluster' => 'required|string|max:50',
@@ -47,17 +47,13 @@ class BudgetDataTable extends Component
         $this->validate();
 
         Budget::create([
-            'dvNum' => $this->dvNum,
-            'accountID' => $this->accountID,
-            'programID' => $this->programID,
-            'controllerID' => $this->controllerID,
-            'drnNum' => $this->drnNum,
+            'dv_no' => $this->dv_no,
+            'drn_no' => $this->drn_no,
             'incomingDate' => $this->incomingDate,
             'payee' => $this->payee,
             'particulars' => $this->particulars,
-            'etal' => $this->etal,
             'program' => $this->program,
-            'controller' => $this->controller,
+            'budget_controller' => $this->budget_controller,
             'gross_amount' => $this->gross_amount,
             'final_amount_norsa' => $this->final_amount_norsa,
             'fund_cluster' => $this->fund_cluster,
@@ -78,17 +74,13 @@ class BudgetDataTable extends Component
 
     public function resetInputFields()
     {
-        $this->dvNum = '';
-        $this->accountID = '';
-        $this->programID = '';
-        $this->controllerID = '';
-        $this->drnNum = '';
+        $this->dv_no = '';
+        $this->drn_no = '';
         $this->incomingDate = '';
         $this->payee = '';
         $this->particulars = '';
-        $this->etal = '';
         $this->program = '';
-        $this->controller = '';
+        $this->budget_controller = '';
         $this->gross_amount = '';
         $this->final_amount_norsa = '';
         $this->fund_cluster = '';
@@ -98,16 +90,51 @@ class BudgetDataTable extends Component
         $this->outgoingDate = '';
         $this->status = '';
     }
+    
 
-    public function render()
-    {
-        $budgetRecords = Budget::where('dvNum', 'like', '%' . $this->search . '%')
-            ->orWhere('payee', 'like', '%' . $this->search . '%')
-            ->orWhere('drnNum', 'like', '%' . $this->search . '%')
-            ->paginate($this->perPage);
+    public function sendToAccounting($id)
+{
+    // Find the Budget record by its ID
+    $budgetRecord = Budget::findOrFail($id);
 
-        return view('livewire.data-table.budget-data-table', [
-            'budgetRecords' => $budgetRecords
-        ]);
+    $existingAccountingRecord = Accounting::where('dv_no', $budgetRecord->dv_no)->first();
+
+    if ($existingAccountingRecord) {
+        // Flash a message indicating that this DV number has already been sent to Cash
+        session()->flash('error', 'This DV has already been sent to Accounting.');
+        return;
     }
+
+    // Create a new Accounting record with data from the Budget record
+    Accounting::create([
+        'date_received' => now(), // Current date when sent to accounting
+        'dv_no' => $budgetRecord->dv_no,
+        'gross_amount' => $budgetRecord->gross_amount,
+        'net_amount' => $budgetRecord->final_amount_norsa, // Assuming final_amount_norsa as net_amount
+        'remarks' => $budgetRecord->remarks,
+        'status' => $budgetRecord->status, // Optional action field
+        // Add other fields as necessary
+    ]);
+
+    // Update the status of the Budget record
+    $budgetRecord->update([
+        'status' => 'Sent to Accounting',
+        'outgoingDate' => now(),
+    ]);
+
+    session()->flash('message', 'DV sent to Accounting successfully.');
+}
+
+public function render()
+{
+    $budgetRecords = Budget::where('dv_no', 'like', '%' . $this->search . '%')
+        ->orWhere('payee', 'like', '%' . $this->search . '%')
+        ->orWhere('drn_no', 'like', '%' . $this->search . '%')
+        ->paginate($this->perPage);
+
+    return view('livewire.data-table.budget-data-table', [
+        'budgetRecords' => $budgetRecords,
+    ]);
+}
+
 }
