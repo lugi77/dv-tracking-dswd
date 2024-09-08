@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('cash', function (Blueprint $table) {
             $table->id();
-            $table->string('dvNum')->nullable();
+            $table->string('dv_no')->nullable();
             $table->string('payment_type')->nullable();
             $table->string('check_ada_no')->nullable();
             $table->decimal('gross_amount', 15, 2)->nullable();
@@ -23,8 +23,10 @@ return new class extends Migration
             $table->date('date_issued')->nullable();
             $table->string('receipt_no')->nullable();
             $table->text('remarks')->nullable();
+            $table->string('payee')->nullable();
+            $table->string('particulars')->nullable();
             $table->date('outgoing_date')->nullable();
-            $table->string('action')->nullable();
+            $table->string('status')->nullable();
             $table->timestamps();
         });
     }

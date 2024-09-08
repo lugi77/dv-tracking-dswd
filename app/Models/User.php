@@ -19,6 +19,7 @@ class User extends Authenticatable
         'email',
         'dswd_id',
         'section',
+        'is_approved',
         'password',
         'otp',
         'otp_expires_at',
@@ -37,15 +38,5 @@ class User extends Authenticatable
         
     ];
 
-    public function generateOtp()
-    {
-        $otp = Str::random(6); // Generate a 6-digit OTP
-        $this->otp = $otp;
-        $this->otp_expires_at = Carbon::now()->addMinutes(2); // Set expiration time to 2 minutes
-        $this->save();
-
-        // Send OTP via email
-        Mail::to($this->email)->send(new OtpMail($otp));
-    }
 
 }

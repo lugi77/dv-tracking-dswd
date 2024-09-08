@@ -41,6 +41,15 @@ class LoginForm extends Form
             ]);
         }
 
+        // Check if the user's account is approved
+        $user = Auth::user();
+        if (!$user->is_approved) {
+            Auth::logout();
+            throw ValidationException::withMessages([
+                'form.dswd_id' => 'Your account is pending approval by an administrator.',
+            ]);
+        }
+
         RateLimiter::clear($this->throttleKey());
 
         $this->sendOtp();
@@ -54,7 +63,7 @@ class LoginForm extends Form
         $user = Auth::user();
         $otp = rand(100000, 999999); // Generate a 6-digit OTP
         $user->otp = $otp;
-        $user->otp_expires_at = Carbon::now()->addMinutes(2); // OTP valid for 10 minutes
+        $user->otp_expires_at = Carbon::now()->addMinutes(5); // OTP valid for 10 minutes
         $user->save();
 
         Mail::to($user->email)->send(new OtpMail($otp));

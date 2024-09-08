@@ -1,7 +1,7 @@
 
 <nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
     <!-- Primary Navigation Menu -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-9xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
             <div class="flex">
                 <!-- Logo -->
@@ -20,7 +20,7 @@
                             <line x1="13.45" y1="11.55" x2="15.5" y2="9.5" />
                             <path d="M6.4 20a9 9 0 1 1 11.2 0Z" />
                         </svg>
-                        {{ __('Budget Dashboard') }}
+                        {{ __('Admin Dashboard') }}
                     </x-nav-link>
 
                     <!-- Add other Budget-specific links here -->
