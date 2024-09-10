@@ -21,7 +21,7 @@ class Accounting extends Model
         'net_amount',
         'final_gross_amount',
         'final_net_amount',
-        'program_unit',
+        'program',
         'date_returned_to_end_user',
         'date_complied_to_end_user',
         'no_of_days',

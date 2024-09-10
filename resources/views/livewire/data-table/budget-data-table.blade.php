@@ -3,7 +3,7 @@
       <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
          <div class="p-4 text-gray-900">
 
-            <div x-data="{ modelOpen: false }" x-on:entry-saved.window="modelOpen = false">
+            <div x-data="{ modelOpen: false }" x-on:entry-saved.window="modelOpen = false" x-on:open-edit-modal.window="modelOpen = true">
                <!-- Modal -->
                <div x-show="modelOpen" class="fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title"
                   role="dialog" aria-modal="true">
@@ -42,17 +42,17 @@
                               <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-2">
                                  <div>
                                     <label class="block text-sm font-medium text-gray-700">Drn No.</label>
-                                    <input type="text" wire:model="drn_no" class="border rounded px-4 py-2 w-full">
+                                    <input type="text" wire:model.defer="drn_no" class="border rounded px-4 py-2 w-full">
                                     @error('drn_no') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                                  </div>
                                  <div>
                                     <label class="block text-sm font-medium text-gray-700">DV No.</label>
-                                    <input type="text" wire:model="dv_no" class="border rounded px-4 py-2 w-full">
+                                    <input type="text" wire:model.defer="dv_no" class="border rounded px-4 py-2 w-full">
                                     @error('dv_no') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                                  </div>
                                  <div>
                                     <label class="block text-sm font-medium text-gray-700">Program</label>
-                                    <input type="text" wire:model="program" class="border rounded px-4 py-2 w-full">
+                                    <input type="text" wire:model.defer="program" class="border rounded px-4 py-2 w-full">
                                     @error('program') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                                  </div>
                               </div>
@@ -61,13 +61,14 @@
                               <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-2">
                                  <div>
                                     <label class="block text-sm font-medium text-gray-700">Particulars</label>
-                                    <input type="text" wire:model="particulars" class="border rounded px-4 py-2 w-full">
+                                    <input type="text" wire:model.defer="particulars" class="border rounded px-4 py-2 w-full">
                                     @error('particulars') <span class="text-red-600 text-sm">{{ $message }}</span>
                            @enderror
                                  </div>
                                  <div>
                                     <label class="block text-sm font-medium text-gray-700">Fund Cluster</label>
-                                    <select wire:model="fund_cluster" class="border rounded px-4 py-2 w-full">
+                                    <select wire:model.defer="fund_cluster" class="border rounded px-4 py-2 w-full">
+                                       <option value="">Select Fund</option>
                                        <option value="FUND 101">FUND 101</option>
                                        <option value="FUND 102">FUND 102</option>
                                        <option value="FUND 171">FUND 171</option>
@@ -78,7 +79,7 @@
                                  </div>
                                  <div>
                                     <label class="block text-sm font-medium text-gray-700">Budget Controller</label>
-                                    <input type="text" wire:model="budget_controller"
+                                    <input type="text" wire:model.defer="budget_controller"
                                        class="border rounded px-4 py-2 w-full">
                                     @error('budget_controller') <span class="text-red-600 text-sm">{{ $message }}</span>
                            @enderror
@@ -89,19 +90,19 @@
                               <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-2">
                                  <div>
                                     <label class="block text-sm font-medium text-gray-700">Gross Amount</label>
-                                    <input type="number" step="0.01" wire:model="gross_amount"
+                                    <input type="number" step="0.01" wire:model.defer="gross_amount"
                                        class="border rounded px-4 py-2 w-full">
                                     @error('gross_amount') <span class="text-red-600 text-sm">{{ $message }}</span>
                            @enderror
                                  </div>
                                  <div>
                                     <label class="block text-sm font-medium text-gray-700">ORS No.</label>
-                                    <input type="text" wire:model="orsNum" class="border rounded px-4 py-2 w-full">
+                                    <input type="text" wire:model.defer="orsNum" class="border rounded px-4 py-2 w-full">
                                     @error('orsNum') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                                  </div>
                                  <div>
                                     <label class="block text-sm font-medium text-gray-700">Final Amount NORSA</label>
-                                    <input type="number" step="0.01" wire:model="final_amount_norsa"
+                                    <input type="number" step="0.01" wire:model.defer="final_amount_norsa"
                                        class="border rounded px-4 py-2 w-full">
                                     @error('final_amount_norsa') <span
                               class="text-red-600 text-sm">{{ $message }}</span> @enderror
@@ -112,12 +113,12 @@
                               <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-2">
                                  <div>
                                     <label class="block text-sm font-medium text-gray-700">Payee</label>
-                                    <input type="text" wire:model="payee" class="border rounded px-4 py-2 w-full">
+                                    <input type="text" wire:model.defer="payee" class="border rounded px-4 py-2 w-full">
                                     @error('payee') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                                  </div>
                                  <div>
                                     <label class="block text-sm font-medium text-gray-700">Appropriation</label>
-                                    <input type="text" wire:model="appropriation"
+                                    <input type="text" wire:model.defer="appropriation"
                                        class="border rounded px-4 py-2 w-full">
                                     @error('appropriation') <span class="text-red-600 text-sm">{{ $message }}</span>
                            @enderror
@@ -128,14 +129,14 @@
                               <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-2">
                                  <div>
                                     <label class="block text-sm font-medium text-gray-700">Incoming Date</label>
-                                    <input type="date" wire:model="incomingDate"
+                                    <input type="date" wire:model.defer="incomingDate"
                                        class="border rounded px-4 py-2 w-full">
                                     @error('incomingDate') <span class="text-red-600 text-sm">{{ $message }}</span>
                            @enderror
                                  </div>
                                  <div>
                                     <label class="block text-sm font-medium text-gray-700">Outgoing Date</label>
-                                    <input type="date" wire:model="outgoingDate"
+                                    <input type="date" wire:model.defer="outgoingDate"
                                        class="border rounded px-4 py-2 w-full">
                                     @error('outgoingDate') <span class="text-red-600 text-sm">{{ $message }}</span>
                            @enderror
@@ -145,19 +146,18 @@
                               <!-- Remarks -->
                               <div class="mb-4">
                                  <label class="block text-sm font-medium text-gray-700">Remarks</label>
-                                 <textarea wire:model="remarks" class="border rounded px-4 py-2 w-full"></textarea>
+                                 <textarea wire:model.defer="remarks" class="border rounded px-4 py-2 w-full"></textarea>
                                  @error('remarks') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                               </div>
 
-                              <!-- Action -->
+                              <!-- Status -->
                               <div class="mb-4 text-center">
-                                 <label class="block text-sm font-medium text-gray-700">Action</label>
-                                 <select wire:model="status"
+                                 <label class="block text-sm font-medium text-gray-700">Status</label>
+                                 <select wire:model.defer="status"
                                     class="border-1 border-solid rounded text-center px-4 py-2 mx-auto">
-                                    <option value="">Select Action</option>
-                                    <option value="">Select Action</option>
+                                    <option value="">Status</option>
                                     <option value="FOR PROCESSING">FOR PROCESSING</option>
-                                    <option value="FORWARD TO ACCOUNTING">FORWARD TO ACCOUNTING</option>
+                                    <option value="Forward to Accounting">Forward to Accounting</option>
                                     <option value="FORWARD TO ARDA">FORWARD TO ARDA</option>
                                     <option value="FORWARD TO ARDO">FORWARD TO ARDO</option>
                                     <option value="FORWARD TO BAC">FORWARD TO BAC</option>
@@ -178,7 +178,10 @@
                                     <option value="RETURN TO END USER">RETURN TO END USER</option>
                                     <option value="RETURN TO BUDGET">RETURN TO BUDGET</option>
                                  </select>
+                                 <div>
                                  @error('status') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
+                                 </div>
+                                
                               </div>
 
                               <!-- Buttons -->
@@ -306,22 +309,27 @@
                           {{ $entry->outgoingDate }}
                         </td>
                         <td class="py-2 px-2 border-b border-r border-gray-300 text-center">
-                          {{ ucfirst($entry->status) }}
+                          {{($entry->status) }}
                         </td>
                         <td class="py-2 px-2 border-b border-r border-gray-300 text-center">
-                          <button wire:click="sendToAccounting({{ $entry->id }})"
-                            class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
-                            <!-- SVG Icon -->
-                            <svg class="h-5 w-5 text-white mr-2" viewBox="0 0 24 24" fill="none"
-                              stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                              stroke-linejoin="round">
-                              <line x1="22" y1="2" x2="11" y2="13" />
-                              <polygon points="22 2 15 22 11 13 2 9 22 2" />
-                            </svg>
-                            <!-- Button Text -->
-                            Forward to Accounting
-                          </button>
-
+                          
+                          <button 
+                              @click="$wire.edit({{ $entry->id }}); modelOpen = true;"
+                              :disabled="{{ $entry->status === 'Sent to Accounting' ? 'true' : 'false' }}" 
+                              class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" 
+                              :class="{ 'bg-gray-400': {{ $entry->status === 'Sent to Accounting' ? 'true' : 'false' }}, 'hover:bg-gray-400': {{ $entry->status === 'Sent to Accounting' ? 'true' : 'false' }}">
+                              <!-- SVG Icon -->
+                              <svg class="h-5 w-5 text-white mr-2" viewBox="0 0 24 24"
+                                    stroke-width="2" stroke="currentColor" fill="none"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                 <path stroke="none" d="M0 0h24H0z" />
+                                 <path d="M9 7h-3a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-3" />
+                                 <path d="M9 15h3l8.5 -8.5a1.5 1.5 0 0 0 -3 -3l-8.5 8.5v3" />
+                                 <line x1="16" y1="5" x2="19" y2="8" />
+                              </svg>
+                              <!-- Button Text -->
+                              Edit
+                           </button>
 
                         </td>
 

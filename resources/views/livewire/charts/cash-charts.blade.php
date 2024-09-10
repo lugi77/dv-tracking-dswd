@@ -43,56 +43,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td class="border px-4 py-2">AICS</td>
-                            <td class="border px-4 py-2">1000</td>
-                            <td class="border px-4 py-2">₱84,944,891.12</td>
-                        </tr>
-                        <tr>
-                            <td class="border px-4 py-2">PANTAWID</td>
-                            <td class="border px-4 py-2">6</td>
-                            <td class="border px-4 py-2">₱788,508.92</td>
-                        </tr>
-                        <tr>
-                            <td class="border px-4 py-2">GASS</td>
-                            <td class="border px-4 py-2">3</td>
-                            <td class="border px-4 py-2">₱186,810.00</td>
-                        </tr>
-                        <tr>
-                            <td class="border px-4 py-2">ICTMS</td>
-                            <td class="border px-4 py-2">3</td>
-                            <td class="border px-4 py-2">₱1,126,506.72</td>
-                        </tr>
-                        <tr>
-                            <td class="border px-4 py-2">SOCTECH</td>
-                            <td class="border px-4 py-2">2</td>
-                            <td class="border px-4 py-2">₱74,288.00</td>
-                        </tr>
-                        <tr>
-                            <td class="border px-4 py-2">EPAHP</td>
-                            <td class="border px-4 py-2">0</td>
-                            <td class="border px-4 py-2">₱0.00</td>
-                        </tr>
-                        <tr>
-                            <td class="border px-4 py-2">NHTSPR</td>
-                            <td class="border px-4 py-2">1</td>
-                            <td class="border px-4 py-2">₱11,400.00</td>
-                        </tr>
-                        <tr>
-                            <td class="border px-4 py-2">SLP</td>
-                            <td class="border px-4 py-2">2</td>
-                            <td class="border px-4 py-2">₱74,353.12</td>
-                        </tr>
-                        <tr>
-                            <td class="border px-4 py-2">CENTER</td>
-                            <td class="border px-4 py-2">5</td>
-                            <td class="border px-4 py-2">₱286,641.33</td>
-                        </tr>
-                        <tr>
-                            <td class="border px-4 py-2 font-bold">Total</td>
-                            <td class="border px-4 py-2 font-bold">491</td>
-                            <td class="border px-4 py-2 font-bold">₱87,493,399.21</td>
-                        </tr>
+                        
                     </tbody>
                 </table>
             </div>

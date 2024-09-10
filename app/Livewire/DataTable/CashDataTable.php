@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Livewire\DataTable;
+use App\Models\Accounting;
 use App\Models\Cash;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -62,9 +63,14 @@ class CashDataTable extends Component
             ]);
 
             session()->flash('message', 'Entry updated successfully.');
+
+            if($this->status === 'Return to Accounting') {
+                $this->sendBackToCash($entry->id);
+            }
+
         } else {
             // Create a new entry
-            Cash::create([
+            $entry = Cash::create([
                 'date_received' => $this->date_received,
                 'dv_no' => $this->dv_no,
                 'payment_type' => $this->payment_type,
@@ -82,6 +88,10 @@ class CashDataTable extends Component
             ]);
 
             session()->flash('message', 'Entry created successfully.');
+
+            if($this->status === 'Return to Accounting') {
+                $this->sendBackToCash($entry->id);
+            }
         }
 
         $this->resetInputFields();
@@ -131,6 +141,31 @@ class CashDataTable extends Component
         $this->entryId = $id;
         $this->isEditing = true;
     }
+
+    public function sendBackToCash($id)
+{
+    // Find the Accounting record by its ID
+    $cashRecords = Cash::findOrFail($id);
+    // Find the related Budget record using the DV number
+    $accountingRecord = Accounting::where('dv_no', $cashRecords->dv_no)->first();
+    if (!$accountingRecord) {
+        session()->flash('error', 'No corresponding Accounting record found.');
+        return;
+    }
+    // Update the status of the Accounting record to indicate it has been sent back to Budget
+    $cashRecords->update([
+        'status' => 'Sent Back to Accounting',
+        'outgoing_date' => now(),
+    ]);
+    // Optionally update the status of the Budget record
+    $accountingRecord->update([
+        'status' => 'Returned from Cash',
+    ]);
+    $cashRecords->delete();
+    // Flash a message to indicate success
+    session()->flash('message', 'Entry sent back to Accounting successfully.');
+}
+
 
     public function render()
     {

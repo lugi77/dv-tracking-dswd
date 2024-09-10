@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Livewire\DataTable;
+
 use App\Models\Budget;
 use App\Models\Accounting;
 use Livewire\Attributes\Layout;
@@ -21,8 +22,9 @@ class BudgetDataTable extends Component
     $final_amount_norsa, $fund_cluster, $appropriation, $remarks, $orsNum,
     $outgoingDate, $status;
 
+    // Properties for editing
     public $isEditing = false;
-    public $entryId;
+    public $editId;
 
     protected $rules = [
         'dv_no' => 'required|string|max:10',
@@ -46,29 +48,62 @@ class BudgetDataTable extends Component
     {
         $this->validate();
 
-        Budget::create([
-            'dv_no' => $this->dv_no,
-            'drn_no' => $this->drn_no,
-            'incomingDate' => $this->incomingDate,
-            'payee' => $this->payee,
-            'particulars' => $this->particulars,
-            'program' => $this->program,
-            'budget_controller' => $this->budget_controller,
-            'gross_amount' => $this->gross_amount,
-            'final_amount_norsa' => $this->final_amount_norsa,
-            'fund_cluster' => $this->fund_cluster,
-            'appropriation' => $this->appropriation,
-            'remarks' => $this->remarks,
-            'orsNum' => $this->orsNum,
-            'outgoingDate' => $this->outgoingDate,
-            'status' => $this->status,
-        ]);
+        if ($this->isEditing) {
+            // Update existing record
+            $entry = Budget::findOrFail($this->editId);
+            $entry->update([
+                'dv_no' => $this->dv_no,
+                'drn_no' => $this->drn_no,
+                'incomingDate' => $this->incomingDate,
+                'payee' => $this->payee,
+                'particulars' => $this->particulars,
+                'program' => $this->program,
+                'budget_controller' => $this->budget_controller,
+                'gross_amount' => $this->gross_amount,
+                'final_amount_norsa' => $this->final_amount_norsa,
+                'fund_cluster' => $this->fund_cluster,
+                'appropriation' => $this->appropriation,
+                'remarks' => $this->remarks,
+                'orsNum' => $this->orsNum,
+                'outgoingDate' => $this->outgoingDate,
+                'status' => $this->status,
+            ]);
 
-        session()->flash('message', 'Entry Saved Successfully.');
+            session()->flash('message', 'Entry Updated Successfully.');
 
+            // Check if status is "FORWARD TO ACCOUNTING" and send the data
+            if ($this->status === 'Forward to Accounting') {
+                $this->sendToAccounting($entry->id);
+            }
+        } else {
+            // Create new record
+            $entry = Budget::create([
+                'dv_no' => $this->dv_no,
+                'drn_no' => $this->drn_no,
+                'incomingDate' => $this->incomingDate,
+                'payee' => $this->payee,
+                'particulars' => $this->particulars,
+                'program' => $this->program,
+                'budget_controller' => $this->budget_controller,
+                'gross_amount' => $this->gross_amount,
+                'final_amount_norsa' => $this->final_amount_norsa,
+                'fund_cluster' => $this->fund_cluster,
+                'appropriation' => $this->appropriation,
+                'remarks' => $this->remarks,
+                'orsNum' => $this->orsNum,
+                'outgoingDate' => $this->outgoingDate,
+                'status' => $this->status,
+            ]);
+
+            session()->flash('message', 'Entry Saved Successfully.');
+
+            // Check if status is "FORWARD TO ACCOUNTING" and send the data
+            if ($this->status === 'Forward to Accounting') {
+                $this->sendToAccounting($entry->id);
+            }
+            
+        }
         $this->resetInputFields();
-
-        // dispatch event to close the modal
         $this->dispatch('entry-saved');
     }
 
@@ -89,52 +124,87 @@ class BudgetDataTable extends Component
         $this->orsNum = '';
         $this->outgoingDate = '';
         $this->status = '';
+        $this->isEditing = false;
+        $this->editId = null;
     }
     
-
     public function sendToAccounting($id)
-{
-    // Find the Budget record by its ID
-    $budgetRecord = Budget::findOrFail($id);
+    {
+        // Find the Budget record by its ID
+        $budgetRecord = Budget::findOrFail($id);
 
-    $existingAccountingRecord = Accounting::where('dv_no', $budgetRecord->dv_no)->first();
+        $existingAccountingRecord = Accounting::where('dv_no', $budgetRecord->dv_no)->first();
 
-    if ($existingAccountingRecord) {
-        // Flash a message indicating that this DV number has already been sent to Cash
-        session()->flash('error', 'This DV has already been sent to Accounting.');
+        if ($existingAccountingRecord) {
+            // Flash a message indicating that this DV number has already been sent to Cash
+            session()->flash('error', 'This DV has already been sent to Accounting.');
+            return;
+        }
+
+        // Create a new Accounting record with data from the Budget record
+        Accounting::create([
+            'date_received' => now(), // Current date when sent to accounting
+            'dv_no' => $budgetRecord->dv_no,
+            'program' => $budgetRecord->program,
+            'gross_amount' => $budgetRecord->gross_amount,
+            'net_amount' => $budgetRecord->final_amount_norsa, // Assuming final_amount_norsa as net_amount
+            'remarks' => $budgetRecord->remarks,
+            'status' => $budgetRecord->status, // Optional action field
+            // Add other fields as necessary
+        ]);
+
+        // Update the status of the Budget record
+        $budgetRecord->update([
+            'status' => 'Sent to Accounting',
+            'outgoingDate' => now(),
+        ]);
+
+        session()->flash('message', 'DV sent to Accounting successfully.');
+    }
+
+    public function edit($id)
+    {
+        $budget = Budget::findOrFail($id);
+
+        // Only allow editing if the status is 'Returned from Accounting'
+    if ($budget->status !== 'Returned from Accounting') {
+        session()->flash('error', 'This entry cannot be edited because it has not been returned from Accounting.');
         return;
     }
 
-    // Create a new Accounting record with data from the Budget record
-    Accounting::create([
-        'date_received' => now(), // Current date when sent to accounting
-        'dv_no' => $budgetRecord->dv_no,
-        'gross_amount' => $budgetRecord->gross_amount,
-        'net_amount' => $budgetRecord->final_amount_norsa, // Assuming final_amount_norsa as net_amount
-        'remarks' => $budgetRecord->remarks,
-        'status' => $budgetRecord->status, // Optional action field
-        // Add other fields as necessary
-    ]);
+        // Set the properties to the values of the record being edited
+        $this->dv_no = $budget->dv_no;
+        $this->drn_no = $budget->drn_no;
+        $this->incomingDate = $budget->incomingDate;
+        $this->payee = $budget->payee;
+        $this->particulars = $budget->particulars;
+        $this->program = $budget->program;
+        $this->budget_controller = $budget->budget_controller;
+        $this->gross_amount = $budget->gross_amount;
+        $this->final_amount_norsa = $budget->final_amount_norsa;
+        $this->fund_cluster = $budget->fund_cluster;
+        $this->appropriation = $budget->appropriation;
+        $this->remarks = $budget->remarks;
+        $this->orsNum = $budget->orsNum;
+        $this->outgoingDate = $budget->outgoingDate;
+        $this->status = $budget->status;
+        
+        $this->editId = $id;
+        $this->isEditing = true;
 
-    // Update the status of the Budget record
-    $budgetRecord->update([
-        'status' => 'Sent to Accounting',
-        'outgoingDate' => now(),
-    ]);
+        // Open the modal for editing
+        $this->dispatch('open-edit-modal');
+    }
 
-    session()->flash('message', 'DV sent to Accounting successfully.');
-}
+    public function render()
+    {
+        $budgetRecords = Budget::where('dv_no', 'like', '%' . $this->search . '%')
+            ->orWhere('payee', 'like', '%' . $this->search . '%')
+            ->orWhere('drn_no', 'like', '%' . $this->search . '%')
+            ->paginate($this->perPage);
 
-public function render()
-{
-    $budgetRecords = Budget::where('dv_no', 'like', '%' . $this->search . '%')
-        ->orWhere('payee', 'like', '%' . $this->search . '%')
-        ->orWhere('drn_no', 'like', '%' . $this->search . '%')
-        ->paginate($this->perPage);
-
-    return view('livewire.data-table.budget-data-table', [
-        'budgetRecords' => $budgetRecords,
-    ]);
-}
-
+        return view('livewire.data-table.budget-data-table', [
+            'budgetRecords' => $budgetRecords,
+        ]);
+    }
 }

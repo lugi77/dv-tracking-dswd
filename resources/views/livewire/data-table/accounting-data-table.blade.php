@@ -102,7 +102,7 @@
                                             <div class="px-2">
                                                 <label class="block text-sm font-medium text-gray-700">Program
                                                     Unit</label>
-                                                <input type="text" wire:model.defer="program_unit"
+                                                <input type="text" wire:model.defer="program"
                                                     class="border rounded px-2 py-1 w-full">
                                             </div>
                                             <div class="px-2">
@@ -290,25 +290,25 @@
                                                 {{ $entry->ap_no }}
                                             </td>
                                             <td class="py-2 px-2 text-center border-b border-r border-gray-300">
-                                                {{ $entry->gross_amount }}
+                                                ₱{{number_format($entry->gross_amount ,2) }}
                                             </td>
                                             <td class="py-2 px-2 text-center border-b border-r border-gray-300">
-                                                {{ $entry->tax }}
+                                                ₱{{ number_format($entry->tax,2) }}
                                             </td>
                                             <td class="py-2 px-2 text-center border-b border-r border-gray-300">
-                                                {{ $entry->other_deduction }}
+                                                ₱{{ number_format($entry->other_deduction,2) }}
                                             </td>
                                             <td class="py-2 px-2 text-center border-b border-r border-gray-300">
-                                                {{ $entry->net_amount }}
+                                                 ₱{{ number_format($entry->net_amount ,2) }}
                                             </td>
                                             <td class="py-2 px-2 text-center border-b border-r border-gray-300">
-                                                {{ $entry->final_gross_amount }}
+                                                ₱{{ number_format($entry->final_gross_amount ,2) }}
                                             </td>
                                             <td class="py-2 px-2 text-center border-b border-r border-gray-300">
-                                                {{ $entry->final_net_amount }}
+                                                ₱{{ number_format($entry->final_net_amount ,2 )}}
                                             </td>
                                             <td class="py-2 px-2 text-center border-b border-r border-gray-300">
-                                                {{ $entry->program_unit }}
+                                                {{ $entry->program }}
                                             </td>
                                             <td class="py-2 px-2 text-center border-b border-r border-gray-300">
                                                 {{ $entry->date_returned_to_end_user }}
@@ -335,21 +335,13 @@
                                                 {{ $entry->status }}
                                             </td>
                                             <td class="py-2 px-2 text-center border-b border-r border-gray-300">
-                                                <button wire:click="sendToCash({{ $entry->id }})"
-                                                    class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
-                                                    <!-- SVG Icon -->
-                                                    <svg class="h-5 w-5 text-white mr-2" viewBox="0 0 24 24" fill="none"
-                                                        stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                                        stroke-linejoin="round">
-                                                        <line x1="22" y1="2" x2="11" y2="13" />
-                                                        <polygon points="22 2 15 22 11 13 2 9 22 2" />
-                                                    </svg>
-                                                    <!-- Button Text -->
-                                                    Send to Cash
-                                                </button>
 
-                                                <button @click="$wire.editEntry({{ $entry->id }}); modelOpen = true;"
-                                                    class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                            <button 
+                                                @click="$wire.editEntry({{ $entry->id }}); modelOpen = true;" 
+                                                :disabled="{{ $entry->status === 'Sent to Cash' ? 'true' : 'false' }}" 
+                                                class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" 
+                                                :class="{ 'bg-gray-400': {{ $entry->status === 'Sent to Cash' ? 'true' : 'false' }}, 'hover:bg-gray-400': {{ $entry->status === 'Sent to Cash' ? 'true' : 'false' }}" }"
+>
                                                     <!-- SVG Icon -->
                                                     <svg class="h-5 w-5 text-white mr-2" viewBox="0 0 24 24"
                                                         stroke-width="2" stroke="currentColor" fill="none"
@@ -363,12 +355,12 @@
                                                     <!-- Button Text -->
                                                     Edit
                                                 </button>
-                                            </td>
+                                            </td> 
                                         </tr>
                                     @empty
                                         <tr>
                                             <td class="py-2 px-2 text-center border-b border-r border-gray-300"
-                                                colspan="20">No entries found</td>
+                                                colspan="20">No Records found</td>
                                         </tr>
                                     @endforelse
                                 </tbody>

@@ -5,6 +5,7 @@ namespace App\Livewire\DataTable;
 use App\Models\Accounting;
 use Livewire\Attributes\Layout;
 use App\Models\Cash;
+use App\Models\Budget;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -19,7 +20,7 @@ class AccountingDataTable extends Component
     // Form inputs
     public  $date_received, $dv_no, $dv_no2, $ap_no, $gross_amount, $tax, 
     $other_deduction, $net_amount, $final_gross_amount, $final_net_amount, 
-    $program_unit, $date_returned_to_end_user, $date_complied_to_end_user, 
+    $program, $date_returned_to_end_user, $date_complied_to_end_user, 
     $no_of_days, $outgoing_processor, $outgoing_certifier, $remarks,
      $outgoing_date, $status;
 
@@ -37,7 +38,7 @@ class AccountingDataTable extends Component
         'net_amount' => 'required|numeric',
         'final_gross_amount' => 'nullable|numeric',
         'final_net_amount' => 'nullable|numeric',
-        'program_unit' => 'nullable|string',
+        'program' => 'nullable|string',
         'date_returned_to_end_user' => 'nullable|date',
         'date_complied_to_end_user' => 'nullable|date',
         'no_of_days' => 'nullable|integer',
@@ -67,7 +68,7 @@ class AccountingDataTable extends Component
                 'net_amount' => $this->net_amount,
                 'final_gross_amount' => $this->final_gross_amount,
                 'final_net_amount' => $this->final_net_amount,
-                'program_unit' => $this->program_unit,
+                'program' => $this->program,
                 'date_returned_to_end_user' => $this->date_returned_to_end_user,
                 'date_complied_to_end_user' => $this->date_complied_to_end_user,
                 'no_of_days' => $this->no_of_days,
@@ -79,9 +80,18 @@ class AccountingDataTable extends Component
             ]);
 
             session()->flash('message', 'Entry updated successfully.');
+            
+            // Check if status is "FORWARD TO CASH" and send the data
+            if ($this->status === 'Forward to Cash') {
+                $this->sendToCash($entry->id);
+            }
+            elseif($this->status === 'Return to Budget') {
+                $this->sendBackToBudget($entry->id);
+            }
+            
         } else {
             // Create a new entry
-            Accounting::create([
+            $entry = Accounting::create([
                 'date_received' => $this->date_received,
                 'dv_no' => $this->dv_no,
                 'dv_no2' => $this->dv_no2,
@@ -92,7 +102,7 @@ class AccountingDataTable extends Component
                 'net_amount' => $this->net_amount,
                 'final_gross_amount' => $this->final_gross_amount,
                 'final_net_amount' => $this->final_net_amount,
-                'program_unit' => $this->program_unit,
+                'program' => $this->program,
                 'date_returned_to_end_user' => $this->date_returned_to_end_user,
                 'date_complied_to_end_user' => $this->date_complied_to_end_user,
                 'no_of_days' => $this->no_of_days,
@@ -104,6 +114,14 @@ class AccountingDataTable extends Component
             ]);
 
             session()->flash('message', 'Entry created successfully.');
+
+            // Check if status is "FORWARD TO Cash" and send the data
+            if ($this->status === 'Forward to Cash') {
+                $this->sendToCash($entry->id);
+            }
+            elseif($this->status === 'Return to Budget') {
+                $this->sendBackToBudget($entry->id);
+            }
         }
 
         $this->resetInputFields();
@@ -126,7 +144,7 @@ class AccountingDataTable extends Component
         $this->net_amount = '';
         $this->final_gross_amount = '';
         $this->final_net_amount = '';
-        $this->program_unit = '';
+        $this->program = '';
         $this->date_returned_to_end_user = '';
         $this->date_complied_to_end_user = '';
         $this->no_of_days = '';
@@ -151,7 +169,7 @@ class AccountingDataTable extends Component
         $this->net_amount = $entry->net_amount;
         $this->final_gross_amount = $entry->final_gross_amount;
         $this->final_net_amount = $entry->final_net_amount;
-        $this->program_unit = $entry->program_unit;
+        $this->program= $entry->program;
         $this->date_returned_to_end_user = $entry->date_returned_to_end_user;
         $this->date_complied_to_end_user = $entry->date_complied_to_end_user;
         $this->no_of_days = $entry->no_of_days;
@@ -199,11 +217,35 @@ class AccountingDataTable extends Component
     // Flash a success message
     session()->flash('message', 'DV sent to Cash successfully.');
 }
-    
+public function sendBackToBudget($id)
+{
+    // Find the Accounting record by its ID
+    $accountingRecord = Accounting::findOrFail($id);
+    // Find the related Budget record using the DV number
+    $budgetRecord = Budget::where('dv_no', $accountingRecord->dv_no)->first();
+    if (!$budgetRecord) {
+        session()->flash('error', 'No corresponding Budget record found.');
+        return;
+    }
+    // Update the status of the Accounting record to indicate it has been sent back to Budget
+    $accountingRecord->update([
+        'status' => 'Sent Back to Budget',
+        'outgoing_date' => now(),
+    ]);
+    // Optionally update the status of the Budget record
+    $budgetRecord->update([
+        'status' => 'Returned from Accounting',
+    ]);
+    $accountingRecord->delete();
+    // Flash a message to indicate success
+    session()->flash('message', 'Entry sent back to Budget successfully.');
+}
+
+
     public function render()
     {
         $accountingRecords = Accounting::where('dv_no', 'like', '%' . $this->search . '%')
-            ->orWhere('program_unit', 'like', '%' . $this->search . '%')
+            ->orWhere('program', 'like', '%' . $this->search . '%')
             ->paginate($this->perPage);
     
         return view('livewire.data-table.accounting-data-table', [
