@@ -255,11 +255,44 @@
                         <tr>
                            <th class="py-2 px-4 text-center font-bold min-w-[50px]">ID No.</th>
                            <th class="py-2 px-4 text-center font-bold min-w-[150px]">DRN No.</th>
-                           <th class="py-2 px-4 text-center font-bold min-w-[150px]">DV No.</th>
-                           <th class="py-2 px-4 text-center font-bold min-w-[150px]">Incoming Date</th>
+                           <th wire:click="sortBy('dv_no')" class="py-2 px-4 text-center font-bold min-w-[150px] cursor-pointer">
+                              DV Number
+                                 @if ($sortField == 'dv_no')
+                                    <span>
+                                       @if ($sortDirection == 'asc')
+                                             ▲
+                                       @else
+                                             ▼
+                                       @endif
+                                    </span>
+                                 @endif
+                           </th>
+                           <th wire:click="sortBy('incomingDate')" class="py-2 px-4 text-center font-bold min-w-[150px] cursor-pointer">
+                                 Incoming Date
+                                 @if ($sortField == 'incomingDate')
+                                    <span>
+                                       @if ($sortDirection == 'asc')
+                                             ▲
+                                       @else
+                                             ▼
+                                       @endif
+                                    </span>
+                                 @endif
+                           </th>
                            <th class="py-2 px-4 text-center font-bold min-w-[150px]">Payee</th>
                            <th class="py-2 px-4 text-center font-bold min-w-[150px]">Particulars</th>
-                           <th class="py-2 px-4 text-center font-bold min-w-[150px]">Program/Unit</th>
+                           <th wire:click="sortBy('program')" class="py-2 px-4 text-center font-bold min-w-[150px] cursor-pointer">
+                                 Program/Unit
+                                 @if ($sortField == 'program')
+                                    <span>
+                                       @if ($sortDirection == 'asc')
+                                             ▲
+                                       @else
+                                             ▼
+                                       @endif
+                                    </span>
+                                 @endif
+                           </th>
                            <th class="py-2 px-4 text-center font-bold min-w-[150px]">Budget Controller Assigned</th>
                            <th class="py-2 px-4 text-right font-bold min-w-[150px]">Gross Amount</th>
                            <th class="py-2 px-4 text-right font-bold min-w-[150px]">Final Amount</th>
@@ -313,11 +346,12 @@
                         </td>
                         <td class="py-2 px-2 border-b border-r border-gray-300 text-center">
                           
-                          <button 
-                              @click="$wire.edit({{ $entry->id }}); modelOpen = true;"
-                              :disabled="{{ $entry->status === 'Sent to Accounting' ? 'true' : 'false' }}" 
+                              <button 
+                              @click="$wire.edit({{ $entry->id }}); modelOpen = true;" 
+                              :disabled="{{ $entry->status === 'Sent to Cash' ? 'true' : 'false' }}" 
                               class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" 
-                              :class="{ 'bg-gray-400': {{ $entry->status === 'Sent to Accounting' ? 'true' : 'false' }}, 'hover:bg-gray-400': {{ $entry->status === 'Sent to Accounting' ? 'true' : 'false' }}">
+                              :class="{ 'bg-gray-400': {{ $entry->status === 'Sent to Accounting' ? 'true' : 'false' }}, 'hover:bg-gray-400': {{ $entry->status === 'Sent to Accounting' ? 'true' : 'false' }} }">
+                              
                               <!-- SVG Icon -->
                               <svg class="h-5 w-5 text-white mr-2" viewBox="0 0 24 24"
                                     stroke-width="2" stroke="currentColor" fill="none"

@@ -26,6 +26,8 @@ class AccountingDataTable extends Component
 
     public $isEditing = false;
     public $entryId;
+    public $sortField = 'dv_no'; // Default sort field
+    public $sortDirection = 'asc'; // Default sort direction
 
     protected $rules = [
         'date_received' => 'required|date',
@@ -48,6 +50,7 @@ class AccountingDataTable extends Component
         'outgoing_date' => 'nullable|date',
         'status' => 'nullable|string',
     ];
+
 
      function saveEntry()
     {
@@ -236,16 +239,31 @@ public function sendBackToBudget($id)
     $budgetRecord->update([
         'status' => 'Returned from Accounting',
     ]);
+    $this->dispatch('dataSentBackToBudget');
     $accountingRecord->delete();
     // Flash a message to indicate success
     session()->flash('message', 'Entry sent back to Budget successfully.');
 }
+
+    
+
+    public function sortBy($field)
+    {
+        if ($this->sortField === $field) {
+            $this->sortDirection = $this->sortDirection === 'asc' ? 'desc' : 'asc';
+        } else {
+            $this->sortDirection = 'asc'; // Reset to asc when switching fields
+        }
+
+        $this->sortField = $field;
+    }
 
 
     public function render()
     {
         $accountingRecords = Accounting::where('dv_no', 'like', '%' . $this->search . '%')
             ->orWhere('program', 'like', '%' . $this->search . '%')
+            ->orderBy($this->sortField, $this->sortDirection) // Apply sorting
             ->paginate($this->perPage);
     
         return view('livewire.data-table.accounting-data-table', [

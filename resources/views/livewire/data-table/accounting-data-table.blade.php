@@ -238,7 +238,17 @@
                                     <tr>
                                         <th class="py-2 px-4 text-center font-bold min-w-[150px]">Date
                                             Received</th>
-                                        <th class="py-2 px-4 text-center font-bold min-w-[150px]">DV Number
+                                            <th wire:click="sortBy('dv_no')" class="py-2 px-4 text-center font-bold min-w-[150px] cursor-pointer">
+                                                DV Number
+                                                @if ($sortField == 'dv_no')
+                                                    <span>
+                                                    @if ($sortDirection == 'asc')
+                                                            ▲
+                                                    @else
+                                                            ▼
+                                                    @endif
+                                                    </span>
+                                                @endif
                                         </th>
                                         <th class="py-2 px-4 text-center font-bold min-w-[150px]">DV Number 2
                                         </th>
@@ -337,11 +347,11 @@
                                             <td class="py-2 px-2 text-center border-b border-r border-gray-300">
 
                                             <button 
-                                                @click="$wire.editEntry({{ $entry->id }}); modelOpen = true;" 
+                                            @click="$wire.editEntry({{ $entry->id }}); modelOpen = true;" 
                                                 :disabled="{{ $entry->status === 'Sent to Cash' ? 'true' : 'false' }}" 
                                                 class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" 
-                                                :class="{ 'bg-gray-400': {{ $entry->status === 'Sent to Cash' ? 'true' : 'false' }}, 'hover:bg-gray-400': {{ $entry->status === 'Sent to Cash' ? 'true' : 'false' }}" }"
->
+                                                :class="{ 'bg-gray-400': {{ $entry->status === 'Sent to Cash' ? 'true' : 'false' }}, 'hover:bg-gray-400': {{ $entry->status === 'Sent to Cash' ? 'true' : 'false' }} }">
+                                            
                                                     <!-- SVG Icon -->
                                                     <svg class="h-5 w-5 text-white mr-2" viewBox="0 0 24 24"
                                                         stroke-width="2" stroke="currentColor" fill="none"

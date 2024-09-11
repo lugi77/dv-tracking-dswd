@@ -26,6 +26,10 @@ class BudgetDataTable extends Component
     public $isEditing = false;
     public $editId;
 
+     // Sorting
+    public $sortField = 'dv_no'; // Default sort field
+    public $sortDirection = 'asc'; // Default sort direction
+
     protected $rules = [
         'dv_no' => 'required|string|max:10',
         'drn_no' => 'required|string|max:100',
@@ -43,6 +47,18 @@ class BudgetDataTable extends Component
         'outgoingDate' => 'required|date',
         'status' => 'required|string|max:50',
     ];
+    protected $listeners = ['dataSentBackToBudget' => '$refresh'];
+
+    public function refreshTable()
+    {
+        // Optionally flash a message for visual feedback
+        session()->flash('message', 'New data has been received from Accounting.');
+
+        // Refresh the table by fetching the latest data
+        $this->budgetRecords = Budget::all(); // Adjust this to your data fetching logic
+    }
+
+     // Toggle sorting direction
 
     public function saveEntry()
     {
@@ -196,11 +212,25 @@ class BudgetDataTable extends Component
         $this->dispatch('open-edit-modal');
     }
 
+    public function sortBy($field)
+    {
+        if ($this->sortField === $field) {
+            $this->sortDirection = $this->sortDirection === 'asc' ? 'desc' : 'asc';
+        } else {
+            $this->sortDirection = 'asc'; // Reset to asc when switching fields
+        }
+
+        $this->sortField = $field;
+    }
+
+
     public function render()
     {
         $budgetRecords = Budget::where('dv_no', 'like', '%' . $this->search . '%')
             ->orWhere('payee', 'like', '%' . $this->search . '%')
-            ->orWhere('drn_no', 'like', '%' . $this->search . '%')
+            ->orWhere('dv_no', 'like', '%' . $this->search . '%')
+            ->orWhere('program', 'like', '%' . $this->search . '%')
+            ->orderBy($this->sortField, $this->sortDirection) // Apply sorting
             ->paginate($this->perPage);
 
         return view('livewire.data-table.budget-data-table', [
