@@ -8,6 +8,8 @@ use App\Models\Cash;
 use App\Models\Budget;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Livewire\Attributes\On;
+
 
 #[Layout('layouts.app')]
 class AccountingDataTable extends Component
@@ -18,28 +20,24 @@ class AccountingDataTable extends Component
     public  $perPage = 10;
 
     // Form inputs
-    public  $date_received, $dv_no, $dv_no2, $ap_no, $gross_amount, $tax, 
-    $other_deduction, $net_amount, $final_gross_amount, $final_net_amount, 
-    $program, $date_returned_to_end_user, $date_complied_to_end_user, 
+    public  $transaction_no, $date_received, $dv_no, $ap_no, $gross_amount, $tax, 
+    $other_deduction, $net_amount, $program, $date_returned_to_end_user, $date_complied_to_end_user, 
     $no_of_days, $outgoing_processor, $outgoing_certifier, $remarks,
-     $outgoing_date, $status;
+    $outgoing_date, $status;
 
     public $isEditing = false;
     public $entryId;
     public $sortField = 'dv_no'; // Default sort field
-    public $sortDirection = 'asc'; // Default sort direction
+    public $sortDirection = 'desc'; // Default sort direction
 
     protected $rules = [
         'date_received' => 'required|date',
-        'dv_no' => 'required|string',
-        'dv_no2' => 'nullable|string',
+        'dv_no' => 'nullable|string',
         'ap_no' => 'nullable|string',
         'gross_amount' => 'required|numeric',
         'tax' => 'nullable|numeric',
         'other_deduction' => 'nullable|numeric',
         'net_amount' => 'required|numeric',
-        'final_gross_amount' => 'nullable|numeric',
-        'final_net_amount' => 'nullable|numeric',
         'program' => 'nullable|string',
         'date_returned_to_end_user' => 'nullable|date',
         'date_complied_to_end_user' => 'nullable|date',
@@ -63,14 +61,11 @@ class AccountingDataTable extends Component
             $entry->update([
                 'date_received' => $this->date_received,
                 'dv_no' => $this->dv_no,
-                'dv_no2' => $this->dv_no2,
                 'ap_no' => $this->ap_no,
                 'gross_amount' => $this->gross_amount,
                 'tax' => $this->tax,
                 'other_deduction' => $this->other_deduction,
                 'net_amount' => $this->net_amount,
-                'final_gross_amount' => $this->final_gross_amount,
-                'final_net_amount' => $this->final_net_amount,
                 'program' => $this->program,
                 'date_returned_to_end_user' => $this->date_returned_to_end_user,
                 'date_complied_to_end_user' => $this->date_complied_to_end_user,
@@ -87,9 +82,11 @@ class AccountingDataTable extends Component
             // Check if status is "FORWARD TO CASH" and send the data
             if ($this->status === 'Forward to Cash') {
                 $this->sendToCash($entry->id);
+                
             }
             elseif($this->status === 'Return to Budget') {
                 $this->sendBackToBudget($entry->id);
+                
             }
             
         } else {
@@ -97,14 +94,11 @@ class AccountingDataTable extends Component
             $entry = Accounting::create([
                 'date_received' => $this->date_received,
                 'dv_no' => $this->dv_no,
-                'dv_no2' => $this->dv_no2,
                 'ap_no' => $this->ap_no,
                 'gross_amount' => $this->gross_amount,
                 'tax' => $this->tax,
                 'other_deduction' => $this->other_deduction,
                 'net_amount' => $this->net_amount,
-                'final_gross_amount' => $this->final_gross_amount,
-                'final_net_amount' => $this->final_net_amount,
                 'program' => $this->program,
                 'date_returned_to_end_user' => $this->date_returned_to_end_user,
                 'date_complied_to_end_user' => $this->date_complied_to_end_user,
@@ -121,10 +115,13 @@ class AccountingDataTable extends Component
             // Check if status is "FORWARD TO Cash" and send the data
             if ($this->status === 'Forward to Cash') {
                 $this->sendToCash($entry->id);
+                
             }
             elseif($this->status === 'Return to Budget') {
-                $this->sendBackToBudget($entry->id);
+                $this->sendBackToBudget($entry->transaction_no);
+                
             }
+
         }
 
         $this->resetInputFields();
@@ -132,6 +129,7 @@ class AccountingDataTable extends Component
         $this->entryId = null;
 
         // Emit event to close the modal
+        
         $this->dispatch('entry-saved');
     }
 
@@ -139,14 +137,11 @@ class AccountingDataTable extends Component
     {
         $this->date_received = '';
         $this->dv_no = '';
-        $this->dv_no = '';
         $this->ap_no = '';
         $this->gross_amount = '';
         $this->tax = '';
         $this->other_deduction = '';
         $this->net_amount = '';
-        $this->final_gross_amount = '';
-        $this->final_net_amount = '';
         $this->program = '';
         $this->date_returned_to_end_user = '';
         $this->date_complied_to_end_user = '';
@@ -164,14 +159,11 @@ class AccountingDataTable extends Component
 
         $this->date_received = $entry->date_received;
         $this->dv_no = $entry->dv_no;
-        $this->dv_no2 = $entry->dv_no2;
         $this->ap_no = $entry->ap_no;
         $this->gross_amount = $entry->gross_amount;
         $this->tax = $entry->tax;
         $this->other_deduction = $entry->other_deduction;
         $this->net_amount = $entry->net_amount;
-        $this->final_gross_amount = $entry->final_gross_amount;
-        $this->final_net_amount = $entry->final_net_amount;
         $this->program= $entry->program;
         $this->date_returned_to_end_user = $entry->date_returned_to_end_user;
         $this->date_complied_to_end_user = $entry->date_complied_to_end_user;
@@ -192,7 +184,7 @@ class AccountingDataTable extends Component
     $accountingRecord = Accounting::findOrFail($id);
 
     // Check if the DV number already exists in the Cash table
-    $existingCashRecord = Cash::where('dv_no', $accountingRecord->dv_no)->first();
+    $existingCashRecord = Cash::where('transaction_no', $accountingRecord->transaction_no)->first();
 
     if ($existingCashRecord) {
         // Flash a message indicating that this DV number has already been sent to Cash
@@ -202,6 +194,7 @@ class AccountingDataTable extends Component
 
     // Create a new Cash record with data from the Accounting record
     Cash::create([
+        'transaction_no'=> $accountingRecord->transaction_no,
         'date_received' => now(), // Current date when sent to cash
         'dv_no' => $accountingRecord->dv_no,
         'gross_amount' => $accountingRecord->gross_amount,
@@ -220,12 +213,12 @@ class AccountingDataTable extends Component
     // Flash a success message
     session()->flash('message', 'DV sent to Cash successfully.');
 }
-public function sendBackToBudget($id)
-{
+    public function sendBackToBudget($id)
+    {
     // Find the Accounting record by its ID
     $accountingRecord = Accounting::findOrFail($id);
     // Find the related Budget record using the DV number
-    $budgetRecord = Budget::where('dv_no', $accountingRecord->dv_no)->first();
+    $budgetRecord = Budget::where('transaction_no', $accountingRecord->transaction_no)->first();
     if (!$budgetRecord) {
         session()->flash('error', 'No corresponding Budget record found.');
         return;
@@ -239,14 +232,13 @@ public function sendBackToBudget($id)
     $budgetRecord->update([
         'status' => 'Returned from Accounting',
     ]);
-    $this->dispatch('dataSentBackToBudget');
+
     $accountingRecord->delete();
-    // Flash a message to indicate success
+    // Flash a message to indicate successA
     session()->flash('message', 'Entry sent back to Budget successfully.');
-}
 
-    
-
+    $this->dispatch('refresh-budget');
+    }
     public function sortBy($field)
     {
         if ($this->sortField === $field) {
@@ -258,7 +250,12 @@ public function sendBackToBudget($id)
         $this->sortField = $field;
     }
 
+    #[On('refresh-accounting')]
+    public function refreshtable(){
+        dd('refreshtable');
+    }
 
+    
     public function render()
     {
         $accountingRecords = Accounting::where('dv_no', 'like', '%' . $this->search . '%')

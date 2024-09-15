@@ -10,13 +10,13 @@ class Cash extends Model
     use HasFactory;
     protected $table = 'cash';
     protected $fillable = [
+        'transaction_no',
         'date_received',
         'dv_no',
         'payment_type',
         'check_ada_no',
         'gross_amount',
         'net_amount',
-        'final_net_amount',
         'date_issued',
         'receipt_no',
         'remarks',
@@ -26,8 +26,8 @@ class Cash extends Model
         'status',
     ];
 
-    public function accounting()
+    public function budget()
     {
-        return $this->belongsTo(Accounting::class, 'dv_no', 'dv_no');
+        return $this->belongsTo(Budget::class, 'transaction_no', 'transaction_no');
     }
 }

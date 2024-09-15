@@ -66,16 +66,11 @@
                                                         class="border rounded px-4 py-2 w-full">
                                                 </div>
                                                 <div>
-                                                    <label for="net_amount" class="block text-sm font-medium text-gray-700">Net Amount</label>
+                                                    <label for="net_amount" class="block text-sm font-medium text-gray-700">Final Net Amount</label>
                                                     <input type="text" id="net_amount" wire:model.defer="net_amount" class="border rounded px-4 py-2 w-full">
                                                 </div>
                                         
                                                 <!-- Final Net Amount, Date Issued, and Receipt No. -->
-                                                <div>
-                                                    <label for="final_net_amount" class="block text-sm font-medium text-gray-700">Final Net Amount</label>
-                                                    <input type="text" id="final_net_amount" wire:model.defer="final_net_amount"
-                                                        class="border rounded px-4 py-2 w-full">
-                                                </div>
                                                 <div>
                                                     <label for="date_issued" class="block text-sm font-medium text-gray-700">Date Issued</label>
                                                     <input type="date" id="date_issued" wire:model.defer="date_issued" class="border rounded px-4 py-2 w-full">
@@ -185,11 +180,21 @@
                                 <thead class="bg-blue-500 text-white sticky top-0">
                                     <tr>
                                         <th class="py-2 px-4 text-center font-bold min-w-[150px]">Date Received</th>
-                                        <th class="py-2 px-4 text-center font-bold min-w-[150px]">DV No</th>
+                                        <th wire:click="sortBy('dv_no')" class="py-2 px-4 text-center font-bold min-w-[150px] cursor-pointer">
+                                                DV Number
+                                                @if ($sortField == 'dv_no')
+                                                    <span>
+                                                    @if ($sortDirection == 'desc')
+                                                            ▲
+                                                    @else
+                                                            ▼
+                                                    @endif
+                                                    </span>
+                                                @endif
+                                        </th>
                                         <th class="py-2 px-4 text-center font-bold min-w-[150px]">Payment Type</th>
                                         <th class="py-2 px-4 text-center font-bold min-w-[150px]">Check/ADA No</th>
                                         <th class="py-2 px-4 text-center font-bold min-w-[150px]">Gross Amount</th>
-                                        <th class="py-2 px-4 text-center font-bold min-w-[150px]">Net Amount</th>
                                         <th class="py-2 px-4 text-center font-bold min-w-[150px]">Final Net Amount</th>
                                         <th class="py-2 px-4 text-center font-bold min-w-[150px]">Date Issued</th>
                                         <th class="py-2 px-4 text-center font-bold min-w-[150px]">Receipt No</th>
@@ -210,7 +215,6 @@
                                             <td class="py-2 px-2 border-b border-r border-gray-300">{{ $record->check_ada_no }}</td>
                                             <td class="py-2 px-2 text-right border-b border-r border-gray-300">₱{{number_format($record->gross_amount)}}</td>
                                             <td class="py-2 px-2 text-right border-b border-r border-gray-300">₱{{number_format($record->net_amount)}}</td>
-                                            <td class="py-2 px-2 text-right border-b border-r border-gray-300">₱{{number_format($record->final_net_amount)}}</td>
                                             <td class="py-2 px-2 border-b border-r border-gray-300">{{ $record->date_issued }}</td>
                                             <td class="py-2 px-2 border-b border-r border-gray-300">{{ $record->receipt_no }}</td>
                                             <td class="py-2 px-2 border-b border-r border-gray-300">{{ $record->payee }}</td>

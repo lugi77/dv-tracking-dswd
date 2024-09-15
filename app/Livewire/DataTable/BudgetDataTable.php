@@ -7,6 +7,7 @@ use App\Models\Accounting;
 use Livewire\Attributes\Layout;
 use Livewire\WithPagination;
 use Livewire\Component;
+use Livewire\Attributes\On;
 
 #[Layout('layouts.app')]
 class BudgetDataTable extends Component
@@ -17,7 +18,7 @@ class BudgetDataTable extends Component
     public $perPage = '10';
 
     // Form inputs
-    public $dv_no, $drn_no, $incomingDate,
+    public $transaction_no, $drn_no, $incomingDate,
     $payee, $particulars, $etal, $program, $budget_controller, $gross_amount,
     $final_amount_norsa, $fund_cluster, $appropriation, $remarks, $orsNum,
     $outgoingDate, $status;
@@ -26,12 +27,12 @@ class BudgetDataTable extends Component
     public $isEditing = false;
     public $editId;
 
-     // Sorting
-    public $sortField = 'dv_no'; // Default sort field
-    public $sortDirection = 'asc'; // Default sort direction
+    // Sorting
+    public $sortField = 'drn_no'; // Default sort field
+    public $sortDirection = 'desc'; // Default sort direction
 
     protected $rules = [
-        'dv_no' => 'required|string|max:10',
+        'transaction_no' => 'nullable|unique:budget,transaction_no',
         'drn_no' => 'required|string|max:100',
         'incomingDate' => 'required|date',
         'payee' => 'required|string|max:150',
@@ -47,18 +48,6 @@ class BudgetDataTable extends Component
         'outgoingDate' => 'required|date',
         'status' => 'required|string|max:50',
     ];
-    protected $listeners = ['dataSentBackToBudget' => '$refresh'];
-
-    public function refreshTable()
-    {
-        // Optionally flash a message for visual feedback
-        session()->flash('message', 'New data has been received from Accounting.');
-
-        // Refresh the table by fetching the latest data
-        $this->budgetRecords = Budget::all(); // Adjust this to your data fetching logic
-    }
-
-     // Toggle sorting direction
 
     public function saveEntry()
     {
@@ -68,7 +57,6 @@ class BudgetDataTable extends Component
             // Update existing record
             $entry = Budget::findOrFail($this->editId);
             $entry->update([
-                'dv_no' => $this->dv_no,
                 'drn_no' => $this->drn_no,
                 'incomingDate' => $this->incomingDate,
                 'payee' => $this->payee,
@@ -89,12 +77,15 @@ class BudgetDataTable extends Component
 
             // Check if status is "FORWARD TO ACCOUNTING" and send the data
             if ($this->status === 'Forward to Accounting') {
-                $this->sendToAccounting($entry->id);
+                $this->sendToAccounting($entry->transaction_no);
             }
         } else {
+
+            $transaction_no = $this->generateUniqueTransactionNo();
+
             // Create new record
             $entry = Budget::create([
-                'dv_no' => $this->dv_no,
+                'transaction_no' => $transaction_no,
                 'drn_no' => $this->drn_no,
                 'incomingDate' => $this->incomingDate,
                 'payee' => $this->payee,
@@ -115,17 +106,25 @@ class BudgetDataTable extends Component
 
             // Check if status is "FORWARD TO ACCOUNTING" and send the data
             if ($this->status === 'Forward to Accounting') {
-                $this->sendToAccounting($entry->id);
+                $this->sendToAccounting($entry->transaction_no);
             }
-            
+
         }
         $this->resetInputFields();
         $this->dispatch('entry-saved');
     }
 
+    protected function generateUniqueTransactionNo()
+    {
+        do {
+            $transaction_no = mt_rand(100000, 999999); // Generate a 6-digit number
+        } while (Budget::where('transaction_no', $transaction_no)->exists());
+
+        return $transaction_no;
+    }
+
     public function resetInputFields()
     {
-        $this->dv_no = '';
         $this->drn_no = '';
         $this->incomingDate = '';
         $this->payee = '';
@@ -143,13 +142,13 @@ class BudgetDataTable extends Component
         $this->isEditing = false;
         $this->editId = null;
     }
-    
-    public function sendToAccounting($id)
+
+    public function sendToAccounting($transaction_no)
     {
         // Find the Budget record by its ID
-        $budgetRecord = Budget::findOrFail($id);
+        $budgetRecord = Budget::findOrFail($transaction_no);
 
-        $existingAccountingRecord = Accounting::where('dv_no', $budgetRecord->dv_no)->first();
+        $existingAccountingRecord = Accounting::where('transaction_no', $budgetRecord->transaction_no)->first();
 
         if ($existingAccountingRecord) {
             // Flash a message indicating that this DV number has already been sent to Cash
@@ -159,8 +158,8 @@ class BudgetDataTable extends Component
 
         // Create a new Accounting record with data from the Budget record
         Accounting::create([
+            'transaction_no' => $budgetRecord->transaction_no,
             'date_received' => now(), // Current date when sent to accounting
-            'dv_no' => $budgetRecord->dv_no,
             'program' => $budgetRecord->program,
             'gross_amount' => $budgetRecord->gross_amount,
             'net_amount' => $budgetRecord->final_amount_norsa, // Assuming final_amount_norsa as net_amount
@@ -178,18 +177,14 @@ class BudgetDataTable extends Component
         session()->flash('message', 'DV sent to Accounting successfully.');
     }
 
-    public function edit($id)
+    public function edit($transaction_no)
     {
-        $budget = Budget::findOrFail($id);
+        $budget = Budget::findOrFail($transaction_no);
 
         // Only allow editing if the status is 'Returned from Accounting'
-    if ($budget->status !== 'Returned from Accounting') {
-        session()->flash('error', 'This entry cannot be edited because it has not been returned from Accounting.');
-        return;
-    }
+
 
         // Set the properties to the values of the record being edited
-        $this->dv_no = $budget->dv_no;
         $this->drn_no = $budget->drn_no;
         $this->incomingDate = $budget->incomingDate;
         $this->payee = $budget->payee;
@@ -204,12 +199,13 @@ class BudgetDataTable extends Component
         $this->orsNum = $budget->orsNum;
         $this->outgoingDate = $budget->outgoingDate;
         $this->status = $budget->status;
-        
-        $this->editId = $id;
+
+        $this->editId = $transaction_no;
         $this->isEditing = true;
 
         // Open the modal for editing
         $this->dispatch('open-edit-modal');
+
     }
 
     public function sortBy($field)
@@ -223,12 +219,12 @@ class BudgetDataTable extends Component
         $this->sortField = $field;
     }
 
-
+    #[On('refresh-budget')]
     public function render()
     {
-        $budgetRecords = Budget::where('dv_no', 'like', '%' . $this->search . '%')
+        $budgetRecords = Budget::where('orsNum', 'like', '%' . $this->search . '%')
             ->orWhere('payee', 'like', '%' . $this->search . '%')
-            ->orWhere('dv_no', 'like', '%' . $this->search . '%')
+            ->orWhere('drn_no', 'like', '%' . $this->search . '%')
             ->orWhere('program', 'like', '%' . $this->search . '%')
             ->orderBy($this->sortField, $this->sortDirection) // Apply sorting
             ->paginate($this->perPage);

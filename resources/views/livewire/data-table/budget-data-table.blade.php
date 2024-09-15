@@ -45,11 +45,7 @@
                                     <input type="text" wire:model.defer="drn_no" class="border rounded px-4 py-2 w-full">
                                     @error('drn_no') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                                  </div>
-                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700">DV No.</label>
-                                    <input type="text" wire:model.defer="dv_no" class="border rounded px-4 py-2 w-full">
-                                    @error('dv_no') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
-                                 </div>
+                                 
                                  <div>
                                     <label class="block text-sm font-medium text-gray-700">Program</label>
                                     <input type="text" wire:model.defer="program" class="border rounded px-4 py-2 w-full">
@@ -253,25 +249,13 @@
                   <table class="min-w-full bg-white">
                      <thead class="bg-blue-500 text-white sticky top-0">
                         <tr>
-                           <th class="py-2 px-4 text-center font-bold min-w-[50px]">ID No.</th>
                            <th class="py-2 px-4 text-center font-bold min-w-[150px]">DRN No.</th>
-                           <th wire:click="sortBy('dv_no')" class="py-2 px-4 text-center font-bold min-w-[150px] cursor-pointer">
-                              DV Number
-                                 @if ($sortField == 'dv_no')
-                                    <span>
-                                       @if ($sortDirection == 'asc')
-                                             ▲
-                                       @else
-                                             ▼
-                                       @endif
-                                    </span>
-                                 @endif
-                           </th>
+                           
                            <th wire:click="sortBy('incomingDate')" class="py-2 px-4 text-center font-bold min-w-[150px] cursor-pointer">
                                  Incoming Date
                                  @if ($sortField == 'incomingDate')
                                     <span>
-                                       @if ($sortDirection == 'asc')
+                                       @if ($sortDirection == 'desc')
                                              ▲
                                        @else
                                              ▼
@@ -285,7 +269,7 @@
                                  Program/Unit
                                  @if ($sortField == 'program')
                                     <span>
-                                       @if ($sortDirection == 'asc')
+                                       @if ($sortDirection == 'desc')
                                              ▲
                                        @else
                                              ▼
@@ -309,10 +293,7 @@
                      <tbody>
                         @forelse($budgetRecords as $entry)
                      <tr class="hover:bg-gray-100 cursor-pointer">
-                        <td class="py-2 px-2 border-b border-r border-l border-gray-300 text-center">{{ $entry->id }}
-                        </td>
-                        <td class="py-2 px-2 border-b border-r border-gray-300 text-center">{{ $entry->drn_no }}</td>
-                        <td class="py-2 px-2 border-b border-r border-gray-300 text-center">{{ $entry->dv_no }}</td>
+                        <td class="py-2 px-2 border-b border-r border-l border-gray-300 text-center">{{ $entry->drn_no }}</td>
                         <td class="py-2 px-2 border-b border-r border-gray-300 text-center">{{ $entry->incomingDate}}
                         </td>
                         <td class="py-2 px-2 border-b border-r border-gray-300 text-center">{{ $entry->payee }}</td>
@@ -347,8 +328,8 @@
                         <td class="py-2 px-2 border-b border-r border-gray-300 text-center">
                           
                               <button 
-                              @click="$wire.edit({{ $entry->id }}); modelOpen = true;" 
-                              :disabled="{{ $entry->status === 'Sent to Cash' ? 'true' : 'false' }}" 
+                              @click="$wire.edit({{ $entry->transaction_no }}); modelOpen = true;" 
+                              :disabled="{{ $entry->status === 'Sent to Accounting' ? 'true' : 'false' }}" 
                               class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" 
                               :class="{ 'bg-gray-400': {{ $entry->status === 'Sent to Accounting' ? 'true' : 'false' }}, 'hover:bg-gray-400': {{ $entry->status === 'Sent to Accounting' ? 'true' : 'false' }} }">
                               

@@ -13,16 +13,15 @@ return new class extends Migration
     {
         Schema::create('accounting', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('transaction_no');
+            $table->foreign('transaction_no')->references('transaction_no')->on('budget')->onDelete('cascade');
             $table->date('date_received')->nullable();
             $table->string('dv_no')->nullable();
-            $table->string('dv_no2')->nullable();
             $table->string('ap_no')->nullable();
             $table->decimal('gross_amount', 15, 2)->nullable();
             $table->decimal('tax', 15, 2)->nullable();
             $table->decimal('other_deduction', 15, 2)->nullable();
             $table->decimal('net_amount', 15, 2)->nullable();
-            $table->decimal('final_gross_amount', 15, 2)->nullable();
-            $table->decimal('final_net_amount', 15, 2)->nullable();
             $table->string('program')->nullable();
             $table->date('date_returned_to_end_user')->nullable();
             $table->date('date_complied_to_end_user')->nullable();
