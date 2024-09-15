@@ -142,11 +142,10 @@
                                                     <option value="For Approval">For Approval</option>
                                                 </select>
                                             </div>
-                                            <div class="px-2">
-                                                <label class="block text-sm font-medium text-gray-700">Remarks</label>
-                                                <input type="text" wire:model.defer="remarks"
-                                                    class="border rounded px-2 py-1 w-full">
-                                            </div>
+                                            <div class="md:col-span-3">
+                                                    <label for="remarks" class="block text-sm font-medium text-gray-700">Remarks</label>
+                                                    <input type="text" id="remarks" wire:model.defer="remarks" class="border rounded px-4 py-2 w-full">
+                                                </div>
                                         </div>
 
                                 </div>
@@ -294,9 +293,20 @@
                                             <td class="py-2 px-2 text-center border-b border-r border-gray-300">
                                                 {{ $entry->outgoing_certifier }}
                                             </td>
-                                            <td class="py-2 px-2 text-center border-b border-r border-gray-300">
-                                                {{ $entry->remarks }}
-                                            </td>
+                                            <td class="py-2 px-2 text-center border-b border-r border-gray-300 max-w-[50px] cursor-pointer"
+    x-data="{ expanded: false }" @click="expanded = !expanded">
+    
+    <!-- Truncated Text (only shown when not expanded) -->
+    <span x-show="!expanded" class="whitespace-nowrap overflow-hidden text-ellipsis">
+        {{ Str::limit($entry->remarks, 16) }} <!-- Adjust the character limit if needed -->
+    </span>
+
+    <!-- Full Text (shown when expanded) -->
+    <span x-show="expanded">
+        {{ $entry->remarks }}
+    </span>
+</td>
+
                                             <td class="py-2 px-2 text-center border-b border-r border-gray-300">
                                                 {{ $entry->outgoing_date }}
                                             </td>
