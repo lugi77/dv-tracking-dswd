@@ -31,14 +31,6 @@
                                 <div class="p-2">
                                     <div class="text-lg font-bold mb-2 text-center">Edit Entry</div>
 
-                                    <div>
-                                        @if (session()->has('message'))
-                                            <div class="alert alert-success">
-                                                {{ session('message') }}
-                                            </div>
-                                        @endif
-                                    </div>
-
                                     <form wire:submit.prevent="saveEntry">
                                         @csrf <!-- CSRF token for form protection -->
                                         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
@@ -54,18 +46,12 @@
                                                     class="border rounded px-2 py-1 w-full">
                                             </div>
                                             <div class="px-2">
-                                                <label class="block text-sm font-medium text-gray-700">DV Number
-                                                    2</label>
-                                                <input type="text" wire:model.defer="dv_no2"
-                                                    class="border rounded px-2 py-1 w-full">
-                                            </div>
-                                            <div class="px-2">
                                                 <label class="block text-sm font-medium text-gray-700">AP Number</label>
                                                 <input type="text" wire:model.defer="ap_no"
                                                     class="border rounded px-2 py-1 w-full">
                                             </div>
                                             <div class="px-2">
-                                                <label class="block text-sm font-medium text-gray-700">Gross
+                                                <label class="block text-sm font-medium text-gray-700">Final Gross
                                                     Amount</label>
                                                 <input type="number" wire:model.defer="gross_amount"
                                                     class="border rounded px-2 py-1 w-full">
@@ -82,27 +68,9 @@
                                                     class="border rounded px-2 py-1 w-full">
                                             </div>
                                             <div class="px-2">
-                                                <label class="block text-sm font-medium text-gray-700">Net
-                                                    Amount</label>
-                                                <input type="number" wire:model.defer="net_amount"
-                                                    class="border rounded px-2 py-1 w-full">
-                                            </div>
-                                            <div class="px-2">
-                                                <label class="block text-sm font-medium text-gray-700">Final Gross
-                                                    Amount</label>
-                                                <input type="number" wire:model.defer="final_gross_amount"
-                                                    class="border rounded px-2 py-1 w-full">
-                                            </div>
-                                            <div class="px-2">
-                                                <label class="block text-sm font-medium text-gray-700">Final Net
-                                                    Amount</label>
-                                                <input type="number" wire:model.defer="final_net_amount"
-                                                    class="border rounded px-2 py-1 w-full">
-                                            </div>
-                                            <div class="px-2">
                                                 <label class="block text-sm font-medium text-gray-700">Program
                                                     Unit</label>
-                                                <input type="text" wire:model.defer="program_unit"
+                                                <input type="text" wire:model.defer="program"
                                                     class="border rounded px-2 py-1 w-full">
                                             </div>
                                             <div class="px-2">
@@ -115,12 +83,6 @@
                                                 <label class="block text-sm font-medium text-gray-700">Date Complied to
                                                     End User</label>
                                                 <input type="date" wire:model.defer="date_complied_to_end_user"
-                                                    class="border rounded px-2 py-1 w-full">
-                                            </div>
-                                            <div class="px-2">
-                                                <label class="block text-sm font-medium text-gray-700">No. of
-                                                    Days</label>
-                                                <input type="number" wire:model.defer="no_of_days"
                                                     class="border rounded px-2 py-1 w-full">
                                             </div>
                                             <div class="px-2">
@@ -168,11 +130,10 @@
                                                     <option value="For Approval">For Approval</option>
                                                 </select>
                                             </div>
-                                            <div class="px-2">
-                                                <label class="block text-sm font-medium text-gray-700">Remarks</label>
-                                                <input type="text" wire:model.defer="remarks"
-                                                    class="border rounded px-2 py-1 w-full">
-                                            </div>
+                                            <div class="md:col-span-3">
+                                                    <label for="remarks" class="block text-sm font-medium text-gray-700">Remarks</label>
+                                                    <input type="text" id="remarks" wire:model.defer="remarks" class="border rounded px-4 py-2 w-full">
+                                                </div>
                                         </div>
 
                                 </div>
@@ -238,24 +199,28 @@
                                     <tr>
                                         <th class="py-2 px-4 text-center font-bold min-w-[150px]">Date
                                             Received</th>
-                                        <th class="py-2 px-4 text-center font-bold min-w-[150px]">DV Number
-                                        </th>
-                                        <th class="py-2 px-4 text-center font-bold min-w-[150px]">DV Number 2
+                                        <th wire:click="sortBy('dv_no')" class="py-2 px-4 text-center font-bold min-w-[150px] cursor-pointer">
+                                                DV Number
+                                                @if ($sortField == 'dv_no')
+                                                    <span>
+                                                    @if ($sortDirection == 'desc')
+                                                            ▲
+                                                    @else
+                                                            ▼
+                                                    @endif
+                                                    </span>
+                                                @endif
                                         </th>
                                         <th class="py-2 px-4 text-center font-bold min-w-[150px]">AP Number
                                         </th>
-                                        <th class="py-2 px-4 text-center font-bold min-w-[150px]">Gross Amount
+                                        <th class="py-2 px-4 text-center font-bold min-w-[150px]">Final Gross Amount
                                         </th>
                                         <th class="py-2 px-4 text-center font-bold min-w-[150px]">Tax</th>
                                         <th class="py-2 px-4 text-center font-bold min-w-[150px]">Other
                                             Deductions</th>
-                                        <th class="py-2 px-4 text-center font-bold min-w-[150px]">Net Amount
+                                        <th class="py-2 px-4 text-center font-bold min-w-[150px]">Final Net Amount
                                         </th>
-                                        <th class="py-2 px-4 text-center font-bold min-w-[150px]">Final Gross
-                                            Amount</th>
-                                        <th class="py-2 px-4 text-center font-bold min-w-[150px]">Final Net
-                                            Amount</th>
-                                        <th class="py-2 px-4 text-center font-bold min-w-[150px]">Program Unit
+                                        <th class="py-2 px-4 text-center font-bold min-w-[150px]">Program
                                         </th>
                                         <th class="py-2 px-4 text-center font-bold min-w-[150px]">Date
                                             Returned</th>
@@ -284,31 +249,22 @@
                                                 {{ $entry->dv_no }}
                                             </td>
                                             <td class="py-2 px-2 text-center border-b border-r border-gray-300">
-                                                {{ $entry->dv_no2 }}
-                                            </td>
-                                            <td class="py-2 px-2 text-center border-b border-r border-gray-300">
                                                 {{ $entry->ap_no }}
                                             </td>
                                             <td class="py-2 px-2 text-center border-b border-r border-gray-300">
-                                                {{ $entry->gross_amount }}
+                                                ₱{{number_format($entry->gross_amount ,2) }}
                                             </td>
                                             <td class="py-2 px-2 text-center border-b border-r border-gray-300">
-                                                {{ $entry->tax }}
+                                                ₱{{ number_format($entry->tax,2) }}
                                             </td>
                                             <td class="py-2 px-2 text-center border-b border-r border-gray-300">
-                                                {{ $entry->other_deduction }}
+                                                ₱{{ number_format($entry->other_deduction,2) }}
                                             </td>
                                             <td class="py-2 px-2 text-center border-b border-r border-gray-300">
-                                                {{ $entry->net_amount }}
+                                                 ₱{{ number_format($entry->net_amount ,2) }}
                                             </td>
                                             <td class="py-2 px-2 text-center border-b border-r border-gray-300">
-                                                {{ $entry->final_gross_amount }}
-                                            </td>
-                                            <td class="py-2 px-2 text-center border-b border-r border-gray-300">
-                                                {{ $entry->final_net_amount }}
-                                            </td>
-                                            <td class="py-2 px-2 text-center border-b border-r border-gray-300">
-                                                {{ $entry->program_unit }}
+                                                {{ $entry->program }}
                                             </td>
                                             <td class="py-2 px-2 text-center border-b border-r border-gray-300">
                                                 {{ $entry->date_returned_to_end_user }}
@@ -325,9 +281,20 @@
                                             <td class="py-2 px-2 text-center border-b border-r border-gray-300">
                                                 {{ $entry->outgoing_certifier }}
                                             </td>
-                                            <td class="py-2 px-2 text-center border-b border-r border-gray-300">
-                                                {{ $entry->remarks }}
-                                            </td>
+                                            <td class="py-2 px-2 text-center border-b border-r border-gray-300 max-w-[50px] cursor-pointer"
+    x-data="{ expanded: false }" @click="expanded = !expanded">
+    
+    <!-- Truncated Text (only shown when not expanded) -->
+    <span x-show="!expanded" class="whitespace-nowrap overflow-hidden text-ellipsis">
+        {{ Str::limit($entry->remarks, 16) }} <!-- Adjust the character limit if needed -->
+    </span>
+
+    <!-- Full Text (shown when expanded) -->
+    <span x-show="expanded">
+        {{ $entry->remarks }}
+    </span>
+</td>
+
                                             <td class="py-2 px-2 text-center border-b border-r border-gray-300">
                                                 {{ $entry->outgoing_date }}
                                             </td>
@@ -335,21 +302,13 @@
                                                 {{ $entry->status }}
                                             </td>
                                             <td class="py-2 px-2 text-center border-b border-r border-gray-300">
-                                                <button wire:click="sendToCash({{ $entry->id }})"
-                                                    class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
-                                                    <!-- SVG Icon -->
-                                                    <svg class="h-5 w-5 text-white mr-2" viewBox="0 0 24 24" fill="none"
-                                                        stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                                        stroke-linejoin="round">
-                                                        <line x1="22" y1="2" x2="11" y2="13" />
-                                                        <polygon points="22 2 15 22 11 13 2 9 22 2" />
-                                                    </svg>
-                                                    <!-- Button Text -->
-                                                    Send to Cash
-                                                </button>
 
-                                                <button @click="$wire.editEntry({{ $entry->id }}); modelOpen = true;"
-                                                    class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                            <button 
+                                            @click="$wire.editEntry({{ $entry->id }}); modelOpen = true;" 
+                                                :disabled="{{ $entry->status === 'Sent to Cash' ? 'true' : 'false' }}" 
+                                                class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" 
+                                                :class="{ 'bg-gray-400': {{ $entry->status === 'Sent to Cash' ? 'true' : 'false' }}, 'hover:bg-gray-400': {{ $entry->status === 'Sent to Cash' ? 'true' : 'false' }} }">
+                                            
                                                     <!-- SVG Icon -->
                                                     <svg class="h-5 w-5 text-white mr-2" viewBox="0 0 24 24"
                                                         stroke-width="2" stroke="currentColor" fill="none"
@@ -363,12 +322,12 @@
                                                     <!-- Button Text -->
                                                     Edit
                                                 </button>
-                                            </td>
+                                            </td> 
                                         </tr>
                                     @empty
                                         <tr>
                                             <td class="py-2 px-2 text-center border-b border-r border-gray-300"
-                                                colspan="20">No entries found</td>
+                                                colspan="20">No Records found</td>
                                         </tr>
                                     @endforelse
                                 </tbody>

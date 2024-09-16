@@ -11,17 +11,15 @@ class Accounting extends Model
 
     protected $table = 'accounting';
     protected $fillable = [
+        'transaction_no',
         'date_received',
         'dv_no',
-        'dv_no2',
         'ap_no',
         'gross_amount',
         'tax',
         'other_deduction',
         'net_amount',
-        'final_gross_amount',
-        'final_net_amount',
-        'program_unit',
+        'program',
         'date_returned_to_end_user',
         'date_complied_to_end_user',
         'no_of_days',
@@ -32,14 +30,9 @@ class Accounting extends Model
         'status',
     ];
 
-    public function budget()
+    public function accounting()
     {
-        return $this->belongsTo(Budget::class, 'dv_no', 'dv_no');
-    }
-
-    public function cash()
-    {
-        return $this->hasOne(Cash::class, 'dv_no', 'dv_no');
+        return $this->hasOne(Accounting::class, 'transaction_no', 'transaction_no');
     }
 
 }

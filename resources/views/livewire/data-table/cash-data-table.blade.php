@@ -66,16 +66,11 @@
                                                         class="border rounded px-4 py-2 w-full">
                                                 </div>
                                                 <div>
-                                                    <label for="net_amount" class="block text-sm font-medium text-gray-700">Net Amount</label>
+                                                    <label for="net_amount" class="block text-sm font-medium text-gray-700">Final Net Amount</label>
                                                     <input type="text" id="net_amount" wire:model.defer="net_amount" class="border rounded px-4 py-2 w-full">
                                                 </div>
                                         
                                                 <!-- Final Net Amount, Date Issued, and Receipt No. -->
-                                                <div>
-                                                    <label for="final_net_amount" class="block text-sm font-medium text-gray-700">Final Net Amount</label>
-                                                    <input type="text" id="final_net_amount" wire:model.defer="final_net_amount"
-                                                        class="border rounded px-4 py-2 w-full">
-                                                </div>
                                                 <div>
                                                     <label for="date_issued" class="block text-sm font-medium text-gray-700">Date Issued</label>
                                                     <input type="date" id="date_issued" wire:model.defer="date_issued" class="border rounded px-4 py-2 w-full">
@@ -112,6 +107,7 @@
                                                         <option value="Issuance Approved">Issuance Approved</option>
                                                         <option value="Forward to Accounting">Forward to Accounting</option>
                                                         <option value="Forward to Budget Unit">Forward to Budget Unit</option>
+                                                        <option value="Return to Accounting">Return to Accounting</option>
                                                         <option value="Return to End User">Return to End User</option>
                                                     </select>
                                                     </select>
@@ -180,15 +176,25 @@
                     <!-- Table Wrapper for Horizontal Scrolling -->
                     <div class="min-h-[35rem] overflow-x-auto">
                         <div class="max-h-[40rem] overflow-y-auto">
-                            <table class="min-w-full bg-white">
+                        <table class="min-w-full bg-white">
                                 <thead class="bg-blue-500 text-white sticky top-0">
                                     <tr>
                                         <th class="py-2 px-4 text-center font-bold min-w-[150px]">Date Received</th>
-                                        <th class="py-2 px-4 text-center font-bold min-w-[150px]">DV No</th>
+                                        <th wire:click="sortBy('dv_no')" class="py-2 px-4 text-center font-bold min-w-[150px] cursor-pointer">
+                                                DV Number
+                                                @if ($sortField == 'dv_no')
+                                                    <span>
+                                                    @if ($sortDirection == 'desc')
+                                                            ▲
+                                                    @else
+                                                            ▼
+                                                    @endif
+                                                    </span>
+                                                @endif
+                                        </th>
                                         <th class="py-2 px-4 text-center font-bold min-w-[150px]">Payment Type</th>
                                         <th class="py-2 px-4 text-center font-bold min-w-[150px]">Check/ADA No</th>
                                         <th class="py-2 px-4 text-center font-bold min-w-[150px]">Gross Amount</th>
-                                        <th class="py-2 px-4 text-center font-bold min-w-[150px]">Net Amount</th>
                                         <th class="py-2 px-4 text-center font-bold min-w-[150px]">Final Net Amount</th>
                                         <th class="py-2 px-4 text-center font-bold min-w-[150px]">Date Issued</th>
                                         <th class="py-2 px-4 text-center font-bold min-w-[150px]">Receipt No</th>
@@ -198,40 +204,36 @@
                                         <th class="py-2 px-4 text-center font-bold min-w-[150px]">Outgoing Date</th>
                                         <th class="py-2 px-4 text-center font-bold min-w-[150px]">Status</th>
                                         <th class="py-2 px-4 text-center font-bold min-w-[150px]">Action</th>
-                                        
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($cashRecords as $record)
+                                    @forelse($cashRecords as $record)
                                         <tr class="hover:bg-gray-100 cursor-pointer">
-                                            <td class="py-2 px-2 border-b border-r border-gray-300">
-                                                {{ $record->date_received }}</td>
-                                            <td class="py-2 px-2 border-b border-r border-gray-300">{{ $record->dv_no }}
+                                            <td class="py-2 px-2 border-b border-r border-gray-300">{{ $record->date_received }}</td>
+                                            <td class="py-2 px-2 border-b border-r border-gray-300">{{ $record->dv_no }}</td>
+                                            <td class="py-2 px-2 border-b border-r border-gray-300">{{ $record->payment_type }}</td>
+                                            <td class="py-2 px-2 border-b border-r border-gray-300">{{ $record->check_ada_no }}</td>
+                                            <td class="py-2 px-2 text-right border-b border-r border-gray-300">₱{{number_format($record->gross_amount)}}</td>
+                                            <td class="py-2 px-2 text-right border-b border-r border-gray-300">₱{{number_format($record->net_amount)}}</td>
+                                            <td class="py-2 px-2 border-b border-r border-gray-300">{{ $record->date_issued }}</td>
+                                            <td class="py-2 px-2 border-b border-r border-gray-300">{{ $record->receipt_no }}</td>
+                                            <td class="py-2 px-2 border-b border-r border-gray-300">{{ $record->payee }}</td>
+                                            <td class="py-2 px-2 border-b border-r border-gray-300 max-w-[50px] truncate">{{ $record->particulars }}</td>
+                                            <td class="py-2 px-2 text-center border-b border-r border-gray-300 max-w-[50px] cursor-pointer"
+                                                x-data="{ expanded: false }" @click="expanded = !expanded">
+                                                
+                                                <!-- Truncated Text (only shown when not expanded) -->
+                                                <span x-show="!expanded" class="whitespace-nowrap overflow-hidden text-ellipsis">
+                                                    {{ Str::limit($record->remarks, 23) }} <!-- Adjust the character limit if needed -->
+                                                </span>
+
+                                                <!-- Full Text (shown when expanded) -->
+                                                <span x-show="expanded">
+                                                    {{ $record->remarks }}
+                                                </span>
                                             </td>
-                                            <td class="py-2 px-2 border-b border-r border-gray-300">
-                                                {{ $record->payment_type }}</td>
-                                            <td class="py-2 px-2 border-b border-r border-gray-300">
-                                                {{ $record->check_ada_no }}</td>
-                                            <td class="py-2 px-2 text-right border-b border-r border-gray-300">
-                                                {{ $record->gross_amount }}</td>
-                                            <td class="py-2 px-2 text-right border-b border-r border-gray-300">
-                                                {{ $record->net_amount }}</td>
-                                            <td class="py-2 px-2 text-right border-b border-r border-gray-300">
-                                                {{ $record->final_net_amount }}</td>
-                                            <td class="py-2 px-2 border-b border-r border-gray-300">
-                                                {{ $record->date_issued }}</td>
-                                            <td class="py-2 px-2 border-b border-r border-gray-300">
-                                                {{ $record->receipt_no }}</td>
-                                                <td class="py-2 px-2 border-b border-r border-gray-300">{{ $record->payee }}
-                                            </td>
-                                            <td class="py-2 px-2 border-b border-r border-gray-300">
-                                                {{ $record->particulars }}</td>
-                                            <td class="py-2 px-2 border-b border-r border-gray-300">{{ $record->remarks }}
-                                            </td>
-                                            <td class="py-2 px-2 border-b border-r border-gray-300">
-                                                {{ $record->outgoing_date }}</td>
-                                            <td class="py-2 px-2 border-b border-r border-gray-300">{{ $record->status }}
-                                            </td>
+                                            <td class="py-2 px-2 border-b border-r border-gray-300">{{ $record->outgoing_date }}</td>
+                                            <td class="py-2 px-2 border-b border-r border-gray-300">{{ $record->status }}</td>
                                             <td class="py-2 px-2 text-center border-b border-r border-gray-300">
                                                 <button @click="$wire.editEntry({{ $record->id }}); modelOpen = true;"
                                                     class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
@@ -250,10 +252,14 @@
                                                 </button>
                                             </td>
                                         </tr>
-                                    @endforeach
+                                    @empty
+                                        <tr>
+                                            <td class="py-2 px-2 text-center border-b border-r border-gray-300" colspan="15">No Records found</td>
+                                        </tr>
+                                    @endforelse
                                 </tbody>
-
                             </table>
+
                         </div>
 
                     </div>

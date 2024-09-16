@@ -13,12 +13,13 @@ return new class extends Migration
     {
         Schema::create('cash', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('transaction_no');
+            $table->foreign('transaction_no')->references('transaction_no')->on('budget')->onDelete('cascade');
             $table->string('dv_no')->nullable();
             $table->string('payment_type')->nullable();
             $table->string('check_ada_no')->nullable();
             $table->decimal('gross_amount', 15, 2)->nullable();
             $table->decimal('net_amount', 15, 2)->nullable();
-            $table->decimal('final_net_amount', 15, 2)->nullable();
             $table->date('date_received')->nullable();
             $table->date('date_issued')->nullable();
             $table->string('receipt_no')->nullable();

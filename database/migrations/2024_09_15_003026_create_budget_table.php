@@ -12,13 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('budget', function (Blueprint $table) {
-            $table->id();
-            $table->string('dv_no')->unique()->nullable(); 
+            $table->unsignedBigInteger('transaction_no', 6)->primary();
             $table->string('drn_no')->unique()->nullable();
             $table->date('incomingDate')->nullable(); 
             $table->string('payee', 150)->nullable(); 
-            $table->string('particulars', 250)->nullable(); 
-            $table->string('etal', 250)->nullable(); 
+            $table->string('particulars', 250)->nullable();  
             $table->string('program', 30)->nullable(); 
             $table->string('budget_controller', 75)->nullable(); 
             $table->decimal('gross_amount', 15, 2)->nullable(); 
