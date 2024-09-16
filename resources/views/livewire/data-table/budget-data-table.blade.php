@@ -297,8 +297,19 @@
                         <td class="py-2 px-2 border-b border-r border-gray-300 text-center">{{ $entry->incomingDate}}
                         </td>
                         <td class="py-2 px-2 border-b border-r border-gray-300 text-center">{{ $entry->payee }}</td>
-                        <td class="py-2 px-2 border-b border-r border-gray-300 text-center">{{ $entry->particulars }}
-                        </td>
+                        <td class="py-2 px-2 text-center border-b border-r border-gray-300 max-w-[50px] cursor-pointer"
+    x-data="{ expanded: false }" @click="expanded = !expanded">
+    
+    <!-- Truncated Text (only shown when not expanded) -->
+    <span x-show="!expanded" class="whitespace-nowrap overflow-hidden text-ellipsis">
+        {{ Str::limit($entry->particulars, 16) }} <!-- Adjust the character limit if needed -->
+    </span>
+
+    <!-- Full Text (shown when expanded) -->
+    <span x-show="expanded">
+        {{ $entry->particulars }}
+    </span>
+</td>
                         <td class="py-2 px-2 border-b border-r border-gray-300 text-center">{{ $entry->program }}
                         </td>
                         <td class="py-2 px-2 border-b border-r border-gray-300 text-center">
@@ -316,8 +327,19 @@
                         <td class="py-2 px-2 border-b border-r border-gray-300 text-center">
                           {{ $entry->appropriation }}
                         </td>
-                        <td class="py-2 px-2 border-b border-r border-gray-300 text-center">{{ $entry->remarks }}
-                        </td>
+                        <td class="py-2 px-2 text-center border-b border-r border-gray-300 max-w-[50px] cursor-pointer"
+    x-data="{ expanded: false }" @click="expanded = !expanded">
+    
+    <!-- Truncated Text (only shown when not expanded) -->
+    <span x-show="!expanded" class="whitespace-nowrap overflow-hidden text-ellipsis">
+        {{ Str::limit($entry->remarks, 16) }} <!-- Adjust the character limit if needed -->
+    </span>
+
+    <!-- Full Text (shown when expanded) -->
+    <span x-show="expanded">
+        {{ $entry->remarks }}
+    </span>
+</td>
                         <td class="py-2 px-2 border-b border-r border-gray-300 text-center">{{ $entry->orsNum }}</td>
                         <td class="py-2 px-2 border-b border-r border-gray-300 text-center">
                           {{ $entry->outgoingDate }}

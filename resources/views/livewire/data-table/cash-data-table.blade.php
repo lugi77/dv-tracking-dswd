@@ -218,8 +218,20 @@
                                             <td class="py-2 px-2 border-b border-r border-gray-300">{{ $record->date_issued }}</td>
                                             <td class="py-2 px-2 border-b border-r border-gray-300">{{ $record->receipt_no }}</td>
                                             <td class="py-2 px-2 border-b border-r border-gray-300">{{ $record->payee }}</td>
-                                            <td class="py-2 px-2 border-b border-r border-gray-300">{{ $record->particulars }}</td>
-                                            <td class="py-2 px-2 border-b border-r border-gray-300">{{ $record->remarks }}</td>
+                                            <td class="py-2 px-2 border-b border-r border-gray-300 max-w-[50px] truncate">{{ $record->particulars }}</td>
+                                            <td class="py-2 px-2 text-center border-b border-r border-gray-300 max-w-[50px] cursor-pointer"
+                                                x-data="{ expanded: false }" @click="expanded = !expanded">
+                                                
+                                                <!-- Truncated Text (only shown when not expanded) -->
+                                                <span x-show="!expanded" class="whitespace-nowrap overflow-hidden text-ellipsis">
+                                                    {{ Str::limit($record->remarks, 23) }} <!-- Adjust the character limit if needed -->
+                                                </span>
+
+                                                <!-- Full Text (shown when expanded) -->
+                                                <span x-show="expanded">
+                                                    {{ $record->remarks }}
+                                                </span>
+                                            </td>
                                             <td class="py-2 px-2 border-b border-r border-gray-300">{{ $record->outgoing_date }}</td>
                                             <td class="py-2 px-2 border-b border-r border-gray-300">{{ $record->status }}</td>
                                             <td class="py-2 px-2 text-center border-b border-r border-gray-300">
