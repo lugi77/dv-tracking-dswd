@@ -68,12 +68,6 @@
                                                     class="border rounded px-2 py-1 w-full">
                                             </div>
                                             <div class="px-2">
-                                                <label class="block text-sm font-medium text-gray-700">Final Net
-                                                    Amount</label>
-                                                <input type="number" wire:model.defer="net_amount"
-                                                    class="border rounded px-2 py-1 w-full">
-                                            </div>
-                                            <div class="px-2">
                                                 <label class="block text-sm font-medium text-gray-700">Program
                                                     Unit</label>
                                                 <input type="text" wire:model.defer="program"
@@ -89,12 +83,6 @@
                                                 <label class="block text-sm font-medium text-gray-700">Date Complied to
                                                     End User</label>
                                                 <input type="date" wire:model.defer="date_complied_to_end_user"
-                                                    class="border rounded px-2 py-1 w-full">
-                                            </div>
-                                            <div class="px-2">
-                                                <label class="block text-sm font-medium text-gray-700">No. of
-                                                    Days</label>
-                                                <input type="number" wire:model.defer="no_of_days"
                                                     class="border rounded px-2 py-1 w-full">
                                             </div>
                                             <div class="px-2">

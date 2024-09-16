@@ -9,6 +9,7 @@ use App\Models\Budget;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Livewire\Attributes\On;
+use Carbon\Carbon;
 
 
 #[Layout('layouts.app')]
@@ -32,15 +33,14 @@ class AccountingDataTable extends Component
 
     protected $rules = [
         'date_received' => 'required|date',
-        'dv_no' => 'nullable|string',
-        'ap_no' => 'nullable|string',
+        'dv_no' => 'required|string',
+        'ap_no' => 'required|string',
         'gross_amount' => 'required|numeric',
         'tax' => 'nullable|numeric',
         'other_deduction' => 'nullable|numeric',
-        'net_amount' => 'required|numeric',
         'program' => 'nullable|string',
-        'date_returned_to_end_user' => 'nullable|date',
-        'date_complied_to_end_user' => 'nullable|date',
+        'date_returned_to_end_user' => 'required|date',
+        'date_complied_to_end_user' => 'required|date',
         'no_of_days' => 'nullable|integer',
         'outgoing_processor' => 'nullable|string',
         'outgoing_certifier' => 'nullable|string',
@@ -53,6 +53,23 @@ class AccountingDataTable extends Component
      function saveEntry()
     {
         $this->validate();
+
+       // Convert null values to 0 for tax and other_deduction
+        $taxPercentage = $this->tax ?? 0;
+        $other_deduction = $this->other_deduction ?? 0;
+
+        // Calculate actual tax amount based on percentage
+        $taxAmount = ($this->gross_amount * $taxPercentage) / 100;
+
+        // Calculate net amount (final gross - tax amount - other deductions)
+        $this->net_amount = $this->gross_amount - $taxAmount - $other_deduction;
+
+        // Calculate the difference between the dates if both dates are provided
+        if ($this->date_returned_to_end_user && $this->date_complied_to_end_user) {
+            $this->no_of_days = Carbon::parse($this->date_returned_to_end_user)->diffInDays(Carbon::parse($this->date_complied_to_end_user));
+        } else {
+            $this->no_of_days = null; // Or set it to 0 if you prefer
+        }
 
         if ($this->isEditing) {
             // Update existing entry
@@ -86,7 +103,6 @@ class AccountingDataTable extends Component
             }
             elseif($this->status === 'Return to Budget') {
                 $this->sendBackToBudget($entry->id);
-                
             }
             
         } else {
@@ -123,13 +139,11 @@ class AccountingDataTable extends Component
             }
 
         }
-
         $this->resetInputFields();
         $this->isEditing = false;
         $this->entryId = null;
 
         // Emit event to close the modal
-        
         $this->dispatch('entry-saved');
     }
 
