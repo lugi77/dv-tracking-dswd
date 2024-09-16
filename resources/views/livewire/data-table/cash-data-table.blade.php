@@ -30,20 +30,27 @@
                                 class="inline-block w-full max-w-4xl p-4 mt-4 overflow-hidden text-left transition-all transform bg-white rounded-lg shadow-xl 2xl:max-w-6xl">
 
                                 <form wire:submit.prevent="saveEntry">
-                                    @csrf <!-- CSRF token for form protection -->
+                                    @csrf 
                                     <div class="p-2">
                                         <div class="text-lg font-bold mb-2 text-center">Edit Entry</div>
                                         <div class="mt-4 space-y-4">
+                                        @if ($errors->any())
+                                            <div class="bg-red-100 text-red-700 border border-red-400 rounded px-4 py-2 mb-4">
+                                                <strong>Error:</strong> Please correct the highlighted fields.
+                                            </div>
+                                        @endif
+
                                             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                                                 <!-- Date Received and DV No. -->
                                                 <div>
                                                     <label for="date_received" class="block text-sm font-medium text-gray-700">Date Received</label>
-                                                    <input type="date" id="date_received" wire:model.defer="date_received"
-                                                        class="border rounded px-4 py-2 w-full">
+                                                    <input type="date" id="date_received" wire:model.defer="date_received" class="border rounded px-4 py-2 w-full">
+                                                    @error('date_received') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                                                 </div>
                                                 <div>
                                                     <label for="dv_no" class="block text-sm font-medium text-gray-700">DV No.</label>
                                                     <input type="text" id="dv_no" wire:model.defer="dv_no" class="border rounded px-4 py-2 w-full">
+                                                    @error('dv_no') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                                                 </div>
                                                 <div>
                                                     <label for="payment_type" class="block text-sm font-medium text-gray-700">Payment Type</label>
@@ -52,53 +59,60 @@
                                                         <option value="ADA">ADA</option>
                                                         <option value="Cheque">Cheque</option>
                                                     </select>
+                                                    @error('payment_type') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                                                 </div>
                                         
                                                 <!-- CHECK/ADA No., Gross Amount, and Net Amount -->
                                                 <div>
                                                     <label for="check_ada_no" class="block text-sm font-medium text-gray-700">CHECK/ADA No.</label>
-                                                    <input type="text" id="check_ada_no" wire:model.defer="check_ada_no"
-                                                        class="border rounded px-4 py-2 w-full">
+                                                    <input type="text" id="check_ada_no" wire:model.defer="check_ada_no" class="border rounded px-4 py-2 w-full">
+                                                    @error('check_ada_no') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                                                 </div>
                                                 <div>
                                                     <label for="gross_amount" class="block text-sm font-medium text-gray-700">Gross Amount</label>
-                                                    <input type="text" id="gross_amount" wire:model.defer="gross_amount"
-                                                        class="border rounded px-4 py-2 w-full">
+                                                    <input type="text" id="gross_amount" wire:model.defer="gross_amount" class="border rounded px-4 py-2 w-full">
+                                                    @error('gross_amount') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                                                 </div>
                                                 <div>
                                                     <label for="net_amount" class="block text-sm font-medium text-gray-700">Final Net Amount</label>
                                                     <input type="text" id="net_amount" wire:model.defer="net_amount" class="border rounded px-4 py-2 w-full">
+                                                    @error('net_amount') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                                                 </div>
                                         
                                                 <!-- Final Net Amount, Date Issued, and Receipt No. -->
                                                 <div>
                                                     <label for="date_issued" class="block text-sm font-medium text-gray-700">Date Issued</label>
                                                     <input type="date" id="date_issued" wire:model.defer="date_issued" class="border rounded px-4 py-2 w-full">
+                                                    @error('date_issued') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                                                 </div>
                                                 <div>
                                                     <label for="receipt_no" class="block text-sm font-medium text-gray-700">Receipt No.</label>
                                                     <input type="text" id="receipt_no" wire:model.defer="receipt_no" class="border rounded px-4 py-2 w-full">
+                                                    @error('receipt_no') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                                                 </div>
                                         
                                                 <!-- Outgoing Date, Payee, and Particulars -->
                                                 <div>
                                                     <label for="outgoing_date" class="block text-sm font-medium text-gray-700">Outgoing Date</label>
-                                                    <input type="date" id="outgoing_date" wire:model.defer="outgoing_date"
-                                                        class="border rounded px-4 py-2 w-full">
+                                                    <input type="date" id="outgoing_date" wire:model.defer="outgoing_date" class="border rounded px-4 py-2 w-full">
+                                                    @error('outgoing_date') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                                                 </div>
                                                 <div>
                                                     <label for="payee" class="block text-sm font-medium text-gray-700">Payee</label>
                                                     <input type="text" id="payee" wire:model.defer="payee" class="border rounded px-4 py-2 w-full">
+                                                    @error('payee') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                                                 </div>
                                                 <div>
                                                     <label for="particulars" class="block text-sm font-medium text-gray-700">Particulars</label>
                                                     <input type="text" id="particulars" wire:model.defer="particulars" class="border rounded px-4 py-2 w-full">
+                                                    @error('particulars') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                                                 </div>
                                         
                                                 <!-- Remarks (Full Width) and Action -->
                                                 <div class="md:col-span-3">
                                                     <label for="remarks" class="block text-sm font-medium text-gray-700">Remarks</label>
                                                     <input type="text" id="remarks" wire:model.defer="remarks" class="border rounded px-4 py-2 w-full">
+                                                    @error('remarks') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                                                 </div>
                                                 <div class="md:col-span-3">
                                                     <label for="status" class="block text-sm font-medium text-gray-700">Action</label>
@@ -110,7 +124,7 @@
                                                         <option value="Return to Accounting">Return to Accounting</option>
                                                         <option value="Return to End User">Return to End User</option>
                                                     </select>
-                                                    </select>
+                                                    @error('status') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                                                 </div>
                                             </div>
                                         </div>

@@ -33,10 +33,10 @@
                               <div class="text-lg font-bold mb-2 text-center">Create New Budget Entry</div>
 
                               @if ($errors->any())
-                          <div class="bg-red-100 text-red-700 border border-red-400 rounded px-4 py-2 mb-4">
-                            <strong>Error:</strong> Please correct the highlighted fields.
-                          </div>
-                       @endif
+                                 <div class="bg-red-100 text-red-700 border border-red-400 rounded px-4 py-2 mb-4">
+                                    <strong>Error:</strong> Please correct the highlighted fields.
+                                 </div>
+                              @endif
 
                               <!-- DV No., Account ID, and DRN No. -->
                               <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-2">

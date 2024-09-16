@@ -38,7 +38,7 @@ class AccountingDataTable extends Component
         'gross_amount' => 'required|numeric',
         'tax' => 'nullable|numeric',
         'other_deduction' => 'nullable|numeric',
-        'program' => 'nullable|string',
+        'program' => 'required|string',
         'date_returned_to_end_user' => 'required|date',
         'date_complied_to_end_user' => 'required|date',
         'no_of_days' => 'nullable|integer',
