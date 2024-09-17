@@ -49,7 +49,7 @@
                                                         Received</label>
                                                     <input type="date" id="date_received"
                                                         wire:model.defer="date_received"
-                                                        class="border rounded px-4 py-2 w-full">
+                                                        class="text-gray-400 border rounded px-4 py-2 w-full" readonly>
                                                     @error('date_received') <span
                                                     class="text-red-600 text-sm">{{ $message }}</span> @enderror
                                                 </div>
@@ -57,7 +57,7 @@
                                                     <label for="dv_no"
                                                         class="block text-sm font-medium text-gray-700">DV No.</label>
                                                     <input type="text" id="dv_no" wire:model.defer="dv_no"
-                                                        class="border rounded px-4 py-2 w-full">
+                                                        class="text-gray-400 border rounded px-4 py-2 w-full" readonly>
                                                     @error('dv_no') <span
                                                     class="text-red-600 text-sm">{{ $message }}</span> @enderror
                                                 </div>
@@ -90,7 +90,7 @@
                                                         class="block text-sm font-medium text-gray-700">Gross
                                                         Amount</label>
                                                     <input type="text" id="gross_amount" wire:model.defer="gross_amount"
-                                                        class="border rounded px-4 py-2 w-full">
+                                                        class="text-gray-400 border rounded px-4 py-2 w-full" readonly>
                                                     @error('gross_amount') <span
                                                     class="text-red-600 text-sm">{{ $message }}</span> @enderror
                                                 </div>
@@ -99,7 +99,7 @@
                                                         class="block text-sm font-medium text-gray-700">Final Net
                                                         Amount</label>
                                                     <input type="text" id="net_amount" wire:model.defer="net_amount"
-                                                        class="border rounded px-4 py-2 w-full">
+                                                        class="text-gray-400 border rounded px-4 py-2 w-full" readonly>
                                                     @error('net_amount') <span
                                                     class="text-red-600 text-sm">{{ $message }}</span> @enderror
                                                 </div>
@@ -135,7 +135,7 @@
                                                     @error('outgoing_date') <span
                                                     class="text-red-600 text-sm">{{ $message }}</span> @enderror
                                                 </div>
-                                                <div>
+                                                <div class="md:col-span-1">
                                                     <label for="payee"
                                                         class="block text-sm font-medium text-gray-700">Payee</label>
                                                     <input type="text" id="payee" wire:model.defer="payee"
@@ -143,7 +143,7 @@
                                                     @error('payee') <span
                                                     class="text-red-600 text-sm">{{ $message }}</span> @enderror
                                                 </div>
-                                                <div class="md:col-span-3">
+                                                <div class="md:col-span-2">
                                                     <label for="particulars"
                                                         class="block text-sm font-medium text-gray-700">Particulars</label>
                                                     <textarea id="particulars" wire:model.defer="particulars"
@@ -277,17 +277,17 @@
                                 <tbody>
                                     @forelse($cashRecords as $record)
                                         <tr class="hover:bg-gray-100 cursor-pointer">
-                                            <td class="py-2 px-2 border-b border-r border-gray-300">
+                                            <td class="py-2 px-2 text-center border-b border-r border-gray-300">
                                                 {{ $record->date_received }}</td>
-                                            <td class="py-2 px-2 border-b border-r border-gray-300">{{ $record->dv_no }}
+                                            <td class="py-2 px-2 text-center border-b border-r border-gray-300">{{ $record->dv_no }}
                                             </td>
                                             <td class="py-2 px-2 border-b border-r border-gray-300">
                                                 {{ $record->payment_type }}</td>
-                                            <td class="py-2 px-2 border-b border-r border-gray-300">
+                                            <td class="py-2 px-2 text-center border-b border-r border-gray-300">
                                                 {{ $record->check_ada_no }}</td>
-                                            <td class="py-2 px-2 text-right border-b border-r border-gray-300">
+                                            <td class="py-2 px-2 text-center border-b border-r border-gray-300">
                                                 ₱{{number_format($record->gross_amount)}}</td>
-                                            <td class="py-2 px-2 text-right border-b border-r border-gray-300">
+                                            <td class="py-2 px-2 text-center border-b border-r border-gray-300">
                                                 ₱{{number_format($record->net_amount)}}</td>
                                             <td class="py-2 px-2 border-b border-r border-gray-300">
                                                 {{ $record->date_issued }}</td>

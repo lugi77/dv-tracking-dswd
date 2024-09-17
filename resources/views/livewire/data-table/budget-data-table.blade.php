@@ -37,18 +37,35 @@
                                     <strong>Error:</strong> Please correct the highlighted fields.
                                  </div>
                               @endif
+                              <br>
 
                               <!-- DV No., Account ID, and DRN No. -->
-                              <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-2">
+                              <!-- DRN No., Fund Cluster, and Program Fields -->
+                              <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                                 <!-- DRN No. -->
                                  <div>
-                                    <label class="block text-sm font-medium text-gray-700">Drn No.</label>
-                                    <input type="text" wire:model.defer="drn_no" class="border rounded px-4 py-2 w-full">
+                                    <label class="block text-sm font-medium text-gray-700">DRN No.</label>
+                                    <input type="text" wire:model.defer="drn_no" class="border rounded px-3 py-2 w-full">
                                     @error('drn_no') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                                  </div>
                                  
-                                 <div class="px-2">
+                                 <!-- Fund Cluster -->
+                                 <div>
+                                    <label class="block text-sm font-medium text-gray-700">Fund Cluster</label>
+                                    <select wire:model.defer="fund_cluster" class="border rounded px-3 py-2 w-full">
+                                       <option value="">Select Fund</option>
+                                       <option value="FUND 101">FUND 101</option>
+                                       <option value="FUND 102">FUND 102</option>
+                                       <option value="FUND 171">FUND 171</option>
+                                       <option value="TRUST FUND">TRUST FUND</option>
+                                    </select>
+                                    @error('fund_cluster') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
+                                 </div>
+
+                                 <!-- Program -->
+                                 <div>
                                     <label class="block text-sm font-medium text-gray-700">Program</label>
-                                    <select wire:model.defer="program" class="border rounded px-2 py-1 w-full">
+                                    <select wire:model.defer="program" class="border rounded px-3 py-2 w-full">
                                        <option value="">Select Program</option>
                                        <option value="ADOPTION">ADOPTION</option>
                                        <option value="AICS">AICS</option>
@@ -60,100 +77,86 @@
                                  </div>
                               </div>
 
-                              <!-- Payee, Particulars, and Controller -->
-                              <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-2">
+                              <!-- Particulars, Gross Amount, and Budget Controller Fields -->
+                              <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                                 <!-- Particulars -->
                                  <div>
                                     <label class="block text-sm font-medium text-gray-700">Particulars</label>
-                                    <input type="text" wire:model.defer="particulars" class="border rounded px-4 py-2 w-full">
-                                    @error('particulars') <span class="text-red-600 text-sm">{{ $message }}</span>
-                           @enderror
+                                    <input type="text" wire:model.defer="particulars" class="border rounded px-3 py-2 w-full">
+                                    @error('particulars') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                                  </div>
-                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700">Fund Cluster</label>
-                                    <select wire:model.defer="fund_cluster" class="border rounded px-4 py-2 w-full">
-                                       <option value="">Select Fund</option>
-                                       <option value="FUND 101">FUND 101</option>
-                                       <option value="FUND 102">FUND 102</option>
-                                       <option value="FUND 171">FUND 171</option>
-                                       <option value="TRUST FUND">TRUST FUND</option>
-                                    </select>
-                                    @error('fund_cluster') <span class="text-red-600 text-sm">{{ $message }}</span>
-                           @enderror
-                                 </div>
-                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700">Budget Controller</label>
-                                    <input type="text" wire:model.defer="budget_controller"
-                                       class="border rounded px-4 py-2 w-full">
-                                    @error('budget_controller') <span class="text-red-600 text-sm">{{ $message }}</span>
-                           @enderror
-                                 </div>
-                              </div>
 
-                              <!-- Gross Amount, Final Amount NORSA, ORS No. -->
-                              <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-2">
+                                 <!-- Gross Amount -->
                                  <div>
                                     <label class="block text-sm font-medium text-gray-700">Gross Amount</label>
-                                    <input type="number" step="0.01" wire:model.defer="gross_amount"
-                                       class="border rounded px-4 py-2 w-full">
-                                    @error('gross_amount') <span class="text-red-600 text-sm">{{ $message }}</span>
-                           @enderror
+                                    <input type="number" step="0.01" wire:model.defer="gross_amount" class="border rounded px-3 py-2 w-full">
+                                    @error('gross_amount') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                                  </div>
+
+                                 <!-- Budget Controller -->
+                                 <div>
+                                    <label class="block text-sm font-medium text-gray-700">Budget Controller</label>
+                                    <input type="text" wire:model.defer="budget_controller" class="border rounded px-3 py-2 w-full">
+                                    @error('budget_controller') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
+                                 </div>
+                              </div>
+
+                              <!-- ORS No., Final Amount NORSA, and Appropriation Fields -->
+                              <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                                 <!-- ORS No. -->
                                  <div>
                                     <label class="block text-sm font-medium text-gray-700">ORS No.</label>
-                                    <input type="text" wire:model.defer="orsNum" class="border rounded px-4 py-2 w-full">
+                                    <input type="text" wire:model.defer="orsNum" class="border rounded px-3 py-2 w-full">
                                     @error('orsNum') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                                  </div>
+
+                                 <!-- Final Amount NORSA -->
                                  <div>
                                     <label class="block text-sm font-medium text-gray-700">Final Amount NORSA</label>
-                                    <input type="number" step="0.01" wire:model.defer="final_amount_norsa"
-                                       class="border rounded px-4 py-2 w-full">
-                                    @error('final_amount_norsa') <span
-                              class="text-red-600 text-sm">{{ $message }}</span> @enderror
+                                    <input type="number" step="0.01" wire:model.defer="final_amount_norsa" class="border rounded px-3 py-2 w-full">
+                                    @error('final_amount_norsa') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                                  </div>
-                              </div>
 
-                              <!-- Payee, Appropriation -->
-                              <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-2">
-                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700">Payee</label>
-                                    <input type="text" wire:model.defer="payee" class="border rounded px-4 py-2 w-full">
-                                    @error('payee') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
-                                 </div>
+                                 <!-- Appropriation -->
                                  <div>
                                     <label class="block text-sm font-medium text-gray-700">Appropriation</label>
-                                    <input type="text" wire:model.defer="appropriation"
-                                       class="border rounded px-4 py-2 w-full">
-                                    @error('appropriation') <span class="text-red-600 text-sm">{{ $message }}</span>
-                           @enderror
+                                    <input type="text" wire:model.defer="appropriation" class="border rounded px-3 py-2 w-full">
+                                    @error('appropriation') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                                  </div>
                               </div>
 
-                              <!-- Incoming Date, Outgoing Date -->
-                              <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-2">
+                              <!-- Payee, Incoming Date, and Outgoing Date Fields -->
+                              <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                                 <!-- Payee -->
+                                 <div>
+                                    <label class="block text-sm font-medium text-gray-700">Payee</label>
+                                    <input type="text" wire:model.defer="payee" class="border rounded px-3 py-2 w-full">
+                                    @error('payee') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
+                                 </div>
+
+                                 <!-- Incoming Date -->
                                  <div>
                                     <label class="block text-sm font-medium text-gray-700">Incoming Date</label>
-                                    <input type="date" wire:model.defer="incomingDate"
-                                       class="border rounded px-4 py-2 w-full">
-                                    @error('incomingDate') <span class="text-red-600 text-sm">{{ $message }}</span>
-                           @enderror
+                                    <input type="date" wire:model.defer="incomingDate" class="border rounded px-3 py-2 w-full">
+                                    @error('incomingDate') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                                  </div>
+
+                                 <!-- Outgoing Date -->
                                  <div>
                                     <label class="block text-sm font-medium text-gray-700">Outgoing Date</label>
-                                    <input type="date" wire:model.defer="outgoingDate"
-                                       class="border rounded px-4 py-2 w-full">
-                                    @error('outgoingDate') <span class="text-red-600 text-sm">{{ $message }}</span>
-                           @enderror
+                                    <input type="date" wire:model.defer="outgoingDate" class="border rounded px-3 py-2 w-full">
+                                    @error('outgoingDate') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                                  </div>
                               </div>
 
-                              <!-- Remarks -->
+                              <!-- Remarks Field -->
                               <div class="mb-4">
                                  <label class="block text-sm font-medium text-gray-700">Remarks</label>
-                                 <textarea wire:model.defer="remarks" class="border rounded px-4 py-2 w-full"></textarea>
+                                 <textarea wire:model.defer="remarks" class="border rounded px-3 py-2 w-full"></textarea>
                                  @error('remarks') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                               </div>
 
-                              <!-- Status -->
+                              <!-- Status Field -->
                               <div class="mb-4 text-center">
                                  <label class="block text-sm font-medium text-gray-700">Status</label>
                                  <select wire:model.defer="status"
@@ -184,8 +187,8 @@
                                  <div>
                                  @error('status') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                                  </div>
+                                 </div>
                                 
-                              </div>
 
                               <!-- Buttons -->
                               <div class="text-right">
@@ -284,7 +287,7 @@
                                     </span>
                                  @endif
                            </th>
-                           <th class="py-2 px-4 text-center font-bold min-w-[150px]">Budget Controller Assigned</th>
+                           <th class="py-2 px-4 text-center font-bold min-w-[150px]">Budget Controller</th>
                            <th class="py-2 px-4 text-right font-bold min-w-[150px]">Gross Amount</th>
                            <th class="py-2 px-4 text-right font-bold min-w-[150px]">Final Amount</th>
                            <th class="py-2 px-4 text-center font-bold min-w-[150px]">Fund Cluster</th>
@@ -304,18 +307,29 @@
                         <td class="py-2 px-2 border-b border-r border-gray-300 text-center">{{ $entry->incomingDate}}
                         </td>
                         <td class="py-2 px-2 border-b border-r border-gray-300 text-center">{{ $entry->payee }}</td>
-                        <td class="py-2 px-2 text-center border-b border-r border-gray-300 max-w-[50px] cursor-pointer"
-                           x-data="{ expanded: false }" @click="expanded = !expanded">
-                           
-                           <!-- Truncated Text (only shown when not expanded) -->
-                           <span x-show="!expanded" class="whitespace-nowrap overflow-hidden text-ellipsis">
-                              {{ Str::limit($entry->particulars, 16) }} <!-- Adjust the character limit if needed -->
+                        <td class="py-2 px-2 text-center border-b border-r border-gray-300 max-w-[50px] cursor-pointer relative"
+                           x-data="{ expanded: false, hovering: false, x: 0, y: 0}"
+                           @mouseenter="hovering = true; let rect = $el.getBoundingClientRect(); x = rect.left; y = rect.bottom;" 
+                           @mouseleave="hovering = false"
+                           @click="expanded = !expanded">
+
+                           <!-- Truncated Text (always shown unless clicked to expand) -->
+                           <span x-show="!expanded" class="whitespace-nowrap overflow-hidden text-ellipsis block">
+                             {{ Str::limit($entry->particulars, 16) }} <!-- Adjust the character limit if needed -->
                            </span>
 
-                           <!-- Full Text (shown when expanded) -->
-                           <span x-show="expanded">
-                              {{ $entry->particulars }}
+                           <!-- Full Text (shown when clicked to expand) -->
+                           <span x-show="expanded" class="whitespace-normal">
+                             {{ $entry->particulars }}
                            </span>
+
+                           <!-- Hover Pop-up (shown when hovered, fixed position to avoid scrolling) -->
+                           <div x-show="hovering && !expanded" 
+                             class="fixed z-10 w-auto max-w-xs bg-white border border-gray-300 shadow-lg p-2 rounded-lg"
+                             :style="'left:' + x + 'px; top:' + y + 'px;'"
+                             x-cloak>
+                             <p class="text-sm">{{ $entry->particulars }}</p>
+                           </div>
                         </td>
                         <td class="py-2 px-2 border-b border-r border-gray-300 text-center">{{ $entry->program }}
                         </td>
