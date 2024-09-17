@@ -162,7 +162,6 @@ class BudgetDataTable extends Component
             'date_received' => now(), // Current date when sent to accounting
             'program' => $budgetRecord->program,
             'gross_amount' => $budgetRecord->gross_amount,
-            'net_amount' => $budgetRecord->final_amount_norsa, // Assuming final_amount_norsa as net_amount
             'remarks' => $budgetRecord->remarks,
             'status' => $budgetRecord->status, // Optional action field
             // Add other fields as necessary

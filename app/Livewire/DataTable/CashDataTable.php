@@ -26,9 +26,9 @@ class CashDataTable extends Component
 
     protected $rules = [
         'date_received' => 'required|date',
-        'dv_no' => 'required|string|max:10',
-        'payment_type' => 'required|string|max:255',
-        'check_ada_no' => 'required|string|max:255',
+        'dv_no' => 'nullable|string',
+        'payment_type' => 'nullable|string|max:255',
+        'check_ada_no' => 'nullable|string|max:255',
         'gross_amount' => 'required|numeric',
         'net_amount' => 'required|numeric',
         'date_issued' => 'nullable|date',

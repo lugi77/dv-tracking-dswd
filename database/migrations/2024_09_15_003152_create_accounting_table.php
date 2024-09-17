@@ -19,8 +19,8 @@ return new class extends Migration
             $table->string('dv_no')->nullable();
             $table->string('ap_no')->nullable();
             $table->decimal('gross_amount', 15, 2)->nullable();
-            $table->decimal('tax', 15, 2)->nullable();
-            $table->decimal('other_deduction', 15, 2)->nullable();
+            $table->decimal('tax', 15)->nullable();
+            $table->decimal('other_deduction', 15)->nullable();
             $table->decimal('net_amount', 15, 2)->nullable();
             $table->string('program')->nullable();
             $table->date('date_returned_to_end_user')->nullable();

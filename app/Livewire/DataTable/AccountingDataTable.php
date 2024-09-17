@@ -33,14 +33,14 @@ class AccountingDataTable extends Component
 
     protected $rules = [
         'date_received' => 'required|date',
-        'dv_no' => 'required|string',
-        'ap_no' => 'required|string',
+        'dv_no' => 'nullable|string',
+        'ap_no' => 'nullable|string',
         'gross_amount' => 'required|numeric',
         'tax' => 'nullable|numeric',
         'other_deduction' => 'nullable|numeric',
         'program' => 'required|string',
-        'date_returned_to_end_user' => 'required|date',
-        'date_complied_to_end_user' => 'required|date',
+        'date_returned_to_end_user' => 'nullable|date',
+        'date_complied_to_end_user' => 'nullable|date',
         'no_of_days' => 'nullable|integer',
         'outgoing_processor' => 'nullable|string',
         'outgoing_certifier' => 'nullable|string',
