@@ -279,19 +279,30 @@
                                             <td class="py-2 px-2 text-center border-b border-r border-gray-300">
                                                 {{ $entry->outgoing_certifier }}
                                             </td>
-                                            <td class="py-2 px-2 text-center border-b border-r border-gray-300 max-w-[50px] cursor-pointer"
-    x-data="{ expanded: false }" @click="expanded = !expanded">
-    
-    <!-- Truncated Text (only shown when not expanded) -->
-    <span x-show="!expanded" class="whitespace-nowrap overflow-hidden text-ellipsis">
-        {{ Str::limit($entry->remarks, 16) }} <!-- Adjust the character limit if needed -->
-    </span>
+                                            <td class="py-2 px-2 text-center border-b border-r border-gray-300 max-w-[50px] cursor-pointer relative"
+                                                x-data="{ expanded: false, hovering: false, x: 0, y: 0}"
+                                                @mouseenter="hovering = true; let rect = $el.getBoundingClientRect(); x = rect.left; y = rect.bottom;" 
+                                                @mouseleave="hovering = false"
+                                                @click="expanded = !expanded">
 
-    <!-- Full Text (shown when expanded) -->
-    <span x-show="expanded">
-        {{ $entry->remarks }}
-    </span>
-</td>
+                                                <!-- Truncated Text (always shown unless clicked to expand) -->
+                                                <span x-show="!expanded" class="whitespace-nowrap overflow-hidden text-ellipsis block">
+                                                    {{ Str::limit($entry->remarks, 16) }} <!-- Adjust the character limit if needed -->
+                                                </span>
+
+                                                <!-- Full Text (shown when clicked to expand) -->
+                                                <span x-show="expanded" class="whitespace-normal">
+                                                    {{ $entry->remarks }}
+                                                </span>
+
+                                                <!-- Hover Pop-up (shown when hovered, fixed position to avoid scrolling) -->
+                                                <div x-show="hovering && !expanded" 
+                                                    class="fixed z-10 w-auto max-w-xs bg-white border border-gray-300 shadow-lg p-2 rounded-lg"
+                                                    :style="'left:' + x + 'px; top:' + y + 'px;'"
+                                                    x-cloak>
+                                                    <p class="text-sm">{{ $entry->remarks }}</p>
+                                                </div>
+                                            </td>
 
                                             <td class="py-2 px-2 text-center border-b border-r border-gray-300">
                                                 {{ $entry->outgoing_date }}

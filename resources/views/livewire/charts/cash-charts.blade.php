@@ -37,9 +37,9 @@
                 <table class="w-full text-left border-collapse">
                     <thead>
                         <tr>
-                            <th class="border px-4 py-2">Program</th>
-                            <th class="border px-4 py-2">No. of DV's</th>
-                            <th class="border px-4 py-2">Amount</th>
+                            <th class="border px-4 py-2 sticky top-0 bg-white">Program</th>
+                            <th class="border px-4 py-2 sticky top-0 bg-white">No. of DV's</th>
+                            <th class="border px-4 py-2 sticky top-0 bg-white">Amount</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -100,7 +100,7 @@
                         <tr><td class="border px-4 py-2">TARA</td><td class="border px-4 py-2">0</td><td class="border px-4 py-2">₱0.00</td></tr>
                         <tr><td class="border px-4 py-2">TCT</td><td class="border px-4 py-2">0</td><td class="border px-4 py-2">₱0.00</td></tr>
                         <tr><td class="border px-4 py-2">TRUST FUND</td><td class="border px-4 py-2">0</td><td class="border px-4 py-2">₱0.00</td></tr>
-                        <tr>
+                        <tr class="border px-4 py-2 font-bold sticky bottom-0 bg-white z-10">
                             <td class="border px-4 py-2 font-bold">Total</td>
                             <td class="border px-4 py-2 font-bold">491</td>
                             <td class="border px-4 py-2 font-bold">₱87,493,399.21</td>
@@ -109,6 +109,13 @@
                 </table>
             </div>
         </div>
+    </div>
+    <!-- View History Button -->
+    <div class="text-center">
+        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" style="background-color: rgba(40,36,144,255);">
+            View History
+        </button>
+    </div>
     </div>
 </div>
 
