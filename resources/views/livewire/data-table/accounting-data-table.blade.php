@@ -41,6 +41,17 @@
                                             <strong>Error:</strong> Please correct the highlighted fields.
                                         </div>
                                     @endif
+
+                                    @if (session()->has('error-dv'))
+                                        <div x-data="{ show: true }" x-show="show"
+                                            class="bg-red-100 text-red-800 border border-red-300 rounded-md px-4 py-2 text-sm relative">
+                                            {{ session('error-dv') }}
+                                            <button @click="show = false"
+                                                class="absolute top-1 right-1 text-red-600 hover:text-red-800">
+                                                &times;
+                                            </button>
+                                        </div>
+                                    @endif
                                         
                                         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                                             <div class="px-2">
@@ -279,7 +290,6 @@
                                             <td class="py-2 px-2 text-center border-b border-r border-gray-300">
                                                 {{ $entry->outgoing_certifier }}
                                             </td>
-<<<<<<< Updated upstream
                                             <td class="py-2 px-2 text-center border-b border-r border-gray-300 max-w-[50px] cursor-pointer relative"
                                                 x-data="{ expanded: false, hovering: false, x: 0, y: 0}"
                                                 @mouseenter="hovering = true; let rect = $el.getBoundingClientRect(); x = rect.left; y = rect.bottom;" 
@@ -303,30 +313,19 @@
                                                     x-cloak>
                                                     <p class="text-sm">{{ $entry->remarks }}</p>
                                                 </div>
-=======
-                                            <td class="py-2 px-2 text-center border-b border-r border-gray-300 max-w-[50px] cursor-pointer"
-                                                x-data="{ expanded: false }" @click="expanded = !expanded">
-                                                
-                                                <!-- Truncated Text (only shown when not expanded) -->
-                                                <span x-show="!expanded" class="whitespace-nowrap overflow-hidden text-ellipsis">
-                                                    {{ Str::limit($entry->remarks, 16) }} <!-- Adjust the character limit if needed -->
-                                                </span>
-
-                                                <!-- Full Text (shown when expanded) -->
-                                                <span x-show="expanded">
-                                                    {{ $entry->remarks }}
-                                                </span>
->>>>>>> Stashed changes
                                             </td>
 
                                             <td class="py-2 px-2 text-center border-b border-r border-gray-300">
                                                 {{ $entry->outgoing_date }}
                                             </td>
-                                            <td class="py-2 px-2 text-center border-b border-r border-gray-300">
+                                            <td class="py-2 px-2 text-center border-b border-r border-gray-300"
+                                                style="color: 
+                                                    {{ $entry->status === 'Sent to Cash' ? '#3AC430' : 
+                                                    ($entry->status === 'Sent from Budget' ? 'orange' : 
+                                                    ($entry->status === 'Returned from Cash' ? 'blue' : 'inherit')) }};">
                                                 {{ $entry->status }}
                                             </td>
                                             <td class="py-2 px-2 text-center border-b border-r border-gray-300">
-
                                             <button 
                                             @click="$wire.editEntry({{ $entry->id }}); modelOpen = true;" 
                                                 :disabled="{{ $entry->status === 'Sent to Cash' ? 'true' : 'false' }}" 

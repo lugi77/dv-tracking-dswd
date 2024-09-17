@@ -29,7 +29,7 @@ class AccountingDataTable extends Component
     public $isEditing = false;
     public $entryId;
     public $sortField = 'dv_no'; // Default sort field
-    public $sortDirection = 'desc'; // Default sort direction
+    public $sortDirection = 'asc'; // Default sort direction
 
     protected $rules = [
         'date_received' => 'required|date',
@@ -98,8 +98,14 @@ class AccountingDataTable extends Component
             
             // Check if status is "FORWARD TO CASH" and send the data
             if ($this->status === 'Forward to Cash') {
-                $this->sendToCash($entry->id);
-                
+                if (!empty($this->dv_no)) {
+                    // Proceed with forwarding to Cash
+                    $this->sendToCash($entry->id);
+                } else {
+                    // Set an error message if dv_no is empty
+                    session()->flash('error-dv', 'Cannot forward to Cash: DV No is required.');
+                    return; // Stop execution
+                }
             }
             elseif($this->status === 'Return to Budget') {
                 $this->sendBackToBudget($entry->id);
@@ -214,7 +220,7 @@ class AccountingDataTable extends Component
         'gross_amount' => $accountingRecord->gross_amount,
         'net_amount' => $accountingRecord->net_amount,
         'remarks' => $accountingRecord->remarks,
-        'status' => $accountingRecord->status, // Optional action field
+        'status' => 'Sent from Accounting', // Optional action field
         // Add other fields as necessary
     ]);
 
@@ -262,11 +268,6 @@ class AccountingDataTable extends Component
         }
 
         $this->sortField = $field;
-    }
-
-    #[On('refresh-accounting')]
-    public function refreshtable(){
-        dd('refreshtable');
     }
 
     

@@ -46,9 +46,16 @@
                                     @error('drn_no') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                                  </div>
                                  
-                                 <div>
+                                 <div class="px-2">
                                     <label class="block text-sm font-medium text-gray-700">Program</label>
-                                    <input type="text" wire:model.defer="program" class="border rounded px-4 py-2 w-full">
+                                    <select wire:model.defer="program" class="border rounded px-2 py-1 w-full">
+                                       <option value="">Select Program</option>
+                                       <option value="ADOPTION">ADOPTION</option>
+                                       <option value="AICS">AICS</option>
+                                       <option value="ANGELS HAVEN">ANGELS HAVEN</option>
+                                       <option value="BANGUN">BANGUN</option>
+                                       <option value="BFIRST">BFIRST</option>
+                                    </select>
                                     @error('program') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                                  </div>
                               </div>
@@ -355,8 +362,11 @@
                         <td class="py-2 px-2 border-b border-r border-gray-300 text-center">
                           {{ $entry->outgoingDate }}
                         </td>
-                        <td class="py-2 px-2 border-b border-r border-gray-300 text-center">
-                          {{($entry->status) }}
+                        <td class="py-2 px-2 text-center border-b border-r border-gray-300"
+                           style="color: 
+                              {{ $entry->status === 'Sent to Accounting' ? '#3AC430' : 
+                                 ($entry->status === 'Returned from Accounting' ? 'blue' : 'inherit') }};">
+                           {{ $entry->status }}
                         </td>
                         <td class="py-2 px-2 border-b border-r border-gray-300 text-center">
                           

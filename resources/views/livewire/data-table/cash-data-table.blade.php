@@ -345,8 +345,14 @@
                                             </td>
                                             <td class="py-2 px-2 border-b border-r border-gray-300">
                                                 {{ $record->outgoing_date }}</td>
-                                            <td class="py-2 px-2 border-b border-r border-gray-300">{{ $record->status }}
+
+                                            <td class="py-2 px-2 text-center border-b border-r border-gray-300"
+                                                style="color: 
+                                                    {{ $record->status === 'Issuance Approved' ? '#3AC430' : 
+                                                    ($record->status === 'Sent from Accounting' ? 'orange' : 'inherit') }};">
+                                                {{ $record->status }}
                                             </td>
+
                                             <td class="py-2 px-2 text-center border-b border-r border-gray-300">
                                                 <button @click="$wire.editEntry({{ $record->id }}); modelOpen = true;"
                                                     class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
@@ -368,18 +374,12 @@
                                     @empty
                                         <tr>
                                             <td class="py-2 px-2 text-center border-b border-r border-gray-300"
-<<<<<<< Updated upstream
                                                 colspan="15">No Records found</td>
-=======
-                                                colspan="20">No Records found</td>
->>>>>>> Stashed changes
                                         </tr>
                                     @endforelse
                                 </tbody>
                             </table>
-
                         </div>
-
                     </div>
                     <!-- Pagination Links -->
                     <div class="mt-4">

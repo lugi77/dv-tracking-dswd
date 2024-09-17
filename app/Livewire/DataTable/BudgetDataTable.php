@@ -40,7 +40,7 @@ class BudgetDataTable extends Component
         'program' => 'required|string|max:30',
         'budget_controller' => 'required|string|max:75',
         'gross_amount' => 'required|numeric|min:0',
-        'final_amount_norsa' => 'required|numeric|min:0',
+        'final_amount_norsa' => 'nullable|numeric|min:0',
         'fund_cluster' => 'required|string|max:50',
         'appropriation' => 'required|string|max:50',
         'remarks' => 'nullable|string|max:250',
@@ -163,7 +163,7 @@ class BudgetDataTable extends Component
             'program' => $budgetRecord->program,
             'gross_amount' => $budgetRecord->gross_amount,
             'remarks' => $budgetRecord->remarks,
-            'status' => $budgetRecord->status, // Optional action field
+            'status' => 'Sent from Budget', // Optional action field
             // Add other fields as necessary
         ]);
 
