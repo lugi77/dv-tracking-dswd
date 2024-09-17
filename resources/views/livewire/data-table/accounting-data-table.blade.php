@@ -279,6 +279,7 @@
                                             <td class="py-2 px-2 text-center border-b border-r border-gray-300">
                                                 {{ $entry->outgoing_certifier }}
                                             </td>
+<<<<<<< Updated upstream
                                             <td class="py-2 px-2 text-center border-b border-r border-gray-300 max-w-[50px] cursor-pointer relative"
                                                 x-data="{ expanded: false, hovering: false, x: 0, y: 0}"
                                                 @mouseenter="hovering = true; let rect = $el.getBoundingClientRect(); x = rect.left; y = rect.bottom;" 
@@ -302,6 +303,20 @@
                                                     x-cloak>
                                                     <p class="text-sm">{{ $entry->remarks }}</p>
                                                 </div>
+=======
+                                            <td class="py-2 px-2 text-center border-b border-r border-gray-300 max-w-[50px] cursor-pointer"
+                                                x-data="{ expanded: false }" @click="expanded = !expanded">
+                                                
+                                                <!-- Truncated Text (only shown when not expanded) -->
+                                                <span x-show="!expanded" class="whitespace-nowrap overflow-hidden text-ellipsis">
+                                                    {{ Str::limit($entry->remarks, 16) }} <!-- Adjust the character limit if needed -->
+                                                </span>
+
+                                                <!-- Full Text (shown when expanded) -->
+                                                <span x-show="expanded">
+                                                    {{ $entry->remarks }}
+                                                </span>
+>>>>>>> Stashed changes
                                             </td>
 
                                             <td class="py-2 px-2 text-center border-b border-r border-gray-300">

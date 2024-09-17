@@ -368,7 +368,11 @@
                                     @empty
                                         <tr>
                                             <td class="py-2 px-2 text-center border-b border-r border-gray-300"
+<<<<<<< Updated upstream
                                                 colspan="15">No Records found</td>
+=======
+                                                colspan="20">No Records found</td>
+>>>>>>> Stashed changes
                                         </tr>
                                     @endforelse
                                 </tbody>
