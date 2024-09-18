@@ -65,13 +65,11 @@
                                  <!-- Program -->
                                  <div>
                                     <label class="block text-sm font-medium text-gray-700">Program</label>
-                                    <select wire:model.defer="program" class="border rounded px-3 py-2 w-full">
-                                       <option value="">Select Program</option>
-                                       <option value="ADOPTION">ADOPTION</option>
-                                       <option value="AICS">AICS</option>
-                                       <option value="ANGELS HAVEN">ANGELS HAVEN</option>
-                                       <option value="BANGUN">BANGUN</option>
-                                       <option value="BFIRST">BFIRST</option>
+                                    <select name="program" wire:model="program" class="form-control">
+                                       <option value="">-- Select Program --</option>
+                                       @foreach($programs as $program)
+                                          <option value="{{ $program->program }}">{{ $program->program }}</option>
+                                       @endforeach
                                     </select>
                                     @error('program') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                                  </div>

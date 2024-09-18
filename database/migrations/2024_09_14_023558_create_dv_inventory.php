@@ -15,8 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('program')->nullable();
             $table->integer('no_of_dv')->nullable();
-            $table->decimal('total_amount_program')->nullable();
-
+            $table->decimal('total_amount_program', 15, 2)->nullable(); // 15 total digits, 2 decimal places
             $table->timestamps();
         });
     }

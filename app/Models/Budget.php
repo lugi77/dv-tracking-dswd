@@ -42,4 +42,9 @@ class Budget extends Model
     {
         return $this->hasOne(Cash::class, 'transaction_no', 'transaction_no');
     }
+
+    public function dvInventory()
+    {
+        return $this->belongsTo(DvInventory::class);
+    }
 }

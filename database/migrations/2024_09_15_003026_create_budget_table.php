@@ -27,6 +27,7 @@ return new class extends Migration
             $table->string('orsNum', 50)->nullable();
             $table->date('outgoingDate')->nullable();
             $table->string('status', 50)->nullable();
+
             $table->timestamps();
         });
     }
