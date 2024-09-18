@@ -116,11 +116,15 @@
                                  </div>
 
                                  <!-- Appropriation -->
-                                 <div>
+                                  <div>
                                     <label class="block text-sm font-medium text-gray-700">Appropriation</label>
-                                    <input type="text" wire:model.defer="appropriation" class="border rounded px-3 py-2 w-full">
+                                    <select wire:model.defer="appropriation" class="border rounded px-3 py-2 w-full">
+                                       <option value="">Select Appropriation</option>
+                                       <option value="CURRENT">CURRENT</option>
+                                       <option value="CONTINUING">CONTINUING</option>
+                                    </select>
                                     @error('appropriation') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
-                                 </div>
+                                  </div>
                               </div>
 
                               <!-- Payee, Incoming Date, and Outgoing Date Fields -->
