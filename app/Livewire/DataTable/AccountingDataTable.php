@@ -219,6 +219,7 @@ class AccountingDataTable extends Component
         'dv_no' => $accountingRecord->dv_no,
         'gross_amount' => $accountingRecord->gross_amount,
         'net_amount' => $accountingRecord->net_amount,
+        'program' => $accountingRecord->program,
         'remarks' => $accountingRecord->remarks,
         'status' => 'Sent from Accounting', // Optional action field
         // Add other fields as necessary

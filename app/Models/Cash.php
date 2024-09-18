@@ -17,6 +17,7 @@ class Cash extends Model
         'check_ada_no',
         'gross_amount',
         'net_amount',
+        'program',
         'date_issued',
         'receipt_no',
         'remarks',

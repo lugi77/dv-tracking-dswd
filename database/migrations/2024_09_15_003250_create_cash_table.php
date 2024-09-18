@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('check_ada_no')->nullable();
             $table->decimal('gross_amount', 15, 2)->nullable();
             $table->decimal('net_amount', 15, 2)->nullable();
+            $table->string('program')->nullable();
             $table->date('date_received')->nullable();
             $table->date('date_issued')->nullable();
             $table->string('receipt_no')->nullable();

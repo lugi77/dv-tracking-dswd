@@ -156,7 +156,6 @@ class BudgetDataTable extends Component
             session()->flash('error', 'This DV has already been sent to Accounting.');
             return;
         }
-
         // Create a new Accounting record with data from the Budget record
         Accounting::create([
             'transaction_no' => $budgetRecord->transaction_no,
