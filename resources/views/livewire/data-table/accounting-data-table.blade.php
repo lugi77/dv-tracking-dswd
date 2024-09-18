@@ -56,7 +56,7 @@
                                         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                                             <div class="px-2">
                                                 <label class="block text-sm font-medium text-gray-700">Date Received</label>
-                                                <input type="date" wire:model.defer="date_received" class="border rounded px-4 py-2 w-full" readonly>
+                                                <input type="date" wire:model.defer="date_received" class="text-gray-400 border rounded px-4 py-2 w-full" readonly>
                                                 @error('date_received') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                                             </div>
                                             <div class="px-2">
@@ -71,7 +71,7 @@
                                             </div>
                                             <div class="px-2">
                                                 <label class="block text-sm font-medium text-gray-700">Final Gross Amount</label>
-                                                <input type="number" wire:model.defer="gross_amount" class="border rounded px-4 py-2 w-full">
+                                                <input type="number" wire:model.defer="gross_amount" class="text-gray-400 border rounded px-4 py-2 w-full">
                                                 @error('gross_amount') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                                             </div>
                                             <div class="px-2">
