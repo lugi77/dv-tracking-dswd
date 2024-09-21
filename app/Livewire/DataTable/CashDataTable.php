@@ -159,7 +159,8 @@ class CashDataTable extends Component
         if ($dvInventory) {
             // Subtract the cash record's amount from the total amount in dv_inventory
             $dvInventory->update([
-                'no_of_dv' => $dvInventory->no_of_dv > 0 ? $dvInventory->no_of_dv - 1 : 0,
+                'transaction_no' =>null,
+                'no_of_dv' => $dvInventory->no_of_dv > 1 ? $dvInventory->no_of_dv - 1 : null,
                 'total_amount_program' => $dvInventory->total_amount_program - $cashRecord->net_amount,
             ]);
         }
