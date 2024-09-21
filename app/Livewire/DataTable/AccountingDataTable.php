@@ -23,7 +23,7 @@ class AccountingDataTable extends Component
     // Form inputs
     public  $transaction_no, $date_received, $dv_no, $ap_no, $gross_amount, $tax, 
     $other_deduction, $net_amount, $program, $date_returned_to_end_user, $date_complied_to_end_user, 
-    $no_of_days, $outgoing_processor, $outgoing_certifier, $remarks,
+    $no_of_days, $outgoing_processor, $outgoing_certifier, $remarks, $payee, $appropriation,
     $outgoing_date, $status;
 
     public $isEditing = false;
@@ -221,6 +221,8 @@ class AccountingDataTable extends Component
         'net_amount' => $accountingRecord->net_amount,
         'program' => $accountingRecord->program,
         'remarks' => $accountingRecord->remarks,
+        'payee' => $accountingRecord->payee,
+        'appropriation' =>$accountingRecord->appropriation,
         'status' => 'Sent from Accounting', // Optional action field
         // Add other fields as necessary
     ]);

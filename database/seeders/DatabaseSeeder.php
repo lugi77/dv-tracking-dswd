@@ -13,15 +13,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+         // Call the UserSeeder
+         $this->call(UserSeeder::class);
 
-        User::factory()->create([
-            'name' => 'Admin',
-            'email' => 'luigillorando7@gmail.com',
-            'dswd_id' => '2020-00194',
-            'section' => '0',
-            'is_approved' => '1',
-            'password' => bcrypt('12345678')
-        ]);
+         // Call the ProgramSeeder
+         $this->call(ProgramSeeder::class);
     }
 }

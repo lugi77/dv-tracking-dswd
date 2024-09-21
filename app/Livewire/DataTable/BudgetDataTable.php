@@ -163,6 +163,8 @@ class BudgetDataTable extends Component
             'program' => $budgetRecord->program,
             'gross_amount' => $budgetRecord->gross_amount,
             'remarks' => $budgetRecord->remarks,
+            'payee' => $budgetRecord->payee,
+            'appropriation' => $budgetRecord->appropriation,
             'status' => 'Sent from Budget', // Optional action field
             // Add other fields as necessary
         ]);

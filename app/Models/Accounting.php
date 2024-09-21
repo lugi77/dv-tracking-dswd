@@ -28,6 +28,8 @@ class Accounting extends Model
         'remarks',
         'outgoing_date',
         'status',
+        'payee',
+        'appropriation'
     ];
 
     public function accounting()

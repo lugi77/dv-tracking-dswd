@@ -15,15 +15,16 @@ class DvInventory extends Model
 
     // Define which fields are mass assignable
     protected $fillable = [
+        'transaction_no', 
         'program',
         'no_of_dv',
         'total_amount_program',
     ];
 
     // Define any relationships if necessary
-    public function budgets()
+    public function budget()
     {
-        return $this->hasMany(Budget::class);
+        return $this->belongsTo(Budget::class, 'transaction_no', 'transaction_no');
     }
 
     public function cash()

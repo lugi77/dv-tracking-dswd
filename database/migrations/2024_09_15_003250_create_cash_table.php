@@ -26,6 +26,7 @@ return new class extends Migration
             $table->string('receipt_no')->nullable();
             $table->text('remarks')->nullable();
             $table->string('payee')->nullable();
+            $table->string('appropriation', 50)->nullable();
             $table->string('particulars')->nullable();
             $table->date('outgoing_date')->nullable();
             $table->string('status')->nullable();

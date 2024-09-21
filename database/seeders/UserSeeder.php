@@ -14,6 +14,16 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         DB::table('users')->insert([
+
+            [
+                'name' => 'Admin',
+                'email' => 'luigillorando7@gmail.com',
+                'dswd_id' => '2020-00194',
+                'section' => '0',
+                'is_approved' => '1',
+                'password' => bcrypt('12345678')
+            ],
+
             [
                 'name' => 'Luigi N. Llorando',
                 'email' => 'llorandomario@gmail.com',

@@ -31,6 +31,8 @@ return new class extends Migration
             $table->text('remarks')->nullable();
             $table->date('outgoing_date')->nullable();
             $table->string('status')->nullable();
+            $table->string('payee', 150)->nullable(); 
+            $table->string('appropriation', 50)->nullable();
             $table->timestamps();
         });
     }

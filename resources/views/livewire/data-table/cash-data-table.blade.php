@@ -139,7 +139,7 @@
                                                     <label for="payee"
                                                         class="block text-sm font-medium text-gray-700">Payee</label>
                                                     <input type="text" id="payee" wire:model.defer="payee"
-                                                        class="border rounded px-4 py-2 w-full">
+                                                        class="text-gray-400 border rounded px-4 py-2 w-full" readonly>
                                                     @error('payee') <span
                                                     class="text-red-600 text-sm">{{ $message }}</span> @enderror
                                                 </div>

@@ -17,7 +17,10 @@ class CashDataTable extends Component
     public $perPage = 10;
 
     // Form inputs
-    public $transaction_no, $date_received, $dv_no, $payment_type, $check_ada_no, $gross_amount, $net_amount, $program, $final_net_amount, $date_issued, $receipt_no, $remarks, $payee, $particulars, $outgoing_date, $status;
+    public $transaction_no, $date_received, $dv_no, $payment_type, 
+    $check_ada_no, $gross_amount, $net_amount, $program, $final_net_amount, 
+    $date_issued, $receipt_no, $remarks, $payee, $particulars, $outgoing_date, 
+    $status, $appropriation;
     public $isEditing = false;
     public $entryId;
 
@@ -172,28 +175,35 @@ class CashDataTable extends Component
     public function issuanceApproved($id)
     {
         // Find the cash record
-        $cashRecords = Cash::findOrFail($id);
-    
-        // Check if the program already exists in the dv_inventory table
-        $dvInventory = DvInventory::where('program', $cashRecords->program)->first();
-    
+        $cashRecord = Cash::findOrFail($id);
+
+        // Check if the transaction_no already exists in the dv_inventory table
+        $existingDvInventory = DvInventory::where('transaction_no', $cashRecord->transaction_no)->first();
+
+        if ($existingDvInventory) {
+            // If the transaction_no already exists, skip the counting
+            return;
+        }
+        // Check if the program already exists in the dv_inventory table (without double-counting)
+        $dvInventory = DvInventory::where('program', $cashRecord->program)->first();
+
         if ($dvInventory) {
             // If the program exists, increment the no_of_dv and add the net amount
             $dvInventory->update([
                 'no_of_dv' => $dvInventory->no_of_dv + 1,
-                'total_amount_program' => $dvInventory->total_amount_program + $cashRecords->net_amount,
+                'total_amount_program' => $dvInventory->total_amount_program + $cashRecord->net_amount,
+
             ]);
         } else {
-            // If the program doesn't exist, create a new record
+            // If the program doesn't exist, create a new record with transaction_no
             DvInventory::create([
-                'program' => $cashRecords->program,
+                'program' => $cashRecord->program,
                 'no_of_dv' => 1,
-                'total_amount_program' => $cashRecords->net_amount,
+                'total_amount_program' => $cashRecord->net_amount,
+                'transaction_no' => $cashRecord->transaction_no, // Store the transaction_no to track this entry
             ]);
         }
     }
-    
-
 
     public function sortBy($field)
     {
@@ -202,7 +212,6 @@ class CashDataTable extends Component
         } else {
             $this->sortDirection = 'asc'; // Reset to asc when switching fields
         }
-
         $this->sortField = $field;
     }
 

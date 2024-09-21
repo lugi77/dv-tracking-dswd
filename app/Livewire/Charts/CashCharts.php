@@ -10,7 +10,11 @@ use App\Models\DvInventory;
 class CashCharts extends Component
 {
      // Properties for form inputs
-     public $program, $no_of_dv, $total_amount_program;
+     public $program, $transaction_no,  $no_of_dv, $total_amount_program;
+
+     public $continuingCount, $currentCount;
+
+     public $totalDvCount, $totalUnprocessedCount;
  
      // Validation rules
      protected $rules = [
@@ -21,6 +25,20 @@ class CashCharts extends Component
  
      public function render()
      {
+        // Calculate the count of 'Continuing' and 'Current' from the appropriation field in the cash table
+        $this->continuingCount = Cash::where('appropriation', 'Continuing')
+            ->where('status', 'Issuance Approved')
+            ->count();
+
+        $this->currentCount = Cash::where('appropriation', 'Current')
+            ->where('status', 'Issuance Approved')
+            ->count();
+
+        // Calculate counts for ADA and Cheque
+        $this->totalDvCount = Cash::where('payment_type', 'ADA')->count();
+
+        $this->totalUnprocessedCount = Cash::where('payment_type', 'Cheque')->count();
+
         // Fetch all the programs and their respective DV and total amount data
         $programs = DvInventory::select('program', 'no_of_dv', 'total_amount_program')->get();
 
@@ -29,9 +47,13 @@ class CashCharts extends Component
         $totalAmount = $programs->sum('total_amount_program');
 
         return view('livewire.charts.cash-charts', [
+            'continuingCount' => $this->continuingCount,
+            'currentCount' => $this->currentCount,
             'programs' => $programs,
             'totalDv' => $totalDv,
             'totalAmount' => $totalAmount,
+            'totalDvCount' => $this->totalDvCount,
+            'totalUnprocessedCount' => $this->totalUnprocessedCount,
         ]);
     }
 }
