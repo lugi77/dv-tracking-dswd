@@ -150,27 +150,46 @@ class CashDataTable extends Component
 
     public function sendBackToAccounting($id)
     {
-        // Find the Accounting record by its ID
-        $cashRecords = Cash::findOrFail($id);
-        // Find the related Budget record using the DV number
-        $accountingRecord = Accounting::where('transaction_no', $cashRecords->transaction_no)->first();
+        // Find the Cash record by its ID
+        $cashRecord = Cash::findOrFail($id);
+
+        // Check if the transaction_no already exists in the dv_inventory table
+        $dvInventory = DvInventory::where('transaction_no', $cashRecord->transaction_no)->first();
+
+        if ($dvInventory) {
+            // Subtract the cash record's amount from the total amount in dv_inventory
+            $dvInventory->update([
+                'no_of_dv' => $dvInventory->no_of_dv > 0 ? $dvInventory->no_of_dv - 1 : 0,
+                'total_amount_program' => $dvInventory->total_amount_program - $cashRecord->net_amount,
+            ]);
+        }
+
+        // Find the related Accounting record using the transaction_no
+        $accountingRecord = Accounting::where('transaction_no', $cashRecord->transaction_no)->first();
+
         if (!$accountingRecord) {
             session()->flash('error', 'No corresponding Accounting record found.');
             return;
         }
-        // Update the status of the Accounting record to indicate it has been sent back to Budget
-        $cashRecords->update([
+
+        // Update the status of the Cash record to indicate it has been sent back to Accounting
+        $cashRecord->update([
             'status' => 'Sent Back to Accounting',
             'outgoing_date' => now(),
         ]);
-        // Optionally update the status of the Budget record
+
+        // Optionally update the status of the Accounting record
         $accountingRecord->update([
             'status' => 'Returned from Cash',
         ]);
-        $cashRecords->delete();
+
+        // Delete the Cash record after processing
+        $cashRecord->delete();
+
         // Flash a message to indicate success
         session()->flash('message', 'Entry sent back to Accounting successfully.');
     }
+
 
     public function issuanceApproved($id)
     {
@@ -190,6 +209,7 @@ class CashDataTable extends Component
         if ($dvInventory) {
             // If the program exists, increment the no_of_dv and add the net amount
             $dvInventory->update([
+                'transaction_no' => $cashRecord->transaction_no,
                 'no_of_dv' => $dvInventory->no_of_dv + 1,
                 'total_amount_program' => $dvInventory->total_amount_program + $cashRecord->net_amount,
 
