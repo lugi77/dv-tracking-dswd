@@ -1,19 +1,16 @@
 <div class="container mx-auto">
-<div style="text-align: center; margin-bottom: 20px;">
-        <h1 style="font-size: 48px; font-weight: bold;">Budget Section</h1>
-    </div>
     <div class="flex justify-between mb-4">
-        <div class="w-1/4 bg-white p-4 border rounded shadow">
-            <p>Total Number of Disbursement Vouchers</p>
-            <h2>5,370</h2>
+    <div class="bg-white p-4 border rounded shadow text-center w-1/3">
+    <p class="font-semibold">Total Number of Disbursement Vouchers</p>
+    <h2 class="text-xl font-bold">5,370</h2>
         </div>
-        <div class="w-1/4 bg-white p-4 border rounded shadow">
-            <p>Total Gross Amount</p>
-            <h2>₱5,993,817,647.37</h2>
+        <div class="bg-white p-4 border rounded shadow text-center w-1/3">
+        <p class="font-semibold">Total Gross Amount</p>
+        <h2 class="text-xl font-bold">₱5,993,817,647.37</h2>
         </div>
-        <div class="w-1/4 bg-white p-4 border rounded shadow">
-            <p>Total Number of Completed Disbursement Vouchers</p>
-            <h2>5,219</h2>
+        <div class="bg-white p-4 border rounded shadow text-center w-1/3">
+        <p class="font-semibold">Total Number of Completed Disbursement Vouchers</p>
+        <h2 class="text-xl font-bold">5,219</h2>
         </div>
     </div>
 

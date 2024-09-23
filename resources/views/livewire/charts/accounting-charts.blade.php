@@ -1,8 +1,5 @@
 <div class="container" style="max-width: 1200px; margin: auto;">
-    <!-- Header -->
-    <div style="text-align: center; margin-bottom: 20px;">
-        <h1 style="font-size: 48px; font-weight: bold;">Accounting Section</h1>
-    </div>
+
 
     <div style="display: flex; justify-content: space-between;">
         <!-- Bar Chart -->
