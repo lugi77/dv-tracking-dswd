@@ -56,7 +56,7 @@ class AccountingDataTable extends Component
 
        // Convert null values to 0 for tax and other_deduction
         $taxPercentage = $this->tax ?? 0;
-        $other_deduction = $this->other_deduction ?? 0;
+        $other_deduction = is_numeric($this->other_deduction) ? (float)$this->other_deduction : 0;
 
         // Calculate actual tax amount based on percentage
         $taxAmount = ($this->gross_amount * $taxPercentage) / 100;

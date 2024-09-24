@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+
 class Budget extends Model
 {
     use HasFactory;
@@ -32,6 +33,39 @@ class Budget extends Model
         'outgoingDate',
         'status'
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::created(function ($model) {
+            self::logActivity($model, 'created');
+        });
+
+        static::updated(function ($model) {
+            self::logActivity($model, 'updated');
+        });
+
+        static::deleted(function ($model) {
+            self::logActivity($model, 'deleted');
+        });
+    }
+
+    protected static function logActivity($model, $action)
+    {
+        if ($action === 'updated' && $model->status === 'Sent to Accounting') {
+            return; // Skip logging this specific update
+        }
+        ActivityLog::create([
+            'user_id' => auth()->id(), // Assuming you have user authentication
+            'model_type' => get_class($model),
+            'model_id' => $model->transaction_no,
+            'user_name' => auth()->user()->name,
+            'dswd_id' => auth()->user()->dswd_id,
+            'action' => $action,
+            'details' => "Budget entry with transaction no {$model->transaction_no} has been {$action}.",
+        ]);
+    }
 
     public function accounting()
     {

@@ -184,7 +184,6 @@ class BudgetDataTable extends Component
 
         // Only allow editing if the status is 'Returned from Accounting'
 
-
         // Set the properties to the values of the record being edited
         $this->drn_no = $budget->drn_no;
         $this->incomingDate = $budget->incomingDate;

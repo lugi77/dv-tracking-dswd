@@ -7,8 +7,7 @@
                     <!-- Modal -->
                     <div x-show="modelOpen" class="fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title"
                         role="dialog" aria-modal="true">
-                        <div
-                            class="flex items-end justify-center min-h-screen px-4 text-center md:items-center sm:block sm:p-0">
+                        <div class="flex items-end justify-center min-h-screen px-4 text-center md:items-center sm:block sm:p-0">
 
                             <!-- Backdrop -->
                             <div x-cloak @click="modelOpen = false" x-show="modelOpen"
