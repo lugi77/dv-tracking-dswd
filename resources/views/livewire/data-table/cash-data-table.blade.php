@@ -76,13 +76,12 @@
                                                 </div>
 
                                                 <!-- CHECK/ADA No., Gross Amount, and Net Amount -->
-                                                <div>
-                                                    <label for="check_ada_no"
-                                                        class="block text-sm font-medium text-gray-700">CHECK/ADA
-                                                        No.</label>
-                                                    <input type="text" id="check_ada_no" wire:model.defer="check_ada_no"
-                                                        class="border rounded px-4 py-2 w-full">
-                                                    @error('check_ada_no') <span
+                                                <div class="md:col-span-1">
+                                                    <label for="payee"
+                                                        class="block text-sm font-medium text-gray-700">Payee</label>
+                                                    <input type="text" id="payee" wire:model.defer="payee"
+                                                        class="text-gray-400 border rounded px-4 py-2 w-full" readonly>
+                                                    @error('payee') <span
                                                     class="text-red-600 text-sm">{{ $message }}</span> @enderror
                                                 </div>
                                                 <div>
@@ -135,12 +134,14 @@
                                                     @error('outgoing_date') <span
                                                     class="text-red-600 text-sm">{{ $message }}</span> @enderror
                                                 </div>
-                                                <div class="md:col-span-1">
-                                                    <label for="payee"
-                                                        class="block text-sm font-medium text-gray-700">Payee</label>
-                                                    <input type="text" id="payee" wire:model.defer="payee"
-                                                        class="text-gray-400 border rounded px-4 py-2 w-full" readonly>
-                                                    @error('payee') <span
+                                                
+                                                <div>
+                                                    <label for="check_ada_no"
+                                                        class="block text-sm font-medium text-gray-700">CHECK/ADA
+                                                        No.</label>
+                                                    <input type="text" id="check_ada_no" wire:model.defer="check_ada_no"
+                                                        class="border rounded px-4 py-2 w-full">
+                                                    @error('check_ada_no') <span
                                                     class="text-red-600 text-sm">{{ $message }}</span> @enderror
                                                 </div>
                                                 <div class="md:col-span-2">
