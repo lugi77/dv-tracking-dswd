@@ -23,6 +23,7 @@ class Cash extends Model
         'remarks',
         'payee',
         'appropriation',
+        'orsNum',
         'particulars',
         'outgoing_date',
         'status',

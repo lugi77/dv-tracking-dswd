@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->string('model_type');
             $table->string('model_id');
+            $table->string('dv_no')->nullable();
             $table->string('user_name');
             $table->string('dswd_id');
             $table->string('action');

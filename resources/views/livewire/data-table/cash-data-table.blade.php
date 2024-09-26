@@ -248,6 +248,7 @@
                                 <thead class="bg-blue-700 text-white sticky top-0">
                                     <tr>
                                         <th class="py-2 px-4 text-center font-bold min-w-[150px]">Date Received</th>
+                                        <th class="py-2 px-4 text-center font-bold min-w-[150px]">ORS Number</th>
                                         <th wire:click="sortBy('dv_no')"
                                             class="py-2 px-4 text-center font-bold min-w-[150px] cursor-pointer">
                                             DV Number
@@ -280,6 +281,8 @@
                                         <tr class="hover:bg-gray-100 cursor-pointer">
                                             <td class="py-2 px-2 text-center border-b border-r border-gray-300">
                                                 {{ $record->date_received }}</td>
+                                            <td class="py-2 px-2 text-center border-b border-r border-gray-300">
+                                                {{ $record->orsNum }}</td>
                                             <td class="py-2 px-2 text-center border-b border-r border-gray-300">{{ $record->dv_no }}
                                             </td>
                                             <td class="py-2 px-2 border-b border-r border-gray-300">

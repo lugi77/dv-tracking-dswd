@@ -10,18 +10,30 @@
                         <thead>
                             <tr class="bg-blue-500 text-white">
                                 <th class="py-3 px-4 text-left font-semibold">Timestamp</th>
+                                <th class="py-3 px-4 text-left font-semibold">Table</th>
                                 <th class="py-3 px-4 text-left font-semibold">DV Number</th>
                                 <th class="py-3 px-4 text-left font-semibold">User</th>
                                 <th class="py-3 px-4 text-left font-semibold">Action</th>
+                                <th class="py-3 px-4 text-left font-semibold">Details</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="hover:bg-blue-100 transition duration-200 ease-in-out">
-                                <td class="py-3 px-4 border-b border-gray-200 text-blue-800">2024-09-17 12:45 PM</td>
-                                <td class="py-3 px-4 border-b border-gray-200 text-blue-800">DV-00123</td>
-                                <td class="py-3 px-4 border-b border-gray-200 text-blue-800">John Doe</td>
-                                <td class="py-3 px-4 border-b border-gray-200 text-blue-800">Logged in</td>
-                            </tr>
+                            @forelse($logs as $log)
+                                <tr class="hover:bg-blue-100 transition duration-200 ease-in-out">
+                                <td class="py-3 px-4 border-b border-gray-200 text-blue-800">{{ $log->created_at->setTimezone('Asia/Manila')->format('Y-m-d h:i A') }}</td>
+                                <td class="py-3 px-4 border-b border-gray-200 text-blue-800">{{ $log->model_type}}</td>
+                                    <td class="py-3 px-4 border-b border-gray-200 text-blue-800">{{ $log->dv_no ?? 'N/A' }}
+                                    </td>
+                                    <td class="py-3 px-4 border-b border-gray-200 text-blue-800">{{ $log->user_name }}</td>
+                                    <td class="py-3 px-4 border-b border-gray-200 text-blue-800">{{ $log->action }}</td>
+                                    <td class="py-3 px-4 border-b border-gray-200 text-blue-800">{{ $log->details }}</td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="4" class="py-3 px-4 border-b border-gray-200 text-blue-800 text-center">No
+                                        logs found</td>
+                                </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>

@@ -35,9 +35,14 @@ class CashCharts extends Component
             ->count();
 
         // Calculate counts for ADA and Cheque
-        $this->totalDvCount = Cash::where('payment_type', 'ADA')->count();
+        $this->totalDvCount = Cash::where('payment_type', 'ADA')
+                          ->where('status', 'Issuance Approved')
+                          ->count();
 
-        $this->totalUnprocessedCount = Cash::where('payment_type', 'Cheque')->count();
+// Count for Cheque payment type
+        $this->totalUnprocessedCount = Cash::where('payment_type', 'Cheque')
+                                        ->where('status', 'Issuance Approved')
+                                        ->count();
 
         // Fetch all the programs and their respective DV and total amount data
         $programs = DvInventory::select('program', 'no_of_dv', 'total_amount_program')->get();

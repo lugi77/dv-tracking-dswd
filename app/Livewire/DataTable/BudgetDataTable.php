@@ -164,6 +164,8 @@ class BudgetDataTable extends Component
             'gross_amount' => $budgetRecord->gross_amount,
             'remarks' => $budgetRecord->remarks,
             'payee' => $budgetRecord->payee,
+            'orsNum' => $budgetRecord->orsNum,
+            'particulars' => $budgetRecord->particulars,
             'appropriation' => $budgetRecord->appropriation,
             'status' => 'Sent from Budget', // Optional action field
             // Add other fields as necessary

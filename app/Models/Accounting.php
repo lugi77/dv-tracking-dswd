@@ -26,11 +26,47 @@ class Accounting extends Model
         'outgoing_processor',
         'outgoing_certifier',
         'remarks',
+        'orsNum',
+        'particulars',
         'outgoing_date',
         'status',
         'payee',
         'appropriation'
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::created(function ($model) {
+            self::logActivity($model, 'created');
+        });
+
+        static::updated(function ($model) {
+            self::logActivity($model, 'updated');
+        });
+
+        static::deleted(function ($model) {
+            self::logActivity($model, 'deleted');
+        });
+    }
+
+    protected static function logActivity($model, $action)
+    {
+        if ($action === 'updated' && $model->status === 'Sent to Cash') {
+            return; // Skip logging this specific update
+        }
+        ActivityLog::create([
+            'user_id' => auth()->id(), // Assuming you have user authentication
+            'model_type' => class_basename($model),
+            'model_id' => $model->transaction_no,
+            'dv_no' => $model->dv_no,
+            'user_name' => auth()->user()->name,
+            'dswd_id' => auth()->user()->dswd_id,
+            'action' => $action,
+            'details' => "Budget entry with transaction no {$model->dv_no} has been {$action}.",
+        ]);
+    }
 
     public function accounting()
     {

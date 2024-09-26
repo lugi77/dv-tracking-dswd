@@ -24,7 +24,7 @@ class AccountingDataTable extends Component
     public  $transaction_no, $date_received, $dv_no, $ap_no, $gross_amount, $tax, 
     $other_deduction, $net_amount, $program, $date_returned_to_end_user, $date_complied_to_end_user, 
     $no_of_days, $outgoing_processor, $outgoing_certifier, $remarks, $payee, $appropriation,
-    $outgoing_date, $status;
+    $outgoing_date, $status, $orsNum, $particulars;
 
     public $isEditing = false;
     public $entryId;
@@ -44,6 +44,8 @@ class AccountingDataTable extends Component
         'no_of_days' => 'nullable|integer',
         'outgoing_processor' => 'nullable|string',
         'outgoing_certifier' => 'nullable|string',
+        'orsNum' => 'nullable|string|max:50',
+        'particulars' => 'nullable|string|max:250',
         'remarks' => 'nullable|string',
         'outgoing_date' => 'nullable|date',
         'status' => 'nullable|string',
@@ -222,6 +224,8 @@ class AccountingDataTable extends Component
         'program' => $accountingRecord->program,
         'remarks' => $accountingRecord->remarks,
         'payee' => $accountingRecord->payee,
+        'orsNum' => $accountingRecord->orsNum,
+        'particulars' => $accountingRecord->particulars,
         'appropriation' =>$accountingRecord->appropriation,
         'status' => 'Sent from Accounting', // Optional action field
         // Add other fields as necessary

@@ -28,8 +28,8 @@ class Budget extends Model
         'final_amount_norsa',
         'fund_cluster',
         'appropriation',
-        'remarks',
         'orsNum',
+        'remarks',
         'outgoingDate',
         'status'
     ];
@@ -54,16 +54,17 @@ class Budget extends Model
     protected static function logActivity($model, $action)
     {
         if ($action === 'updated' && $model->status === 'Sent to Accounting') {
-            return; // Skip logging this specific update
+            $action = 'Sent to Accounting'; // Modify the action
         }
         ActivityLog::create([
             'user_id' => auth()->id(), // Assuming you have user authentication
-            'model_type' => get_class($model),
+            'model_type' => class_basename($model),
             'model_id' => $model->transaction_no,
+            
             'user_name' => auth()->user()->name,
             'dswd_id' => auth()->user()->dswd_id,
             'action' => $action,
-            'details' => "Budget entry with transaction no {$model->transaction_no} has been {$action}.",
+            'details' => "Budget entry with transaction no {$model->dv_no} has been {$action}.",
         ]);
     }
 

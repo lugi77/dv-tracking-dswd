@@ -21,7 +21,7 @@ Route::middleware(['auth', 'otp', 'PreventBackHistory'])->group(function () {
 
     Route::view('profile', 'profile')->name('profile');
 
-    Route::get('/History', ActivityLogs::class)->name('view history');
+    Route::get('/history', ActivityLogs::class)->name('view history');
 
     // Dashboard Routes for Different Sections
     Route::get('/admin', [UserDashboardController::class, 'index'])

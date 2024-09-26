@@ -14,6 +14,7 @@ class ActivityLog extends Model
         'model_type',
         'model_id',
         'user_name',
+        'dv_no',
         'dswd_id',
         'action',
         'details',

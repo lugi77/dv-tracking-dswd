@@ -30,7 +30,9 @@ return new class extends Migration
             $table->string('outgoing_certifier')->nullable();
             $table->text('remarks')->nullable();
             $table->date('outgoing_date')->nullable();
+            $table->string('orsNum', 50)->nullable();
             $table->string('status')->nullable();
+            $table->string('particulars', 250)->nullable();
             $table->string('payee', 150)->nullable(); 
             $table->string('appropriation', 50)->nullable();
             $table->timestamps();
