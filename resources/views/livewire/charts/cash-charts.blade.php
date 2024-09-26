@@ -19,7 +19,7 @@
     <div class="flex justify-between mb-4">
          <!-- Pie Chart -->
          <div class="bg-white p-4 border rounded shadow w-1/2">
-            <h3 class="text-center font-semibold mb-2">DV Appropriation Status</h3>
+            <h3 class="text-center font-bold mb-2">DV Appropriation Status</h3>
             <div class="relative">
             <canvas id="dvAppropriationStatus" class="w-100" style="height: 600px;"></canvas>
             </div>
@@ -46,17 +46,17 @@
             <tbody>
                 @foreach($programs as $program)
                 <tr>
-                    <td class="border px-4 py-2">{{ $program->program }}</td>
-                    <td class="border px-4 py-2">{{ $program->no_of_dv }}</td>
-                    <td class="border px-4 py-2"></td>
-                    <td class="border px-4 py-2"></td>
-                    <td class="border px-4 py-2"></td>
+                <td class="border px-4 py-2">{{ $program->program }}</td>
+                <td class="border px-4 py-2">{{ $program->no_of_dv }}</td>
+                <td class="border px-4 py-2">₱{{ number_format($program->total_amount_program, 2) }}</td>
+                <td class="border px-4 py-2"></td>
+                <td class="border px-4 py-2"></td>
                 </tr>
                 @endforeach
                 <tr class="border px-4 py-2 font-bold sticky bottom-0 bg-white z-10">
-                    <td class="border px-4 py-2 font-bold">Total</td>
-                    <td class="border px-4 py-2 font-bold">{{ $totalDv }}</td>
-                    <td class="border px-4 py-2 font-bold"></td>
+                <td class="border px-4 py-2 font-bold">Total</td>
+                <td class="border px-4 py-2 font-bold">{{ $totalDv }}</td>
+                <td class="border px-4 py-2 font-bold">₱{{ number_format($totalAmount, 2) }}</td>
                     <td class="border px-4 py-2 font-bold"></td>
                     <td class="border px-4 py-2 font-bold"></td>
                 </tr>
