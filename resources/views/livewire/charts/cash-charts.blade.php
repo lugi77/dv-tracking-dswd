@@ -4,19 +4,19 @@
         <div class="bg-white p-4 border rounded shadow text-center">
             <p class="font-semibold">Total Number of Disbursement Vouchers</p>
             <h2 class="text-2xl font-bold text-indigo-600">
-            {{ $processedPrograms->sum('total_processed_dvs') ?? 0 }}
+                {{ $processedPrograms->sum('total_processed_dvs') ?? 0 }}
             </h2>
         </div>
         <div class="bg-white p-4 border rounded shadow text-center">
             <p class="font-semibold">Total Number of Unprocessed DVs</p>
             <h2 class="text-2xl font-bold text-red-500">
-            {{ $unprocessedPrograms->sum('total_unprocessed_dvs') ?? 0 }}
+                {{ $unprocessedPrograms->sum('total_unprocessed_dvs') ?? 0 }}
             </h2>
         </div>
         <div class="bg-white p-4 border rounded shadow text-center">
             <p class="font-semibold">Total Net Amount</p>
             <h2 class="text-2xl font-bold text-green-600">
-            {{ number_format($processedPrograms->sum('total_processed_amount'), 2) ?? 0.00 }}
+                {{ number_format($processedPrograms->sum('total_processed_amount'), 2) ?? 0.00 }}
             </h2>
         </div>
     </div>
@@ -27,6 +27,13 @@
         <div class="relative" style="height: 400px;">
             <canvas id="dvAppropriationStatus" class="w-full"></canvas>
         </div>
+    </div>
+
+    <div class="mb-4">
+        <a href="{{ route('generatePdf') }}"
+            class="bg-blue-500 text-white font-semibold py-2 px-4 rounded shadow hover:bg-blue-600">
+            Download PDF
+        </a>
     </div>
 
     <!-- Tables Section: Processed and Unprocessed DVs -->
@@ -49,14 +56,16 @@
                                 <td class="border px-4 py-2">{{ $processed->program }}</td>
                                 <td class="border px-4 py-2">{{ $processed->total_processed_dvs ?? 0 }}</td>
                                 <td class="border px-4 py-2">
-                                    {{ number_format($processed->total_processed_amount, 2) ?? 0.00 }}</td>
+                                    {{ number_format($processed->total_processed_amount, 2) ?? 0.00 }}
+                                </td>
                             </tr>
                         @endforeach
                         <tr class="font-bold sticky bottom-0 bg-white z-10">
                             <td class="border px-4 py-2">Total</td>
                             <td class="border px-4 py-2">{{ $processedPrograms->sum('total_processed_dvs') ?? 0 }}</td>
                             <td class="border px-4 py-2">
-                                {{ number_format($processedPrograms->sum('total_processed_amount'), 2) ?? 0.00 }}</td>
+                                {{ number_format($processedPrograms->sum('total_processed_amount'), 2) ?? 0.00 }}
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -81,7 +90,8 @@
                                 <td class="border px-4 py-2">{{ $unprocessed->program }}</td>
                                 <td class="border px-4 py-2">{{ $unprocessed->total_unprocessed_dvs ?? 0 }}</td>
                                 <td class="border px-4 py-2">
-                                    {{ number_format($unprocessed->total_unprocessed_amount, 2) ?? 0.00 }}</td>
+                                    {{ number_format($unprocessed->total_unprocessed_amount, 2) ?? 0.00 }}
+                                </td>
                             </tr>
                         @endforeach
                         <tr class="font-bold sticky bottom-0 bg-white z-10">

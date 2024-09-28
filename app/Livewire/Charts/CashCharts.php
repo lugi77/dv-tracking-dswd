@@ -6,9 +6,11 @@ use Livewire\Component;
 use App\Models\Cash;
 use App\Models\DvInventory;
 use App\Models\DvInventoryUnprocessed;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class CashCharts extends Component
 {
+
     public $continuingCount, $currentCount;
 
     public function render()
@@ -82,4 +84,24 @@ class CashCharts extends Component
             'unprocessedPrograms' => $unprocessedPrograms,
         ]);
     }
+
+    public function generatePdf()
+    {
+        $processedPrograms = DvInventory::select('program')
+        ->selectRaw('SUM(no_of_processed_dv) as total_processed_dvs')
+        ->selectRaw('SUM(total_amount_processed) as total_processed_amount')
+        ->groupBy('program')
+        ->get();
+        
+        $unprocessedPrograms = DvInventoryUnprocessed::select('program')
+        ->selectRaw('SUM(no_of_unprocessed_dv) as total_unprocessed_dvs')
+        ->selectRaw('SUM(total_amount_unprocessed) as total_unprocessed_amount')
+        ->groupBy('program')
+        ->get();
+    
+        $pdf = PDF::loadView('pdf-view', compact('processedPrograms', 'unprocessedPrograms'));
+        
+        return $pdf->download('dv_report.pdf'); // Download the PDF
+    }
+
 }

@@ -2,6 +2,7 @@
 
 
 use App\Livewire\Admin\AdminTable;
+use App\Livewire\Charts\CashCharts;
 use App\Livewire\DataTable\AccountingDataTable;
 use App\Livewire\DataTable\CashDataTable;
 use Illuminate\Support\Facades\Route;
@@ -53,6 +54,11 @@ Route::middleware(['auth', 'otp', 'PreventBackHistory'])->group(function () {
     Route::get('/CashDataTable', CashDataTable::class)
         ->middleware('check.section:3')
         ->name('cash table');
+
+    Route::get('/generate-pdf', [CashCharts::class, 'generatePdf'])
+        ->middleware('check.section:3')
+        ->name('generatePdf');
+
 
     
 });
