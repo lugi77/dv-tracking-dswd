@@ -2,7 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\DvInventory;
+
+use App\Models\Programs;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -14,7 +15,7 @@ class ProgramSeeder extends Seeder
     public function run(): void
     {
         // List of programs to be seeded
-        $programs = [
+        $program = [
             ['program' => 'ADOPTION'],
             ['program' => 'AICS'],
             ['program' => 'ANGELS HAVEN'],
@@ -74,6 +75,6 @@ class ProgramSeeder extends Seeder
             ['program' => 'TRUST FUND'],
         ];
         // Insert each program into the dv_inventory table
-        DvInventory::insert($programs);
+        Programs::insert($program);
     }
 }

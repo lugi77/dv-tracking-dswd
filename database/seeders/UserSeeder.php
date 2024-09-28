@@ -34,7 +34,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'name' => 'Frances Manalo',
-                'email' => 'manalo@gmail.com',
+                'email' => 'cashunit1002@gmail.com',
                 'dswd_id' => '2020-00222',
                 'section' => '2',
                 'is_approved' => '1',
@@ -42,7 +42,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'name' => 'Sydrick Acaba',
-                'email' => 'acaba@gmail.com',
+                'email' => 'lnllorando@usep.edu.ph',
                 'dswd_id' => '2020-00333',
                 'section' => '3',
                 'is_approved' => '1',

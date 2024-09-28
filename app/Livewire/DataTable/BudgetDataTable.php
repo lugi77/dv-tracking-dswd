@@ -4,11 +4,13 @@ namespace App\Livewire\DataTable;
 
 use App\Models\Budget;
 use App\Models\Accounting;
+use App\Models\Programs;
 use Livewire\Attributes\Layout;
 use Livewire\WithPagination;
 use Livewire\Component;
 use Livewire\Attributes\On;
 use App\Models\DvInventory;
+
 
 #[Layout('layouts.app')]
 class BudgetDataTable extends Component
@@ -19,8 +21,7 @@ class BudgetDataTable extends Component
     public $perPage = '10';
 
     // Form inputs
-    public $transaction_no, $drn_no, $incomingDate,
-    $payee, $particulars, $etal, $program, $budget_controller, $gross_amount,
+    public $transaction_no, $drn_no, $incomingDate, $payee, $particulars, $etal, $program, $budget_controller, $gross_amount,
     $final_amount_norsa, $fund_cluster, $appropriation, $remarks, $orsNum,
     $outgoingDate, $status;
 
@@ -31,6 +32,14 @@ class BudgetDataTable extends Component
     // Sorting
     public $sortField = 'drn_no'; // Default sort field
     public $sortDirection = 'desc'; // Default sort direction
+
+    public $programs; // Holds the list of programs
+
+    public function mount()
+    {
+        // Fetch the programs when the component is initialized
+        $this->programs = Programs::all(); // Retrieves all program entries from the 'programs' table
+    }
 
     protected $rules = [
         'transaction_no' => 'nullable|unique:budget,transaction_no',
@@ -235,7 +244,6 @@ class BudgetDataTable extends Component
 
         return view('livewire.data-table.budget-data-table', [
             'budgetRecords' => $budgetRecords,
-            'programs' => $programs,
         ]);
     }
 }

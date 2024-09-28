@@ -17,9 +17,9 @@ class CashDataTable extends Component
     public $perPage = 10;
 
     // Form inputs
-    public $transaction_no, $date_received, $dv_no, $payment_type, 
-    $check_ada_no, $gross_amount, $net_amount, $program, $final_net_amount, 
-    $date_issued, $receipt_no, $remarks, $payee, $particulars, $outgoing_date, 
+    public $transaction_no, $date_received, $dv_no, $payment_type,
+    $check_ada_no, $gross_amount, $net_amount, $program, $final_net_amount,
+    $date_issued, $receipt_no, $remarks, $payee, $particulars, $outgoing_date,
     $status, $appropriation, $orsNum;
     public $isEditing = false;
     public $entryId;
@@ -159,11 +159,7 @@ class CashDataTable extends Component
 
         if ($dvInventory) {
             // Subtract the cash record's amount from the total amount in dv_inventory
-            $dvInventory->update([
-                'transaction_no' =>null,
-                'no_of_dv' => $dvInventory->no_of_dv > 1 ? $dvInventory->no_of_dv - 1 : null,
-                'total_amount_program' => $dvInventory->total_amount_program - $cashRecord->net_amount,
-            ]);
+            $dvInventory->delete();
         }
 
         // Find the related Accounting record using the transaction_no
@@ -192,7 +188,6 @@ class CashDataTable extends Component
         session()->flash('message', 'Entry sent back to Accounting successfully.');
     }
 
-
     public function issuanceApproved($id)
     {
           // Find the cash record
@@ -206,12 +201,11 @@ class CashDataTable extends Component
             return;
         }
 
-        // Create a new entry in dv_inventory, even if the program already exists,
         // but ensure the transaction_no is unique
         DvInventory::create([
             'program' => $cashRecord->program,
-            'no_of_dv' => 1,  // Since this is a new entry, set it to 1
-            'total_amount_program' => $cashRecord->net_amount,
+            'no_of_processed_dv' => 1,  // Since this is a new entry, set it to 1
+            'total_amount_processed' => $cashRecord->net_amount,
             'transaction_no' => $cashRecord->transaction_no,  // Store the transaction_no to track this entry
         ]);
     }
