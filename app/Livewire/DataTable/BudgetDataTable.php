@@ -4,10 +4,13 @@ namespace App\Livewire\DataTable;
 
 use App\Models\Budget;
 use App\Models\Accounting;
+use App\Models\Programs;
 use Livewire\Attributes\Layout;
 use Livewire\WithPagination;
 use Livewire\Component;
 use Livewire\Attributes\On;
+use App\Models\DvInventory;
+
 
 #[Layout('layouts.app')]
 class BudgetDataTable extends Component
@@ -18,8 +21,7 @@ class BudgetDataTable extends Component
     public $perPage = '10';
 
     // Form inputs
-    public $transaction_no, $drn_no, $incomingDate,
-    $payee, $particulars, $etal, $program, $budget_controller, $gross_amount,
+    public $transaction_no, $drn_no, $incomingDate, $payee, $particulars, $etal, $program, $budget_controller, $gross_amount,
     $final_amount_norsa, $fund_cluster, $appropriation, $remarks, $orsNum,
     $outgoingDate, $status;
 
@@ -31,6 +33,14 @@ class BudgetDataTable extends Component
     public $sortField = 'drn_no'; // Default sort field
     public $sortDirection = 'desc'; // Default sort direction
 
+    public $programs; // Holds the list of programs
+
+    public function mount()
+    {
+        // Fetch the programs when the component is initialized
+        $this->programs = Programs::all(); // Retrieves all program entries from the 'programs' table
+    }
+
     protected $rules = [
         'transaction_no' => 'nullable|unique:budget,transaction_no',
         'drn_no' => 'required|string|max:100',
@@ -40,7 +50,7 @@ class BudgetDataTable extends Component
         'program' => 'required|string|max:30',
         'budget_controller' => 'required|string|max:75',
         'gross_amount' => 'required|numeric|min:0',
-        'final_amount_norsa' => 'required|numeric|min:0',
+        'final_amount_norsa' => 'nullable|numeric|',
         'fund_cluster' => 'required|string|max:50',
         'appropriation' => 'required|string|max:50',
         'remarks' => 'nullable|string|max:250',
@@ -64,7 +74,7 @@ class BudgetDataTable extends Component
                 'program' => $this->program,
                 'budget_controller' => $this->budget_controller,
                 'gross_amount' => $this->gross_amount,
-                'final_amount_norsa' => $this->final_amount_norsa,
+                'final_amount_norsa' => $this->final_amount_norsa ?: null, // handle empty value
                 'fund_cluster' => $this->fund_cluster,
                 'appropriation' => $this->appropriation,
                 'remarks' => $this->remarks,
@@ -93,7 +103,7 @@ class BudgetDataTable extends Component
                 'program' => $this->program,
                 'budget_controller' => $this->budget_controller,
                 'gross_amount' => $this->gross_amount,
-                'final_amount_norsa' => $this->final_amount_norsa,
+                'final_amount_norsa' => $this->final_amount_norsa?: null, // handle empty value
                 'fund_cluster' => $this->fund_cluster,
                 'appropriation' => $this->appropriation,
                 'remarks' => $this->remarks,
@@ -155,16 +165,18 @@ class BudgetDataTable extends Component
             session()->flash('error', 'This DV has already been sent to Accounting.');
             return;
         }
-
         // Create a new Accounting record with data from the Budget record
         Accounting::create([
             'transaction_no' => $budgetRecord->transaction_no,
             'date_received' => now(), // Current date when sent to accounting
             'program' => $budgetRecord->program,
             'gross_amount' => $budgetRecord->gross_amount,
-            'net_amount' => $budgetRecord->final_amount_norsa, // Assuming final_amount_norsa as net_amount
             'remarks' => $budgetRecord->remarks,
-            'status' => $budgetRecord->status, // Optional action field
+            'payee' => $budgetRecord->payee,
+            'orsNum' => $budgetRecord->orsNum,
+            'particulars' => $budgetRecord->particulars,
+            'appropriation' => $budgetRecord->appropriation,
+            'status' => 'Sent from Budget', // Optional action field
             // Add other fields as necessary
         ]);
 
@@ -182,7 +194,6 @@ class BudgetDataTable extends Component
         $budget = Budget::findOrFail($transaction_no);
 
         // Only allow editing if the status is 'Returned from Accounting'
-
 
         // Set the properties to the values of the record being edited
         $this->drn_no = $budget->drn_no;
@@ -222,6 +233,8 @@ class BudgetDataTable extends Component
     #[On('refresh-budget')]
     public function render()
     {
+        $programs = DvInventory::all();
+        
         $budgetRecords = Budget::where('orsNum', 'like', '%' . $this->search . '%')
             ->orWhere('payee', 'like', '%' . $this->search . '%')
             ->orWhere('drn_no', 'like', '%' . $this->search . '%')

@@ -2,13 +2,14 @@
 
 
 use App\Livewire\Admin\AdminTable;
+use App\Livewire\Charts\CashCharts;
 use App\Livewire\DataTable\AccountingDataTable;
 use App\Livewire\DataTable\CashDataTable;
 use Illuminate\Support\Facades\Route;
 use App\Livewire\OtpVerify;
 use App\Http\Controllers\UserDashboardController; 
 use App\Livewire\DataTable\BudgetDataTable;
-
+use App\Livewire\ActivityLogs;
 
 Route::redirect('/', '/login')->name('login');
 
@@ -20,6 +21,8 @@ Route::middleware(['auth', 'otp', 'PreventBackHistory'])->group(function () {
     Route::get('/home', [UserDashboardController::class, 'index'])->name('home');
 
     Route::view('profile', 'profile')->name('profile');
+
+    Route::get('/history', ActivityLogs::class)->name('view history');
 
     // Dashboard Routes for Different Sections
     Route::get('/admin', [UserDashboardController::class, 'index'])
@@ -43,6 +46,7 @@ Route::middleware(['auth', 'otp', 'PreventBackHistory'])->group(function () {
         ->middleware('check.section:2')
         ->name('accounting table');
 
+
     Route::get('/cash', [UserDashboardController::class, 'index'])
         ->middleware('check.section:3')
         ->name('cash');
@@ -50,6 +54,11 @@ Route::middleware(['auth', 'otp', 'PreventBackHistory'])->group(function () {
     Route::get('/CashDataTable', CashDataTable::class)
         ->middleware('check.section:3')
         ->name('cash table');
+
+    Route::get('/generate-pdf', [CashCharts::class, 'generatePdf'])
+        ->middleware('check.section:3')
+        ->name('generatePdf');
+
 
     
 });

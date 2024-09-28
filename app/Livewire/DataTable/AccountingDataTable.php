@@ -23,27 +23,29 @@ class AccountingDataTable extends Component
     // Form inputs
     public  $transaction_no, $date_received, $dv_no, $ap_no, $gross_amount, $tax, 
     $other_deduction, $net_amount, $program, $date_returned_to_end_user, $date_complied_to_end_user, 
-    $no_of_days, $outgoing_processor, $outgoing_certifier, $remarks,
-    $outgoing_date, $status;
+    $no_of_days, $outgoing_processor, $outgoing_certifier, $remarks, $payee, $appropriation,
+    $outgoing_date, $status, $orsNum, $particulars;
 
     public $isEditing = false;
     public $entryId;
     public $sortField = 'dv_no'; // Default sort field
-    public $sortDirection = 'desc'; // Default sort direction
+    public $sortDirection = 'asc'; // Default sort direction
 
     protected $rules = [
         'date_received' => 'required|date',
-        'dv_no' => 'required|string',
-        'ap_no' => 'required|string',
+        'dv_no' => 'nullable|string',
+        'ap_no' => 'nullable|string',
         'gross_amount' => 'required|numeric',
         'tax' => 'nullable|numeric',
         'other_deduction' => 'nullable|numeric',
-        'program' => 'nullable|string',
-        'date_returned_to_end_user' => 'required|date',
-        'date_complied_to_end_user' => 'required|date',
+        'program' => 'required|string',
+        'date_returned_to_end_user' => 'nullable|date',
+        'date_complied_to_end_user' => 'nullable|date',
         'no_of_days' => 'nullable|integer',
         'outgoing_processor' => 'nullable|string',
         'outgoing_certifier' => 'nullable|string',
+        'orsNum' => 'nullable|string|max:50',
+        'particulars' => 'nullable|string|max:250',
         'remarks' => 'nullable|string',
         'outgoing_date' => 'nullable|date',
         'status' => 'nullable|string',
@@ -56,7 +58,7 @@ class AccountingDataTable extends Component
 
        // Convert null values to 0 for tax and other_deduction
         $taxPercentage = $this->tax ?? 0;
-        $other_deduction = $this->other_deduction ?? 0;
+        $other_deduction = is_numeric($this->other_deduction) ? (float)$this->other_deduction : 0;
 
         // Calculate actual tax amount based on percentage
         $taxAmount = ($this->gross_amount * $taxPercentage) / 100;
@@ -98,8 +100,14 @@ class AccountingDataTable extends Component
             
             // Check if status is "FORWARD TO CASH" and send the data
             if ($this->status === 'Forward to Cash') {
-                $this->sendToCash($entry->id);
-                
+                if (!empty($this->dv_no)) {
+                    // Proceed with forwarding to Cash
+                    $this->sendToCash($entry->id);
+                } else {
+                    // Set an error message if dv_no is empty
+                    session()->flash('error-dv', 'Cannot forward to Cash: DV No is required.');
+                    return; // Stop execution
+                }
             }
             elseif($this->status === 'Return to Budget') {
                 $this->sendBackToBudget($entry->id);
@@ -213,8 +221,13 @@ class AccountingDataTable extends Component
         'dv_no' => $accountingRecord->dv_no,
         'gross_amount' => $accountingRecord->gross_amount,
         'net_amount' => $accountingRecord->net_amount,
+        'program' => $accountingRecord->program,
         'remarks' => $accountingRecord->remarks,
-        'status' => $accountingRecord->status, // Optional action field
+        'payee' => $accountingRecord->payee,
+        'orsNum' => $accountingRecord->orsNum,
+        'particulars' => $accountingRecord->particulars,
+        'appropriation' =>$accountingRecord->appropriation,
+        'status' => 'Sent from Accounting', // Optional action field
         // Add other fields as necessary
     ]);
 
@@ -262,11 +275,6 @@ class AccountingDataTable extends Component
         }
 
         $this->sortField = $field;
-    }
-
-    #[On('refresh-accounting')]
-    public function refreshtable(){
-        dd('refreshtable');
     }
 
     

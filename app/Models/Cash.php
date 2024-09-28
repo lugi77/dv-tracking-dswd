@@ -17,10 +17,13 @@ class Cash extends Model
         'check_ada_no',
         'gross_amount',
         'net_amount',
+        'program',
         'date_issued',
         'receipt_no',
         'remarks',
         'payee',
+        'appropriation',
+        'orsNum',
         'particulars',
         'outgoing_date',
         'status',
@@ -29,5 +32,10 @@ class Cash extends Model
     public function budget()
     {
         return $this->belongsTo(Budget::class, 'transaction_no', 'transaction_no');
+    }
+
+    public function dvInventory()
+    {
+        return $this->belongsTo(DvInventory::class);
     }
 }

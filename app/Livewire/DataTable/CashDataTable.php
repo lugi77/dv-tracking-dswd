@@ -3,7 +3,7 @@
 namespace App\Livewire\DataTable;
 use App\Models\Accounting;
 use App\Models\Cash;
-use App\Models\Budget;
+use App\Models\DvInventory;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -17,7 +17,10 @@ class CashDataTable extends Component
     public $perPage = 10;
 
     // Form inputs
-    public $transaction_no, $date_received, $dv_no, $payment_type, $check_ada_no, $gross_amount, $net_amount, $final_net_amount, $date_issued, $receipt_no, $remarks, $payee, $particulars, $outgoing_date, $status;
+    public $transaction_no, $date_received, $dv_no, $payment_type,
+    $check_ada_no, $gross_amount, $net_amount, $program, $final_net_amount,
+    $date_issued, $receipt_no, $remarks, $payee, $particulars, $outgoing_date,
+    $status, $appropriation, $orsNum;
     public $isEditing = false;
     public $entryId;
 
@@ -26,7 +29,7 @@ class CashDataTable extends Component
 
     protected $rules = [
         'date_received' => 'required|date',
-        'dv_no' => 'required|string|max:10',
+        'dv_no' => 'nullable|string',
         'payment_type' => 'nullable|string|max:255',
         'check_ada_no' => 'nullable|string|max:255',
         'gross_amount' => 'required|numeric',
@@ -35,6 +38,7 @@ class CashDataTable extends Component
         'receipt_no' => 'nullable|string|max:255',
         'remarks' => 'string|max:1000',
         'payee' => 'nullable|string|max:255',
+        'orsNum' => 'nullable|string|max:50',
         'particulars' => 'nullable|string|max:255',
         'outgoing_date' => 'nullable|date',
         'status' => 'required|string|max:255',
@@ -59,15 +63,17 @@ class CashDataTable extends Component
                 'receipt_no' => $this->receipt_no,
                 'remarks' => $this->remarks,
                 'payee' => $this->payee,
-                'particulars' =>$this->particulars,
+                'particulars' => $this->particulars,
                 'outgoing_date' => $this->outgoing_date,
                 'status' => $this->status,
             ]);
 
             session()->flash('message', 'Entry updated successfully.');
 
-            if($this->status === 'Return to Accounting') {
+            if ($this->status === 'Return to Accounting') {
                 $this->sendBackToAccounting($entry->id);
+            } elseif ($this->status === 'Issuance Approved') {
+                $this->issuanceApproved($entry->id);
             }
 
         } else {
@@ -83,15 +89,17 @@ class CashDataTable extends Component
                 'receipt_no' => $this->receipt_no,
                 'remarks' => $this->remarks,
                 'payee' => $this->payee,
-                'particulars' =>$this->particulars,
+                'particulars' => $this->particulars,
                 'outgoing_date' => $this->outgoing_date,
                 'status' => $this->status,
             ]);
 
             session()->flash('message', 'Entry created successfully.');
 
-            if($this->status === 'Return to Accounting') {
+            if ($this->status === 'Return to Accounting') {
                 $this->sendBackToCash($entry->id);
+            } elseif ($this->status === 'Issuance Approved') {
+                $this->issuanceApproved($entry->id);
             }
         }
 
@@ -106,7 +114,7 @@ class CashDataTable extends Component
     public function resetInputFields()
     {
         $this->date_received = '';
-        $this->dv_no = '';          
+        $this->dv_no = '';
         $this->payment_type = '';
         $this->check_ada_no = '';
         $this->gross_amount = '';
@@ -115,7 +123,7 @@ class CashDataTable extends Component
         $this->receipt_no = '';
         $this->remarks = '';
         $this->payee = '';
-        $this->particulars = '';    
+        $this->particulars = '';
         $this->outgoing_date = '';
         $this->status = '';
     }
@@ -142,28 +150,66 @@ class CashDataTable extends Component
     }
 
     public function sendBackToAccounting($id)
-{
-    // Find the Accounting record by its ID
-    $cashRecords = Cash::findOrFail($id);
-    // Find the related Budget record using the DV number
-    $accountingRecord = Accounting::where('transaction_no', $cashRecords->transaction_no)->first();
-    if (!$accountingRecord) {
-        session()->flash('error', 'No corresponding Accounting record found.');
-        return;
+    {
+        // Find the Cash record by its ID
+        $cashRecord = Cash::findOrFail($id);
+
+        // Check if the transaction_no already exists in the dv_inventory table
+        $dvInventory = DvInventory::where('transaction_no', $cashRecord->transaction_no)->first();
+
+        if ($dvInventory) {
+            // Subtract the cash record's amount from the total amount in dv_inventory
+            $dvInventory->delete();
+        }
+
+        // Find the related Accounting record using the transaction_no
+        $accountingRecord = Accounting::where('transaction_no', $cashRecord->transaction_no)->first();
+
+        if (!$accountingRecord) {
+            session()->flash('error', 'No corresponding Accounting record found.');
+            return;
+        }
+
+        // Update the status of the Cash record to indicate it has been sent back to Accounting
+        $cashRecord->update([
+            'status' => 'Sent Back to Accounting',
+            'outgoing_date' => now(),
+        ]);
+
+        // Optionally update the status of the Accounting record
+        $accountingRecord->update([
+            'status' => 'Returned from Cash',
+        ]);
+
+        // Delete the Cash record after processing
+        $cashRecord->delete();
+
+        // Flash a message to indicate success
+        session()->flash('message', 'Entry sent back to Accounting successfully.');
     }
-    // Update the status of the Accounting record to indicate it has been sent back to Budget
-    $cashRecords->update([
-        'status' => 'Sent Back to Accounting',
-        'outgoing_date' => now(),
-    ]);
-    // Optionally update the status of the Budget record
-    $accountingRecord->update([
-        'status' => 'Returned from Cash',
-    ]);
-    $cashRecords->delete();
-    // Flash a message to indicate success
-    session()->flash('message', 'Entry sent back to Accounting successfully.');
-}
+
+    public function issuanceApproved($id)
+    {
+          // Find the cash record
+        $cashRecord = Cash::findOrFail($id);
+
+        // Check if the transaction_no already exists in the dv_inventory table
+        $existingDvInventory = DvInventory::where('transaction_no', $cashRecord->transaction_no)->first();
+
+        if ($existingDvInventory) {
+            // If the transaction_no already exists, skip the counting to avoid duplicates
+            return;
+        }
+
+        // but ensure the transaction_no is unique
+        DvInventory::create([
+            'program' => $cashRecord->program,
+            'no_of_processed_dv' => 1,  // Since this is a new entry, set it to 1
+            'total_amount_processed' => $cashRecord->net_amount,
+            'transaction_no' => $cashRecord->transaction_no,  // Store the transaction_no to track this entry
+        ]);
+    }
+
     public function sortBy($field)
     {
         if ($this->sortField === $field) {
@@ -171,7 +217,6 @@ class CashDataTable extends Component
         } else {
             $this->sortDirection = 'asc'; // Reset to asc when switching fields
         }
-
         $this->sortField = $field;
     }
 

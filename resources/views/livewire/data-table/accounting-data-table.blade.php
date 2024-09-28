@@ -7,8 +7,7 @@
                     <!-- Modal -->
                     <div x-show="modelOpen" class="fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title"
                         role="dialog" aria-modal="true">
-                        <div
-                            class="flex items-end justify-center min-h-screen px-4 text-center md:items-center sm:block sm:p-0">
+                        <div class="flex items-end justify-center min-h-screen px-4 text-center md:items-center sm:block sm:p-0">
 
                             <!-- Backdrop -->
                             <div x-cloak @click="modelOpen = false" x-show="modelOpen"
@@ -29,84 +28,91 @@
                                 x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                                 class="inline-block w-full max-w-4xl p-4 mt-4 overflow-hidden text-left transition-all transform bg-white rounded-lg shadow-xl 2xl:max-w-6xl">
                                 <div class="p-2">
-                                    <div class="text-lg font-bold mb-2 text-center">Edit Entry</div>
+                                   
 
                                     <form wire:submit.prevent="saveEntry">
-                                        @csrf <!-- CSRF token for form protection -->
+                                        
+                                    @csrf <!-- CSRF token for form protection -->
+                                    <div class="text-lg font-bold mb-2 text-center">Edit Entry</div>
+
+                                    @if ($errors->any())
+                                        <div class="bg-red-100 text-red-700 border border-red-400 rounded px-4 py-2 mb-4">
+                                            <strong>Error:</strong> Please correct the highlighted fields.
+                                        </div>
+                                    @endif
+
+                                    @if (session()->has('error-dv'))
+                                        <div x-data="{ show: true }" x-show="show"
+                                            class="bg-red-100 text-red-800 border border-red-300 rounded-md px-4 py-2 text-sm relative">
+                                            {{ session('error-dv') }}
+                                            <button @click="show = false"
+                                                class="absolute top-1 right-1 text-red-600 hover:text-red-800">
+                                                &times;
+                                            </button>
+                                        </div>
+                                    @endif
+                                        
                                         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                                             <div class="px-2">
-                                                <label class="block text-sm font-medium text-gray-700">Date
-                                                    Received</label>
-                                                <input type="date" wire:model.defer="date_received"
-                                                    class="border rounded px-1 py-1 w-full">
+                                                <label class="block text-sm font-medium text-gray-700">Date Received</label>
+                                                <input type="date" wire:model.defer="date_received" class="text-gray-400 border rounded px-4 py-2 w-full" readonly>
+                                                @error('date_received') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                                             </div>
                                             <div class="px-2">
                                                 <label class="block text-sm font-medium text-gray-700">DV Number</label>
-                                                <input type="text" wire:model.defer="dv_no"
-                                                    class="border rounded px-2 py-1 w-full">
+                                                <input type="text" wire:model.defer="dv_no" class="border rounded px-4 py-2 w-full" >
+                                                @error('dv_no') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                                             </div>
                                             <div class="px-2">
                                                 <label class="block text-sm font-medium text-gray-700">AP Number</label>
-                                                <input type="text" wire:model.defer="ap_no"
-                                                    class="border rounded px-2 py-1 w-full">
+                                                <input type="text" wire:model.defer="ap_no" class="border rounded px-4 py-2 w-full">
+                                                @error('ap_no') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                                             </div>
                                             <div class="px-2">
-                                                <label class="block text-sm font-medium text-gray-700">Final Gross
-                                                    Amount</label>
-                                                <input type="number" wire:model.defer="gross_amount"
-                                                    class="border rounded px-2 py-1 w-full">
+                                                <label class="block text-sm font-medium text-gray-700">Final Gross Amount</label>
+                                                <input type="number" wire:model.defer="gross_amount" class="text-gray-400 border rounded px-4 py-2 w-full">
+                                                @error('gross_amount') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                                             </div>
                                             <div class="px-2">
                                                 <label class="block text-sm font-medium text-gray-700">Tax</label>
-                                                <input type="number" wire:model.defer="tax"
-                                                    class="border rounded px-2 py-1 w-full">
+                                                <input type="number" wire:model.defer="tax" class="border rounded px-4 py-2 w-full">
+                                                @error('tax') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                                             </div>
                                             <div class="px-2">
-                                                <label class="block text-sm font-medium text-gray-700">Other
-                                                    Deductions</label>
-                                                <input type="number" wire:model.defer="other_deduction"
-                                                    class="border rounded px-2 py-1 w-full">
+                                                <label class="block text-sm font-medium text-gray-700">Other Deductions</label>
+                                                <input type="number" wire:model.defer="other_deduction" class="border rounded px-4 py-2 w-full">
+                                                @error('other_deduction') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                                             </div>
                                             <div class="px-2">
-                                                <label class="block text-sm font-medium text-gray-700">Program
-                                                    Unit</label>
-                                                <input type="text" wire:model.defer="program"
-                                                    class="border rounded px-2 py-1 w-full">
+                                                <label class="block text-sm font-medium text-gray-700">Program</label>
+                                                <input type="text" wire:model.defer="program" class="text-gray-400 border rounded px-4 py-2 w-full" readonly>
+                                                @error('program') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                                             </div>
                                             <div class="px-2">
-                                                <label class="block text-sm font-medium text-gray-700">Date Returned to
-                                                    End User</label>
-                                                <input type="date" wire:model.defer="date_returned_to_end_user"
-                                                    class="border rounded px-2 py-1 w-full">
+                                                <label class="block text-sm font-medium text-gray-700">Date Returned to End User</label>
+                                                <input type="date" wire:model.defer="date_returned_to_end_user" class="border rounded px-4 py-2 w-full">
+                                                @error('date_returned_to_end_user') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                                             </div>
                                             <div class="px-2">
-                                                <label class="block text-sm font-medium text-gray-700">Date Complied to
-                                                    End User</label>
-                                                <input type="date" wire:model.defer="date_complied_to_end_user"
-                                                    class="border rounded px-2 py-1 w-full">
+                                                <label class="block text-sm font-medium text-gray-700">Date Complied to End User</label>
+                                                <input type="date" wire:model.defer="date_complied_to_end_user" class="border rounded px-4 py-2 w-full">
+                                                @error('date_complied_to_end_user') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                                             </div>
                                             <div class="px-2">
-                                                <label class="block text-sm font-medium text-gray-700">Outgoing
-                                                    Processor</label>
-                                                <input type="text" wire:model.defer="outgoing_processor"
-                                                    class="border rounded px-2 py-1 w-full">
+                                                <label class="block text-sm font-medium text-gray-700">Outgoing Processor</label>
+                                                <input type="text" wire:model.defer="outgoing_processor" class="border rounded px-4 py-2 w-full">
+                                                @error('outgoing_processor') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                                             </div>
                                             <div class="px-2">
-                                                <label class="block text-sm font-medium text-gray-700">Outgoing
-                                                    Certifier</label>
-                                                <input type="text" wire:model.defer="outgoing_certifier"
-                                                    class="border rounded px-2 py-1 w-full">
+                                                <label class="block text-sm font-medium text-gray-700">Outgoing Certifier</label>
+                                                <input type="text" wire:model.defer="outgoing_certifier" class="border rounded px-4 py-2 w-full">
+                                                @error('outgoing_certifier') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                                             </div>
-                                            <div class="px-2">
-                                                <label class="block text-sm font-medium text-gray-700">Outgoing
-                                                    Date</label>
-                                                <input type="date" wire:model.defer="outgoing_date"
-                                                    class="border rounded px-2 py-1 w-full">
-                                            </div>
+                            
                                             <div class="px-2">
                                                 <label class="block text-sm font-medium text-gray-700">Status</label>
                                                 <select wire:model.defer="status"
-                                                    class="border rounded px-2 py-1 w-full">
+                                                    class="border rounded px-4 py-2 w-full">
                                                     <option value="Processing">Processing</option>
                                                     <option value="Forward to ARDA">Forward to ARDA</option>
                                                     <option value="Forward to ARDO">Forward to ARDO</option>
@@ -129,11 +135,13 @@
                                                     <option value="Cancelled">Cancelled</option>
                                                     <option value="For Approval">For Approval</option>
                                                 </select>
+                                                @error('status') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                                             </div>
                                             <div class="md:col-span-3">
-                                                    <label for="remarks" class="block text-sm font-medium text-gray-700">Remarks</label>
-                                                    <input type="text" id="remarks" wire:model.defer="remarks" class="border rounded px-4 py-2 w-full">
-                                                </div>
+                                                <label for="remarks" class="block text-sm font-medium text-gray-700">Remarks</label>
+                                                <textarea id="remarks" wire:model.defer="remarks" class="border rounded px-4 py-2 w-full"></textarea>
+                                                @error('remarks') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror                                          
+                                            </div>
                                         </div>
 
                                 </div>
@@ -195,10 +203,10 @@
                     <div class="min-h-[35rem] overflow-x-auto">
                         <div class="max-h-[40rem] overflow-y-auto">
                             <table class="min-w-full bg-white">
-                                <thead class="bg-blue-500 text-white sticky top-0">
+                                <thead class="bg-blue-700 text-white sticky top-0">
                                     <tr>
-                                        <th class="py-2 px-4 text-center font-bold min-w-[150px]">Date
-                                            Received</th>
+                                        <th class="py-2 px-4 text-center font-bold min-w-[150px]">Date Received</th>
+                                        <th class="py-2 px-4 text-center font-bold min-w-[150px]">ORS Number</th>
                                         <th wire:click="sortBy('dv_no')" class="py-2 px-4 text-center font-bold min-w-[150px] cursor-pointer">
                                                 DV Number
                                                 @if ($sortField == 'dv_no')
@@ -246,6 +254,9 @@
                                                 {{ $entry->date_received }}
                                             </td>
                                             <td class="py-2 px-2 text-center border-b border-r border-gray-300">
+                                                {{ $entry->orsNum }}
+                                            </td>
+                                            <td class="py-2 px-2 text-center border-b border-r border-gray-300">
                                                 {{ $entry->dv_no }}
                                             </td>
                                             <td class="py-2 px-2 text-center border-b border-r border-gray-300">
@@ -255,7 +266,7 @@
                                                 ₱{{number_format($entry->gross_amount ,2) }}
                                             </td>
                                             <td class="py-2 px-2 text-center border-b border-r border-gray-300">
-                                                ₱{{ number_format($entry->tax,2) }}
+                                                {{ number_format($entry->tax) }}%
                                             </td>
                                             <td class="py-2 px-2 text-center border-b border-r border-gray-300">
                                                 ₱{{ number_format($entry->other_deduction,2) }}
@@ -281,28 +292,42 @@
                                             <td class="py-2 px-2 text-center border-b border-r border-gray-300">
                                                 {{ $entry->outgoing_certifier }}
                                             </td>
-                                            <td class="py-2 px-2 text-center border-b border-r border-gray-300 max-w-[50px] cursor-pointer"
-    x-data="{ expanded: false }" @click="expanded = !expanded">
-    
-    <!-- Truncated Text (only shown when not expanded) -->
-    <span x-show="!expanded" class="whitespace-nowrap overflow-hidden text-ellipsis">
-        {{ Str::limit($entry->remarks, 16) }} <!-- Adjust the character limit if needed -->
-    </span>
+                                            <td class="py-2 px-2 text-center border-b border-r border-gray-300 max-w-[50px] cursor-pointer relative"
+                                                x-data="{ expanded: false, hovering: false, x: 0, y: 0}"
+                                                @mouseenter="hovering = true; let rect = $el.getBoundingClientRect(); x = rect.left; y = rect.bottom;" 
+                                                @mouseleave="hovering = false"
+                                                @click="expanded = !expanded">
 
-    <!-- Full Text (shown when expanded) -->
-    <span x-show="expanded">
-        {{ $entry->remarks }}
-    </span>
-</td>
+                                                <!-- Truncated Text (always shown unless clicked to expand) -->
+                                                <span x-show="!expanded" class="whitespace-nowrap overflow-hidden text-ellipsis block">
+                                                    {{ Str::limit($entry->remarks, 16) }} <!-- Adjust the character limit if needed -->
+                                                </span>
+
+                                                <!-- Full Text (shown when clicked to expand) -->
+                                                <span x-show="expanded" class="whitespace-normal">
+                                                    {{ $entry->remarks }}
+                                                </span>
+
+                                                <!-- Hover Pop-up (shown when hovered, fixed position to avoid scrolling) -->
+                                                <div x-show="hovering && !expanded" 
+                                                    class="fixed z-10 w-auto max-w-xs bg-white border border-gray-300 shadow-lg p-2 rounded-lg"
+                                                    :style="'left:' + x + 'px; top:' + y + 'px;'"
+                                                    x-cloak>
+                                                    <p class="text-sm">{{ $entry->remarks }}</p>
+                                                </div>
+                                            </td>
 
                                             <td class="py-2 px-2 text-center border-b border-r border-gray-300">
                                                 {{ $entry->outgoing_date }}
                                             </td>
-                                            <td class="py-2 px-2 text-center border-b border-r border-gray-300">
+                                            <td class="py-2 px-2 text-center border-b border-r border-gray-300"
+                                                style="color: 
+                                                    {{ $entry->status === 'Sent to Cash' ? '#3AC430' : 
+                                                    ($entry->status === 'Sent from Budget' ? 'orange' : 
+                                                    ($entry->status === 'Returned from Cash' ? 'blue' : 'inherit')) }};">
                                                 {{ $entry->status }}
                                             </td>
                                             <td class="py-2 px-2 text-center border-b border-r border-gray-300">
-
                                             <button 
                                             @click="$wire.editEntry({{ $entry->id }}); modelOpen = true;" 
                                                 :disabled="{{ $entry->status === 'Sent to Cash' ? 'true' : 'false' }}" 

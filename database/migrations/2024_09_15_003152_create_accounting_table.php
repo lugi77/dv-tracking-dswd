@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('dv_no')->nullable();
             $table->string('ap_no')->nullable();
             $table->decimal('gross_amount', 15, 2)->nullable();
-            $table->decimal('tax', 15, 2)->nullable();
+            $table->decimal('tax', 15)->nullable();
             $table->decimal('other_deduction', 15, 2)->nullable();
             $table->decimal('net_amount', 15, 2)->nullable();
             $table->string('program')->nullable();
@@ -30,7 +30,11 @@ return new class extends Migration
             $table->string('outgoing_certifier')->nullable();
             $table->text('remarks')->nullable();
             $table->date('outgoing_date')->nullable();
+            $table->string('orsNum', 50)->nullable();
             $table->string('status')->nullable();
+            $table->string('particulars', 250)->nullable();
+            $table->string('payee', 150)->nullable(); 
+            $table->string('appropriation', 50)->nullable();
             $table->timestamps();
         });
     }

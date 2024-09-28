@@ -20,12 +20,15 @@ return new class extends Migration
             $table->string('check_ada_no')->nullable();
             $table->decimal('gross_amount', 15, 2)->nullable();
             $table->decimal('net_amount', 15, 2)->nullable();
+            $table->string('program')->nullable();
             $table->date('date_received')->nullable();
             $table->date('date_issued')->nullable();
             $table->string('receipt_no')->nullable();
             $table->text('remarks')->nullable();
             $table->string('payee')->nullable();
-            $table->string('particulars')->nullable();
+            $table->string('orsNum', 50)->nullable();
+            $table->string('particulars', 250)->nullable();
+            $table->string('appropriation', 50)->nullable();
             $table->date('outgoing_date')->nullable();
             $table->string('status')->nullable();
             $table->timestamps();

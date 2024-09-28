@@ -18,13 +18,13 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
-    
+   
 
+    
     @livewireStyles
 </head>
 <body class="font-sans antialiased">
-    <div class="min-h-screen bg-gray-100">
+    <div class="min-h-screen bg-gray-300">
         <!-- Dynamic Navigation based on User's Section -->
         @if (auth()->user()->section == 1)
             <livewire:navigation.budget-nav />
