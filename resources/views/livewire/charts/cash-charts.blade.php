@@ -16,7 +16,7 @@
         <div class="bg-white p-4 border rounded shadow text-center">
             <p class="font-semibold">Total Net Amount</p>
             <h2 class="text-2xl font-bold text-green-600">
-                {{ number_format($processedPrograms->sum('total_processed_amount'), 2) ?? 0.00 }}
+            ₱{{ number_format($processedPrograms->sum('total_processed_amount'), 2) ?? 0.00 }}
             </h2>
         </div>
     </div>
@@ -56,7 +56,7 @@
                                 <td class="border px-4 py-2">{{ $processed->program }}</td>
                                 <td class="border px-4 py-2">{{ $processed->total_processed_dvs ?? 0 }}</td>
                                 <td class="border px-4 py-2">
-                                    {{ number_format($processed->total_processed_amount, 2) ?? 0.00 }}
+                                ₱{{ number_format($processed->total_processed_amount, 2) ?? 0.00 }}
                                 </td>
                             </tr>
                         @endforeach
@@ -64,7 +64,7 @@
                             <td class="border px-4 py-2">Total</td>
                             <td class="border px-4 py-2">{{ $processedPrograms->sum('total_processed_dvs') ?? 0 }}</td>
                             <td class="border px-4 py-2">
-                                {{ number_format($processedPrograms->sum('total_processed_amount'), 2) ?? 0.00 }}
+                            ₱{{ number_format($processedPrograms->sum('total_processed_amount'), 2) ?? 0.00 }}
                             </td>
                         </tr>
                     </tbody>
@@ -90,7 +90,7 @@
                                 <td class="border px-4 py-2">{{ $unprocessed->program }}</td>
                                 <td class="border px-4 py-2">{{ $unprocessed->total_unprocessed_dvs ?? 0 }}</td>
                                 <td class="border px-4 py-2">
-                                    {{ number_format($unprocessed->total_unprocessed_amount, 2) ?? 0.00 }}
+                                ₱{{ number_format($unprocessed->total_unprocessed_amount, 2) ?? 0.00 }}
                                 </td>
                             </tr>
                         @endforeach
@@ -99,7 +99,7 @@
                             <td class="border px-4 py-2">{{ $unprocessedPrograms->sum('total_unprocessed_dvs') ?? 0 }}
                             </td>
                             <td class="border px-4 py-2">
-                                {{ number_format($unprocessedPrograms->sum('total_unprocessed_amount'), 2) ?? 0.00 }}
+                            ₱{{ number_format($unprocessedPrograms->sum('total_unprocessed_amount'), 2) ?? 0.00 }}
                             </td>
                         </tr>
                     </tbody>

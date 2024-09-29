@@ -14,8 +14,7 @@ return new class extends Migration
         Schema::create('activity_logs', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->string('model_type');
-            $table->string('model_id');
+            $table->string('section');
             $table->string('dv_no')->nullable();
             $table->string('user_name');
             $table->string('dswd_id');

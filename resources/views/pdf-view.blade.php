@@ -67,7 +67,7 @@
 </head>
 
 <body>
-    <h1>Processed and Unprocessed DVs</h1>
+    <h1>DV Inventory Report</h1>
     <div class="container">
         <div class="processed">
             <h3>Processed DVs on Hand</h3>

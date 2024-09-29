@@ -2,6 +2,7 @@
 
 namespace App\Livewire\DataTable;
 use App\Models\Accounting;
+use App\Models\ActivityLog;
 use App\Models\Cash;
 use App\Models\DvInventory;
 use Livewire\Attributes\Layout;
@@ -48,6 +49,8 @@ class CashDataTable extends Component
     {
         $this->validate();
 
+        $action = $this->isEditing ? 'Updated' : 'Created';
+
         if ($this->isEditing) {
             // Update existing entry
             $entry = Cash::find($this->entryId);
@@ -71,8 +74,10 @@ class CashDataTable extends Component
             session()->flash('message', 'Entry updated successfully.');
 
             if ($this->status === 'Return to Accounting') {
+                $action = 'Returned a DV to Accounting'; 
                 $this->sendBackToAccounting($entry->id);
             } elseif ($this->status === 'Issuance Approved') {
+                $action = 'Approved'; 
                 $this->issuanceApproved($entry->id);
             }
 
@@ -97,11 +102,23 @@ class CashDataTable extends Component
             session()->flash('message', 'Entry created successfully.');
 
             if ($this->status === 'Return to Accounting') {
+                $action = 'Returned a DV to Accounting';
                 $this->sendBackToCash($entry->id);
             } elseif ($this->status === 'Issuance Approved') {
+                $action = 'Approved'; 
                 $this->issuanceApproved($entry->id);
             }
         }
+
+        ActivityLog::create([
+            'user_id' => auth()->id(),
+            'section' => 'Cash',
+            'user_name' => auth()->user()->name,
+            'dv_no' => $entry->dv_no,
+            'dswd_id' => auth()->user()->dswd_id,
+            'action' => $action,
+            'details' => "User {$action} a cash entry with DV Number: {$entry->dv_no}",
+    ]);
 
         $this->resetInputFields();
         $this->isEditing = false;

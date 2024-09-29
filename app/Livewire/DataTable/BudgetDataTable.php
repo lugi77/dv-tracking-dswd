@@ -10,6 +10,7 @@ use Livewire\WithPagination;
 use Livewire\Component;
 use Livewire\Attributes\On;
 use App\Models\DvInventory;
+use App\Models\ActivityLog;
 
 
 #[Layout('layouts.app')]
@@ -63,6 +64,8 @@ class BudgetDataTable extends Component
     {
         $this->validate();
 
+        $action = $this->isEditing ? 'Updated' : 'Created';
+
         if ($this->isEditing) {
             // Update existing record
             $entry = Budget::findOrFail($this->editId);
@@ -84,9 +87,11 @@ class BudgetDataTable extends Component
             ]);
 
             session()->flash('message', 'Entry Updated Successfully.');
+            
 
             // Check if status is "FORWARD TO ACCOUNTING" and send the data
             if ($this->status === 'Forward to Accounting') {
+                $action = 'Sent to Accounting'; 
                 $this->sendToAccounting($entry->transaction_no);
             }
         } else {
@@ -116,10 +121,23 @@ class BudgetDataTable extends Component
 
             // Check if status is "FORWARD TO ACCOUNTING" and send the data
             if ($this->status === 'Forward to Accounting') {
+                $action = 'has sent to accounting'; 
                 $this->sendToAccounting($entry->transaction_no);
             }
 
         }
+
+        // Log the action
+        ActivityLog::create([
+            'user_id' => auth()->id(),
+            'section' => 'Budget',
+            'user_name' => auth()->user()->name,
+            'dv_no' => $entry->orsNum,
+            'dswd_id' => auth()->user()->dswd_id,
+            'action' => $action,
+            'details' => "User {$action} a budget entry with ORS Number: {$entry->orsNum}",
+    ]);
+
         $this->resetInputFields();
         $this->dispatch('entry-saved');
     }
