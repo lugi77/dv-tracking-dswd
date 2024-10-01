@@ -55,6 +55,7 @@
             display: table;
             width: 100%;
             margin-top: 20px;
+            page-break-inside: avoid; /* Avoid page breaks within the container */
         }
 
         .processed,
@@ -62,6 +63,39 @@
             display: table-cell;
             width: 50%;
             padding: 0 10px;
+            page-break-inside: avoid;
+        }
+
+        /* For printing legal size and pagination */
+        @media print {
+            @page {
+                size: legal;
+                margin: 1in;
+            }
+
+            body {
+                margin: 0;
+                -webkit-print-color-adjust: exact; /* Ensure colors print correctly */
+            }
+
+            .container {
+                page-break-before: always; /* Insert page break before each section */
+            }
+
+            .processed,
+            .unprocessed {
+                page-break-after: always; /* Ensure sections don't split over pages */
+            }
+
+            /* Optional: hide borders in print to reduce clutter */
+            th, td {
+                border: 1px solid black;
+            }
+
+            /* Ensuring each table fits within its own page */
+            table {
+                page-break-inside: avoid;
+            }
         }
     </style>
 </head>
