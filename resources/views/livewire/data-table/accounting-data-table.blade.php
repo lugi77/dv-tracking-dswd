@@ -70,7 +70,7 @@
                                             </div>
                                             <div class="px-2">
                                                 <label class="block text-sm font-medium text-gray-700">Final Gross Amount</label>
-                                                <input type="number" wire:model.defer="gross_amount" class="text-gray-400 border rounded px-4 py-2 w-full">
+                                                <input type="number" wire:model.defer="gross_amount" class="text-gray-400 border rounded px-4 py-2 w-full" readonly>
                                                 @error('gross_amount') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                                             </div>
                                             <div class="px-2">
