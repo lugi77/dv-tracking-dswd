@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('budget', function (Blueprint $table) {
             $table->unsignedBigInteger('transaction_no', 6)->primary();
-            $table->string('drn_no')->unique()->nullable();
+            $table->string('drn_no', 30)->unique()->nullable();
             $table->date('incomingDate')->nullable(); 
             $table->string('payee', 150)->nullable(); 
             $table->string('particulars', 250)->nullable();  
@@ -23,10 +23,10 @@ return new class extends Migration
             $table->decimal('final_amount_norsa', 15, 2)->nullable();
             $table->string('fund_cluster', 50)->nullable(); 
             $table->string('appropriation', 50)->nullable(); 
-            $table->string('remarks', 250)->nullable()->nullable(); 
-            $table->string('orsNum', 50)->nullable();
+            $table->text('remarks',)->nullable()->nullable(); 
+            $table->string('orsNum', 20)->nullable();
             $table->date('outgoingDate')->nullable();
-            $table->string('status', 50)->nullable();
+            $table->string('status', 30)->nullable();
 
             $table->timestamps();
         });

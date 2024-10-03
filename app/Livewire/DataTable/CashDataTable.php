@@ -31,19 +31,19 @@ class CashDataTable extends Component
 
     protected $rules = [
         'date_received' => 'required|date',
-        'dv_no' => 'nullable|string',
-        'payment_type' => 'nullable|string|max:255',
-        'check_ada_no' => 'nullable|string|max:255',
-        'gross_amount' => 'required|numeric',
-        'net_amount' => 'required|numeric',
+        'dv_no' => 'nullable|string|max:20',
+        'payment_type' => 'nullable|string|max:10',
+        'check_ada_no' => 'nullable|string|max:20',
+        'gross_amount' => 'required|numeric|min:0',
+        'net_amount' => 'required|numeric|min:0',
         'date_issued' => 'nullable|date',
-        'receipt_no' => 'nullable|string|max:255',
+        'receipt_no' => 'nullable|string|max:20',
         'remarks' => 'string|max:1000',
-        'payee' => 'nullable|string|max:255',
+        'payee' => 'nullable|string|max:30',
         'orsNum' => 'nullable|string|max:50',
-        'particulars' => 'nullable|string|max:255',
+        'particulars' => 'nullable|string|max:250',
         'outgoing_date' => 'nullable|date',
-        'status' => 'required|string|max:255',
+        'status' => 'required|string|max:50',
     ];
 
     public function saveEntry()

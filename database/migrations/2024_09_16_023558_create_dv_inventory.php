@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('transaction_no')->nullable();
             $table->foreign('transaction_no')->references('transaction_no')->on('budget')->onDelete('cascade');
-            $table->string('program')->nullable();
+            $table->string('program', 20)->nullable();
             $table->integer('no_of_processed_dv')->nullable();
             $table->decimal('total_amount_processed', 15, 2)->nullable(); // 15 total digits, 2 decimal places
             $table->timestamps();

@@ -44,7 +44,7 @@ class BudgetDataTable extends Component
 
     protected $rules = [
         'transaction_no' => 'nullable|unique:budget,transaction_no',
-        'drn_no' => 'required|string|max:100',
+        'drn_no' => 'required|string|max:30',
         'incomingDate' => 'required|date',
         'payee' => 'required|string|max:150',
         'particulars' => 'required|string|max:250',
@@ -54,10 +54,10 @@ class BudgetDataTable extends Component
         'final_amount_norsa' => 'nullable|numeric|',
         'fund_cluster' => 'required|string|max:50',
         'appropriation' => 'required|string|max:50',
-        'remarks' => 'nullable|string|max:250',
-        'orsNum' => 'required|string|max:50',
+        'remarks' => 'nullable|string',
+        'orsNum' => 'required|string|max:20',
         'outgoingDate' => 'required|date',
-        'status' => 'required|string|max:50',
+        'status' => 'required|string|max:30',
     ];
 
     public function saveEntry()

@@ -290,8 +290,8 @@
                                  @endif
                            </th>
                            <th class="py-2 px-4 text-center font-bold min-w-[150px]">Budget Controller</th>
-                           <th class="py-2 px-4 text-right font-bold min-w-[150px]">Gross Amount</th>
-                           <th class="py-2 px-4 text-right font-bold min-w-[150px]">Final Amount</th>
+                           <th class="py-2 px-4 text-center font-bold min-w-[150px]">Gross Amount</th>
+                           <th class="py-2 px-4 text-center font-bold min-w-[150px]">Final Amount NORSA</th>
                            <th class="py-2 px-4 text-center font-bold min-w-[150px]">Fund Cluster</th>
                            <th class="py-2 px-4 text-center font-bold min-w-[150px]">Appropriation</th>
                            <th class="py-2 px-4 text-center font-bold min-w-[150px]">Remarks</th>
