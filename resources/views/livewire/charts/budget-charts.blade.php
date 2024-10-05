@@ -1,69 +1,64 @@
-<div class="container mx-auto">
-    <div class="flex justify-between mb-4">
-    <div class="bg-white p-4 border rounded shadow text-center w-1/3">
-    <p class="font-semibold">Total Number of Disbursement Vouchers</p>
-    <h2 class="text-xl font-bold">5,370</h2>
+<div class="container mx-auto min-h-screen px-4">
+    <!-- Summary Cards -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
+        <div class="bg-white p-4 border rounded shadow text-center">
+            <p class="font-semibold">PROCESSED</p>
+            <h2 class="text-2xl font-bold text-indigo-600">
+               
+            </h2>
         </div>
-        <div class="bg-white p-4 border rounded shadow text-center w-1/3">
-        <p class="font-semibold">Total Gross Amount</p>
-        <h2 class="text-xl font-bold">₱5,993,817,647.37</h2>
+        <div class="bg-white p-4 border rounded shadow text-center">
+            <p class="font-semibold">RETURN TO END USER</p>
+            <h2 class="text-2xl font-bold text-red-500">
+                
+            </h2>
         </div>
-        <div class="bg-white p-4 border rounded shadow text-center w-1/3">
-        <p class="font-semibold">Total Number of Completed Disbursement Vouchers</p>
-        <h2 class="text-xl font-bold">5,219</h2>
+        <div class="bg-white p-4 border rounded shadow text-center">
+            <p class="font-semibold">FOR APPROVAL</p>
+            <h2 class="text-2xl font-bold text-green-600">
+
+            </h2>
         </div>
     </div>
 
-    <div class="flex justify-between mb-4">
-        <div class="w-2/3 bg-white p-4 border rounded shadow">
-            <canvas id="grossAmountByProgram"></canvas>
+    <div class="mb-4">
+        <a href="{{ route('generatePdf') }}"
+            class="bg-blue-500 text-white font-semibold py-2 px-4 rounded shadow hover:bg-blue-600">
+            Download PDF
+        </a>
+    </div>
+
+    <!-- Tables Section: Processed and Unprocessed DVs -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
+        <!-- Processed DVs Table -->
+        <div class="bg-white p-4 border rounded shadow">
+            <h3 class="text-center font-semibold mb-2">Processed DVs on Hand</h3>
+            <div class="relative" style="max-height: 500px; overflow-y: auto;">
+                <table class="w-full text-left border-collapse">
+                    <thead class="sticky top-0 bg-white z-10">
+                        <tr>
+                            <th class="border px-4 py-2 text-center">Program</th>
+                            <th class="border px-4 py-2 text-center">No. of Processed DVs</th>
+                            <th class="border px-4 py-2 text-center">Total Amount Processed</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
         </div>
-        <div class="w-1/3 bg-white p-4 border rounded shadow">
-            <canvas id="dvAppropriationStatus"></canvas>
+
+        <!-- Unprocessed DVs Table -->
+        <div class="bg-white p-4 border rounded shadow">
+            <h3 class="text-center font-semibold mb-2">Unprocessed DVs on Hand</h3>
+            <div class="relative" style="max-height: 500px; overflow-y: auto;">
+                <table class="w-full text-left border-collapse">
+                    <thead class="sticky top-0 bg-white z-10">
+                        <tr>
+                            <th class="border px-4 py-2 text-center">Program</th>
+                            <th class="border px-4 py-2 text-center">No. of Unprocessed DVs</th>
+                            <th class="border px-4 py-2 text-center">Total Amount Unprocessed</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
         </div>
     </div>
-</div>
-
-<script>
-    // Gross Amount by Program/Unit - Horizontal Bar Chart
-    var ctxBar = document.getElementById('grossAmountByProgram').getContext('2d');
-    new Chart(ctxBar, {
-        type: 'bar',
-        data: {
-            labels: ['SOCPEN', 'DRRP', 'AICS', 'PANTAWID', 'QRF', 'CENTER', 'KCKKB', 'SLP', 'PAMANA-DRRP', 'SFP', 'TRUST FUND', 'COMM BASED', 'CENTER (DR)', 'GASS', 'ICTMS', 'CRCF', 'TARA', 'EPAHP', 'NHTSPR', 'COMPREHENS.', 'CCAM', 'HRMDD'],
-            datasets: [{
-                label: 'Gross Amount',
-                data: [1724540926.80, 1684203842.97, 1406405533.02, 204933925.16, 173704564.93, 161536142.54, 129431826.83, 73439237.33, 107304966.77, 6950989.96, 3493289.11, 3068369.39, 2883174.14, 2792934.54, 1625756.44, 1606677.83, 21078846.50, 2954791.19, 4984553.83, 452617.19, 351987.98, 317022.82],
-                backgroundColor: '#36A2EB'
-            }]
-        },
-        options: {
-            indexAxis: 'y',
-            responsive: true,
-            scales: {
-                x: {
-                    beginAtZero: true
-                },
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
-
-    // DV Appropriation Status - Pie Chart
-    var ctxPie = document.getElementById('dvAppropriationStatus').getContext('2d');
-    new Chart(ctxPie, {
-        type: 'pie',
-        data: {
-            labels: ['Continuing', 'Current'],
-            datasets: [{
-                data: [249, 4966],
-                backgroundColor: ['#FF6384', '#36A2EB'],
-            }]
-        },
-        options: {
-            responsive: true
-        }
-    });
-</script>
