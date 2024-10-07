@@ -33,7 +33,7 @@
                                     <form wire:submit.prevent="saveEntry">
                                         
                                     @csrf <!-- CSRF token for form protection -->
-                                    <div class="text-lg font-bold mb-2 text-center">Edit Entry</div>
+                                    
 
                                     @if ($errors->any())
                                         <div class="bg-red-100 text-red-700 border border-red-400 rounded px-4 py-2 mb-4">
@@ -203,7 +203,7 @@
                     <div class="min-h-[35rem] overflow-x-auto">
                         <div class="max-h-[40rem] overflow-y-auto">
                             <table class="min-w-full bg-white">
-                                <thead class="bg-blue-700 text-white sticky top-0">
+                                <thead class="bg-blue-700 text-white sticky top-0 z-10">
                                     <tr>
                                         <th class="py-2 px-4 text-center font-bold min-w-[150px]">Date Received</th>
                                         <th class="py-2 px-4 text-center font-bold min-w-[150px]">ORS Number</th>

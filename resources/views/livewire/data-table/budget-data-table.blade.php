@@ -259,7 +259,7 @@
             <div class="min-h-[35rem] overflow-x-auto">
                <div class="max-h-[40rem] overflow-y-auto">
                   <table class="min-w-full bg-white">
-                     <thead class="bg-blue-700 text-white sticky top-0">
+                     <thead class="bg-blue-700 text-white sticky top-0 z-10">
                         <tr>
                            <th class="py-2 px-4 text-center font-bold min-w-[150px]">DRN No.</th>
                            
