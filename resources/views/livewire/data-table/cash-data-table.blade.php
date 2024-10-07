@@ -147,8 +147,8 @@
                                                 <div class="md:col-span-2">
                                                     <label for="particulars"
                                                         class="block text-sm font-medium text-gray-700">Particulars</label>
-                                                    <textarea id="particulars" wire:model.defer="particulars"
-                                                        class="border rounded px-4 py-2 w-full"></textarea>
+                                                    <input type="text" id="particulars" wire:model.defer="particulars"
+                                                        class="border rounded px-4 py-2 w-full">
                                                     @error('particulars') <span
                                                     class="text-red-600 text-sm">{{ $message }}</span> @enderror
                                                 </div>
