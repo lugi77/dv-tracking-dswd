@@ -2,6 +2,7 @@
 
 
 use App\Livewire\Admin\AdminTable;
+use App\Livewire\Charts\AccountingCharts;
 use App\Livewire\Charts\CashCharts;
 use App\Livewire\DataTable\AccountingDataTable;
 use App\Livewire\DataTable\CashDataTable;
@@ -45,6 +46,10 @@ Route::middleware(['auth', 'otp', 'PreventBackHistory'])->group(function () {
     Route::get('/AccountingDataTable', AccountingDataTable::class)
         ->middleware('check.section:2')
         ->name('accounting table');
+
+    Route::get('/generate-pdf', action: [AccountingCharts::class, 'generatePdf'])
+        ->middleware('check.section:2')
+        ->name('generatePdf');
 
 
     Route::get('/cash', [UserDashboardController::class, 'index'])

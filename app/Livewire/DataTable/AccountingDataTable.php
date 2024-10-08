@@ -4,6 +4,8 @@ namespace App\Livewire\DataTable;
 
 use App\Models\Accounting;
 use App\Models\ActivityLog;
+use App\Models\DvInventoryAccountProcessed;
+use App\Models\DvInventoryAccountUnprocessed;
 use Livewire\Attributes\Layout;
 use App\Models\Cash;
 use App\Models\Budget;
@@ -197,7 +199,6 @@ class AccountingDataTable extends Component
     $this->dispatch('entry-saved');
 }
 
-
     function resetInputFields()
     {
         $this->date_received = '';
@@ -247,7 +248,7 @@ class AccountingDataTable extends Component
     {
         // Find the Accounting record by its ID
         $accountingRecord = Accounting::findOrFail($id);
-
+        
         // Check if the DV number already exists in the Cash table
         $existingCashRecord = Cash::where('transaction_no', $accountingRecord->transaction_no)->first();
 
@@ -280,13 +281,46 @@ class AccountingDataTable extends Component
             'outgoing_date' => now(),
         ]);
 
+        $this->dvInventoryAccounting($accountingRecord->id);
+
         // Flash a success message
         session()->flash('message', 'DV sent to Cash successfully.');
+    }
+
+    public function dvInventoryAccounting($id)
+    {
+          // Find the cash record
+        $accountingRecordProcessed = Accounting::findOrFail($id);
+
+        // Check if the transaction_no already exists in the dv_inventory table
+        $existingDvInventory = DvInventoryAccountProcessed::where('transaction_no', $accountingRecordProcessed->transaction_no)->first();
+
+        if ($existingDvInventory) {
+            // If the transaction_no already exists, skip the counting to avoid duplicates
+            return;
+        }
+
+        // but ensure the transaction_no is unique
+        DvInventoryAccountProcessed::create([
+            'payee' => $accountingRecordProcessed->payee,
+            'no_processed_account_dv' => 1,  // Since this is a new entry, set it to 1
+            'total_processed_account_dv' => $accountingRecordProcessed->net_amount,
+            'transaction_no' => $accountingRecordProcessed->transaction_no,  // Store the transaction_no to track this entry
+        ]);
     }
     public function sendBackToBudget($id)
     {
         // Find the Accounting record by its ID
         $accountingRecord = Accounting::findOrFail($id);
+
+        // Check if the transaction_no already exists in the dv_inventory table
+        $dvInventory = DvInventoryAccountUnprocessed::where('transaction_no', $accountingRecord->transaction_no)->first();
+
+        if ($dvInventory) {
+            // Subtract the cash record's amount from the total amount in dv_inventory
+            $dvInventory->delete();
+        }
+
         // Find the related Budget record using the DV number
         $budgetRecord = Budget::where('transaction_no', $accountingRecord->transaction_no)->first();
         if (!$budgetRecord) {

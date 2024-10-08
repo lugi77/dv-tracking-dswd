@@ -4,6 +4,7 @@ namespace App\Livewire\DataTable;
 
 use App\Models\Budget;
 use App\Models\Accounting;
+use App\Models\DvInventoryAccountUnprocessed;
 use App\Models\Programs;
 use Livewire\Attributes\Layout;
 use Livewire\WithPagination;
@@ -203,6 +204,8 @@ class BudgetDataTable extends Component
             'status' => 'Sent to Accounting',
             'outgoingDate' => now(),
         ]);
+
+        $this->dvInventorybudget($budgetRecord->transaction_no);
 
         session()->flash('message', 'DV sent to Accounting successfully.');
     }

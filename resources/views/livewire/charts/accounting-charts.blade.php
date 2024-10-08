@@ -4,19 +4,19 @@
         <div class="bg-white p-4 border rounded shadow text-center">
             <p class="font-semibold">Total Number of Disbursement Vouchers</p>
             <h2 class="text-2xl font-bold text-indigo-600">
-               
+            {{ $processedPayee->sum('total_processed_dvs') ?? 0 }}
             </h2>
         </div>
         <div class="bg-white p-4 border rounded shadow text-center">
             <p class="font-semibold">Total Number of Unprocessed DVs</p>
             <h2 class="text-2xl font-bold text-red-500">
-                
+            {{ $unprocessedPayee->sum('total_unprocessed_dvs') ?? 0 }}
             </h2>
         </div>
         <div class="bg-white p-4 border rounded shadow text-center">
             <p class="font-semibold">Total Net Amount</p>
             <h2 class="text-2xl font-bold text-green-600">
-
+            ₱{{ number_format($processedPayee->sum('total_processed_amount'), 2) ?? 0.00 }}
             </h2>
         </div>
     </div>
@@ -37,11 +37,20 @@
                 <table class="w-full text-left border-collapse">
                     <thead class="sticky top-0 bg-white z-10">
                         <tr>
-                            <th class="border px-4 py-2 text-center">Program</th>
+                            <th class="border px-4 py-2 text-center">Payee</th>
                             <th class="border px-4 py-2 text-center">No. of Processed DVs</th>
-                            <th class="border px-4 py-2 text-center">Total Amount Processed</th>
+                            <th class="border px-4 py-2 text-center">Total Amount Processed(After Tax)</th>
                         </tr>
                     </thead>
+                    <tbody>
+                        @foreach ($processedPayee as $data)
+                            <tr>
+                                <td class="border px-4 py-2 text-center">{{ $data->payee }}</td>
+                                <td class="border px-4 py-2 text-center">{{ $data->total_processed_dvs }}</td>
+                                <td class="border px-4 py-2 text-center">{{ number_format($data->total_processed_amount, 2) }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
                 </table>
             </div>
         </div>
@@ -53,11 +62,20 @@
                 <table class="w-full text-left border-collapse">
                     <thead class="sticky top-0 bg-white z-10">
                         <tr>
-                            <th class="border px-4 py-2 text-center">Program</th>
+                            <th class="border px-4 py-2 text-center">Payee</th>
                             <th class="border px-4 py-2 text-center">No. of Unprocessed DVs</th>
-                            <th class="border px-4 py-2 text-center">Total Amount Unprocessed</th>
+                            <th class="border px-4 py-2 text-center">Total Amount Unprocessed(Before Tax)</th>
                         </tr>
                     </thead>
+                    <tbody>
+                        @foreach ($unprocessedPayee as $data)
+                            <tr>
+                                <td class="border px-4 py-2 text-center">{{ $data->payee }}</td>
+                                <td class="border px-4 py-2 text-center">{{ $data->total_unprocessed_dvs }}</td>
+                                <td class="border px-4 py-2 text-center">{{ number_format($data->total_unprocessed_amount, 2) }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
                 </table>
             </div>
         </div>

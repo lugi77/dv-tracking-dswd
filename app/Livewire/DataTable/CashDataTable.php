@@ -5,6 +5,7 @@ use App\Models\Accounting;
 use App\Models\ActivityLog;
 use App\Models\Cash;
 use App\Models\DvInventory;
+use App\Models\DvInventoryAccountProcessed;
 use App\Models\DvInventoryUnprocessed;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -184,6 +185,13 @@ class CashDataTable extends Component
         if ($dvInventoryunprocessed) {
             // Subtract the cash record's amount from the total amount in dv_inventory
             $dvInventoryunprocessed->delete();
+        }
+
+        $dvInventoryAccountProcessed = DvInventoryAccountProcessed::where('transaction_no', $cashRecord->transaction_no)->first();
+
+        if ($dvInventoryAccountProcessed) {
+            // Subtract the cash record's amount from the total amount in dv_inventory
+            $dvInventoryAccountProcessed->delete();
         }
 
         // Find the related Accounting record using the transaction_no
