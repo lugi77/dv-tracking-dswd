@@ -29,28 +29,24 @@
                                 class="inline-block w-full max-w-4xl p-4 mt-4 overflow-hidden text-left transition-all transform bg-white rounded-lg shadow-xl 2xl:max-w-6xl">
                                 <div class="p-2">
                                    
+                                     <form wire:submit.prevent="saveEntry">
+                
+                                            @if ($errors->any())
+                                                <div class="bg-red-100 text-red-700 border border-red-400 rounded px-4 py-2 mb-4">
+                                                    <strong>Error:</strong> Please correct the highlighted fields.
+                                                </div>
+                                            @endif
 
-                                    <form wire:submit.prevent="saveEntry">
-                                        
-                                    @csrf <!-- CSRF token for form protection -->
-                                    
-
-                                    @if ($errors->any())
-                                        <div class="bg-red-100 text-red-700 border border-red-400 rounded px-4 py-2 mb-4">
-                                            <strong>Error:</strong> Please correct the highlighted fields.
-                                        </div>
-                                    @endif
-
-                                    @if (session()->has('error-dv'))
-                                        <div x-data="{ show: true }" x-show="show"
-                                            class="bg-red-100 text-red-800 border border-red-300 rounded-md px-4 py-2 text-sm relative">
-                                            {{ session('error-dv') }}
-                                            <button @click="show = false"
-                                                class="absolute top-1 right-1 text-red-600 hover:text-red-800">
-                                                &times;
-                                            </button>
-                                        </div>
-                                    @endif
+                                            @if (session()->has('error-dv'))
+                                                <div x-data="{ show: true }" x-show="show"
+                                                    class="bg-red-100 text-red-800 border border-red-300 rounded-md px-4 py-2 text-sm relative">
+                                                    {{ session('error-dv') }}
+                                                    <button @click="show = false"
+                                                        class="absolute top-1 right-1 text-red-600 hover:text-red-800">
+                                                        &times;
+                                                    </button>
+                                                </div>
+                                            @endif
                                         
                                         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                                             <div class="px-2">
@@ -266,7 +262,7 @@
                                                 ₱{{number_format($entry->gross_amount ,2) }}
                                             </td>
                                             <td class="py-2 px-2 text-center border-b border-r border-gray-300">
-                                                {{ number_format($entry->tax) }}%
+                                                {{ number_format($entry->tax) }}
                                             </td>
                                             <td class="py-2 px-2 text-center border-b border-r border-gray-300">
                                                 ₱{{ number_format($entry->other_deduction,2) }}

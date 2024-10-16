@@ -99,7 +99,7 @@ class CashCharts extends Component
         ->groupBy('program')
         ->get();
     
-        $pdf = PDF::loadView('pdf-view', compact('processedPrograms', 'unprocessedPrograms'));
+        $pdf = PDF::loadView('livewire.pdf-views.budget-pdf-view', compact('processedPrograms', 'unprocessedPrograms'));
         
         return $pdf->download('dv_report.pdf'); // Download the PDF
     }

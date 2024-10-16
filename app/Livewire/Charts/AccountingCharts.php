@@ -56,10 +56,10 @@ class AccountingCharts extends Component
     // PDF generation method
     public function generatePdf()
     {
-        $processedPayee = DvInventoryAccountProcessed::select('program')
-            ->selectRaw('SUM(no_of_processed_dv) as total_processed_dvs')
-            ->selectRaw('SUM(total_processed_amount) as total_processed_amount')
-            ->groupBy('program')
+        $processedPayee = DvInventoryAccountProcessed::select('payee')
+            ->selectRaw('SUM(no_processed_account_dv) as total_processed_dvs')
+            ->selectRaw('SUM(total_processed_account_dv) as total_processed_amount')
+            ->groupBy('payee')
             ->get();
 
         $unprocessedPayee = DvInventoryAccountUnprocessed::select('payee')
@@ -68,7 +68,7 @@ class AccountingCharts extends Component
             ->groupBy('payee')
             ->get();
 
-        $pdf = PDF::loadView('pdf-view', compact('processedPayee', 'unprocessedPayee'));
+        $pdf = PDF::loadView('livewire.pdf-views.accounting-pdf-view', compact('processedPayee', 'unprocessedPayee'));
         return $pdf->download('dv_report_accounting.pdf');  // Download the PDF
     }
 }

@@ -6,6 +6,7 @@ use App\Models\Accounting;
 use App\Models\ActivityLog;
 use App\Models\DvInventoryAccountProcessed;
 use App\Models\DvInventoryAccountUnprocessed;
+use App\Models\DvInventoryBudgetProcessed;
 use Livewire\Attributes\Layout;
 use App\Models\Cash;
 use App\Models\Budget;
@@ -53,151 +54,150 @@ class AccountingDataTable extends Component
         'status' => 'nullable|string',
     ];
 
-
     public function saveEntry()
-{
-    $this->validate();
+    {
+        // Validate form data
+        $this->validate([
+            'date_received' => 'required|date',
+            'dv_no' => 'nullable|string',
+            'ap_no' => 'nullable|string',
+            'gross_amount' => 'required|numeric',
+            'tax' => 'nullable|numeric',
+            'other_deduction' => 'nullable|numeric',
+            'program' => 'nullable|string',
+            'date_returned_to_end_user' => 'nullable|date',
+            'date_complied_to_end_user' => 'nullable|date',
+            'outgoing_processor' => 'nullable|string',
+            'outgoing_certifier' => 'nullable|string',
+            'remarks' => 'nullable|string',
+            'outgoing_date' => 'nullable|date',
+            'status' => 'required|string',
+        ]);
 
-    // Determine action: Editing or Creating
-    $action = $this->isEditing ? 'Updated' : 'Created';
+        // Determine action: Editing or Creating
+        $action = $this->isEditing ? 'Updated' : 'Created';
 
-    // Convert null values to 0 for tax and other_deduction
-    $taxPercentage = $this->tax ?? 0;
-    $other_deduction = is_numeric($this->other_deduction) ? (float)$this->other_deduction : 0;
+        // Ensure numeric fields are properly cast and handled
+        $this->tax = $this->tax !== '' ? (float) $this->tax : 0;
+        $this->other_deduction = $this->other_deduction !== '' ? (float) $this->other_deduction : 0;
 
-    // Calculate actual tax amount based on percentage
-    $taxAmount = ($this->gross_amount * $taxPercentage) / 100;
+        // Calculate net_amount
+        $this->net_amount = (float) $this->gross_amount - $this->tax - $this->other_deduction;
 
-    // Calculate net amount (final gross - tax amount - other deductions)
-    $this->net_amount = $this->gross_amount - $taxAmount - $other_deduction;
+        // Calculate the difference between the dates if both dates are provided
+        if ($this->date_returned_to_end_user && $this->date_complied_to_end_user) {
+            try {
+                $this->no_of_days = Carbon::parse($this->date_returned_to_end_user)
+                    ->diffInDays(Carbon::parse($this->date_complied_to_end_user));
+            } catch (\Exception $e) {
+                $this->no_of_days = null;
+            }
+        } else {
+            $this->no_of_days = null;
+        }
 
-    // Calculate the difference between the dates if both dates are provided
-    if ($this->date_returned_to_end_user && $this->date_complied_to_end_user) {
-        $this->no_of_days = Carbon::parse($this->date_returned_to_end_user)->diffInDays(Carbon::parse($this->date_complied_to_end_user));
-    } else {
-        $this->no_of_days = null; // Or set it to 0 if preferred
+        if ($this->isEditing) {
+            // Find and update the existing entry
+            $entry = Accounting::findOrFail($this->entryId);
+
+            // Check if any field has changed
+            $entry->fill([
+                'date_received' => $this->date_received,
+                'dv_no' => $this->dv_no,
+                'ap_no' => $this->ap_no,
+                'gross_amount' => $this->gross_amount,
+                'tax' => $this->tax,
+                'other_deduction' => $this->other_deduction,
+                'net_amount' => $this->net_amount,
+                'program' => $this->program,
+                'date_returned_to_end_user' => $this->date_returned_to_end_user,
+                'date_complied_to_end_user' => $this->date_complied_to_end_user,
+                'no_of_days' => $this->no_of_days,
+                'outgoing_processor' => $this->outgoing_processor,
+                'outgoing_certifier' => $this->outgoing_certifier,
+                'remarks' => $this->remarks,
+                'outgoing_date' => $this->outgoing_date,
+                'status' => $this->status,
+            ]);
+
+            // If there are no changes, return early
+            if (!$entry->isDirty()) {
+                session()->flash('message', 'No changes detected.');
+                return;
+            }
+
+            // If forwarding to Cash, ensure DV No is present
+            if ($this->status === 'Forward to Cash' && empty($this->dv_no)) {
+                session()->flash('error-dv', 'Cannot forward to Cash: DV No is required.');
+                return;
+            }
+
+            // Save the updated entry
+            $entry->save();
+            session()->flash('message', 'Entry updated successfully.');
+
+            // Handle status-specific actions
+            if ($this->status === 'Forward to Cash') {
+                $action = 'Sent to Cash';
+                $this->sendToCash($entry->id);
+            } elseif ($this->status === 'Return to Budget') {
+                $action = 'Returned to Budget';
+                $this->sendBackToBudget($entry->id);
+            }
+
+        } else {
+            // Create a new entry
+            $entry = Accounting::create([
+                'date_received' => $this->date_received,
+                'dv_no' => $this->dv_no,
+                'ap_no' => $this->ap_no,
+                'gross_amount' => $this->gross_amount,
+                'tax' => $this->tax,
+                'other_deduction' => $this->other_deduction,
+                'net_amount' => $this->net_amount,
+                'program' => $this->program,
+                'date_returned_to_end_user' => $this->date_returned_to_end_user,
+                'date_complied_to_end_user' => $this->date_complied_to_end_user,
+                'no_of_days' => $this->no_of_days,
+                'outgoing_processor' => $this->outgoing_processor,
+                'outgoing_certifier' => $this->outgoing_certifier,
+                'remarks' => $this->remarks,
+                'outgoing_date' => $this->outgoing_date,
+                'status' => $this->status,
+            ]);
+
+            session()->flash('message', 'Entry created successfully.');
+
+            // Handle status-specific actions
+            if ($this->status === 'Forward to Cash') {
+                $action = 'Sent to Cash';
+                $this->sendToCash($entry->id);
+            } elseif ($this->status === 'Return to Budget') {
+                $action = 'Returned to Budget';
+                $this->sendBackToBudget($entry->transaction_no);
+            }
+        }
+
+        // Log the action only if DV No is provided
+        if (!empty($this->dv_no)) {
+            ActivityLog::create([
+                'user_id' => auth()->id(),
+                'section' => 'Accounting',
+                'user_name' => auth()->user()->name,
+                'dv_no' => $entry->dv_no,
+                'dswd_id' => auth()->user()->dswd_id,
+                'action' => $action,
+                'details' => "User {$action} an accounting entry with DV Number: {$entry->dv_no}",
+            ]);
+        }
+
+        // Reset form fields and close modal
+        $this->resetInputFields();
+        $this->isEditing = false;
+        $this->entryId = null;
+        $this->dispatch('entry-saved');
     }
 
-    if ($this->isEditing) {
-        // Update existing entry
-        $entry = Accounting::findOrFail($this->entryId);
-
-        // Check if there are any changes to the entry
-        $hasChanges = false;
-        if ($entry->date_received !== $this->date_received ||
-            $entry->dv_no !== $this->dv_no ||
-            $entry->ap_no !== $this->ap_no ||
-            $entry->gross_amount !== $this->gross_amount ||
-            $entry->tax !== $this->tax ||
-            $entry->other_deduction !== $this->other_deduction ||
-            $entry->net_amount !== $this->net_amount ||
-            $entry->program !== $this->program ||
-            $entry->date_returned_to_end_user !== $this->date_returned_to_end_user ||
-            $entry->date_complied_to_end_user !== $this->date_complied_to_end_user ||
-            $entry->no_of_days !== $this->no_of_days ||
-            $entry->outgoing_processor !== $this->outgoing_processor ||
-            $entry->outgoing_certifier !== $this->outgoing_certifier ||
-            $entry->remarks !== $this->remarks ||
-            $entry->outgoing_date !== $this->outgoing_date ||
-            $entry->status !== $this->status) {
-            $hasChanges = true;
-        }
-
-        // If no changes, return without updating
-        if (!$hasChanges) {
-            return; // Stop execution if no changes
-        }
-
-        // Check if DV No is provided when forwarding to Cash
-        if ($this->status === 'Forward to Cash' && empty($this->dv_no)) {
-            session()->flash('error-dv', 'Cannot forward to Cash: DV No is required.');
-            return; // Stop execution if DV No is missing
-        }
-
-        $entry->update([
-            'date_received' => $this->date_received,
-            'dv_no' => $this->dv_no,
-            'ap_no' => $this->ap_no,
-            'gross_amount' => $this->gross_amount,
-            'tax' => $this->tax,
-            'other_deduction' => $this->other_deduction,
-            'net_amount' => $this->net_amount,
-            'program' => $this->program,
-            'date_returned_to_end_user' => $this->date_returned_to_end_user,
-            'date_complied_to_end_user' => $this->date_complied_to_end_user,
-            'no_of_days' => $this->no_of_days,
-            'outgoing_processor' => $this->outgoing_processor,
-            'outgoing_certifier' => $this->outgoing_certifier,
-            'remarks' => $this->remarks,
-            'outgoing_date' => $this->outgoing_date,
-            'status' => $this->status,
-        ]);
-
-        // Flash message for successful update
-        session()->flash('message', 'Entry updated successfully.');
-
-        // Handle status-specific actions
-        if ($this->status === 'Forward to Cash') {
-            $action = 'Sent to Cash';
-            $this->sendToCash($entry->id); // Proceed with forwarding to Cash
-        } elseif ($this->status === 'Return to Budget') {
-            $action = 'Returned to Budget';
-            $this->sendBackToBudget($entry->id); // Return entry to Budget
-        }
-
-    } else {
-        // Create new entry
-        $entry = Accounting::create([
-            'date_received' => $this->date_received,
-            'dv_no' => $this->dv_no,
-            'ap_no' => $this->ap_no,
-            'gross_amount' => $this->gross_amount,
-            'tax' => $this->tax,
-            'other_deduction' => $this->other_deduction,
-            'net_amount' => $this->net_amount,
-            'program' => $this->program,
-            'date_returned_to_end_user' => $this->date_returned_to_end_user,
-            'date_complied_to_end_user' => $this->date_complied_to_end_user,
-            'no_of_days' => $this->no_of_days,
-            'outgoing_processor' => $this->outgoing_processor,
-            'outgoing_certifier' => $this->outgoing_certifier,
-            'remarks' => $this->remarks,
-            'outgoing_date' => $this->outgoing_date,
-            'status' => $this->status,
-        ]);
-
-        // Flash message for successful creation
-        session()->flash('message', 'Entry created successfully.');
-
-        // Handle status-specific actions
-        if ($this->status === 'Forward to Cash') {
-            $action = 'Sent to Cash';
-            $this->sendToCash($entry->id);
-        } elseif ($this->status === 'Return to Budget') {
-            $action = 'Returned to Budget';
-            $this->sendBackToBudget($entry->transaction_no);
-        }
-    }
-
-    // Log the action only if dv_no is present
-    if (!empty($this->dv_no)) {
-        ActivityLog::create([
-            'user_id' => auth()->id(),
-            'section' => 'Accounting',
-            'user_name' => auth()->user()->name,
-            'dv_no' => $entry->dv_no,
-            'dswd_id' => auth()->user()->dswd_id,
-            'action' => $action,
-            'details' => "User {$action} an accounting entry with DV Number: {$entry->dv_no}",
-        ]);
-    } 
-
-    // Reset the form and close the modal
-    $this->resetInputFields();
-    $this->isEditing = false;
-    $this->entryId = null;
-    $this->dispatch('entry-saved');
-}
 
     function resetInputFields()
     {
@@ -248,7 +248,7 @@ class AccountingDataTable extends Component
     {
         // Find the Accounting record by its ID
         $accountingRecord = Accounting::findOrFail($id);
-        
+
         // Check if the DV number already exists in the Cash table
         $existingCashRecord = Cash::where('transaction_no', $accountingRecord->transaction_no)->first();
 
@@ -289,7 +289,7 @@ class AccountingDataTable extends Component
 
     public function dvInventoryAccounting($id)
     {
-          // Find the cash record
+        // Find the cash record
         $accountingRecordProcessed = Accounting::findOrFail($id);
 
         // Check if the transaction_no already exists in the dv_inventory table
@@ -319,6 +319,13 @@ class AccountingDataTable extends Component
         if ($dvInventory) {
             // Subtract the cash record's amount from the total amount in dv_inventory
             $dvInventory->delete();
+        }
+
+        $dvInventoryBudgetProcessed = DvInventoryBudgetProcessed::where('transaction_no', $accountingRecord->transaction_no)->first();
+
+        if ($dvInventoryBudgetProcessed) {
+            // Subtract the cash record's amount from the total amount in dv_inventory
+            $dvInventoryBudgetProcessed->delete();
         }
 
         // Find the related Budget record using the DV number

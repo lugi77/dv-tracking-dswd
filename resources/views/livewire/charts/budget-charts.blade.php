@@ -4,7 +4,7 @@
         <div class="bg-white p-4 border rounded shadow text-center">
             <p class="font-semibold">PROCESSED</p>
             <h2 class="text-2xl font-bold text-indigo-600">
-               
+            {{ $processedPrograms->sum('total_processed_dvs') ?? 0 }}
             </h2>
         </div>
         <div class="bg-white p-4 border rounded shadow text-center">
@@ -21,13 +21,6 @@
         </div>
     </div>
 
-    <div class="mb-4">
-        <a href="{{ route('generatePdf') }}"
-            class="bg-blue-500 text-white font-semibold py-2 px-4 rounded shadow hover:bg-blue-600">
-            Download PDF
-        </a>
-    </div>
-
     <!-- Tables Section: Processed and Unprocessed DVs -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
         <!-- Processed DVs Table -->
@@ -42,6 +35,17 @@
                             <th class="border px-4 py-2 text-center">Total Amount Processed</th>
                         </tr>
                     </thead>
+                    <tbody>
+                    @foreach($processedPrograms as $processed)
+                            <tr>
+                                <td class="border px-4 py-2">{{ $processed->program }}</td>
+                                <td class="border px-4 py-2">{{ $processed->total_processed_dvs ?? 0 }}</td>
+                                <td class="border px-4 py-2">
+                                ₱{{ number_format($processed->total_processed_amount, 2) ?? 0.00 }}
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
                 </table>
             </div>
         </div>
@@ -58,6 +62,16 @@
                             <th class="border px-4 py-2 text-center">Total Amount Unprocessed</th>
                         </tr>
                     </thead>
+                    <tbody>
+                    @foreach($unprocessedPrograms as $unprocessed)
+                        <tr>
+                            <td class="border px-4 py-2">{{ $unprocessed->program }}</td>
+                            <td class="border px-4 py-2">{{ $unprocessed->total_unprocessed_dvs ?? 0 }}</td>
+                            <td class="border px-4 py-2"> ₱{{ number_format($unprocessed->total_unprocessed_amount, 2) ?? 0.00 }}
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
                 </table>
             </div>
         </div>

@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('dv_no', 20)->nullable();
             $table->string('ap_no', 20)->nullable();
             $table->decimal('gross_amount', 15, 2)->nullable();
-            $table->decimal('tax', 15)->nullable();
+            $table->decimal('tax', 15, 2)->nullable();
             $table->decimal('other_deduction', 15, 2)->nullable();
             $table->decimal('net_amount', 15, 2)->nullable();
             $table->string('program',30)->nullable();

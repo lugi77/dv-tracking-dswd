@@ -22,7 +22,7 @@
     </div>
 
     <div class="mb-4">
-        <a href="{{ route('generatePdf') }}"
+        <a href="{{ route('accounting-generatePdf') }}"
             class="bg-blue-500 text-white font-semibold py-2 px-4 rounded shadow hover:bg-blue-600">
             Download PDF
         </a>
@@ -50,6 +50,13 @@
                                 <td class="border px-4 py-2 text-center">{{ number_format($data->total_processed_amount, 2) }}</td>
                             </tr>
                         @endforeach
+                            <tr class="font-bold sticky bottom-0 bg-white z-10">
+                                <td class="border px-4 py-2 text-center">Total</td>
+                                <td class="border px-4 py-2 text-center">{{ $processedPayee->sum('total_processed_dvs') ?? 0 }}</td>
+                                <td class="border px-4 py-2 text-center">
+                                ₱{{ number_format($processedPayee->sum('total_processed_amount'), 2) ?? 0.00 }}
+                                </td>
+                            </tr>
                     </tbody>
                 </table>
             </div>
@@ -72,9 +79,16 @@
                             <tr>
                                 <td class="border px-4 py-2 text-center">{{ $data->payee }}</td>
                                 <td class="border px-4 py-2 text-center">{{ $data->total_unprocessed_dvs }}</td>
-                                <td class="border px-4 py-2 text-center">{{ number_format($data->total_unprocessed_amount, 2) }}</td>
+                                <td class="border px-4 py-2 text-center">₱{{ number_format($data->total_unprocessed_amount, 2) }}</td>
                             </tr>
                         @endforeach
+                        <tr class="font-bold sticky bottom-0 bg-white z-10">
+                            <td class="border px-4 py-2 text-center">Total</td>
+                            <td class="border px-4 py-2 text-center">{{ $unprocessedPayee->sum('total_unprocessed_dvs') ?? 0 }}</td>
+                            <td class="border px-4 py-2 text-center">
+                            ₱{{ number_format($unprocessedPayee->sum('total_unprocessed_amount'), 2) ?? 0.00 }}
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>

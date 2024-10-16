@@ -47,9 +47,9 @@ Route::middleware(['auth', 'otp', 'PreventBackHistory'])->group(function () {
         ->middleware('check.section:2')
         ->name('accounting table');
 
-    Route::get('/generate-pdf', action: [AccountingCharts::class, 'generatePdf'])
+    Route::get('/accounting/generate-pdf',[AccountingCharts::class, 'generatePdf'])
         ->middleware('check.section:2')
-        ->name('generatePdf');
+        ->name('accounting-generatePdf');
 
 
     Route::get('/cash', [UserDashboardController::class, 'index'])
@@ -60,9 +60,9 @@ Route::middleware(['auth', 'otp', 'PreventBackHistory'])->group(function () {
         ->middleware('check.section:3')
         ->name('cash table');
 
-    Route::get('/generate-pdf', [CashCharts::class, 'generatePdf'])
+    Route::get('/cash/generate-pdf', [CashCharts::class, 'generatePdf'])
         ->middleware('check.section:3')
-        ->name('generatePdf');
+        ->name('cash-generatePdf');
 
 
     

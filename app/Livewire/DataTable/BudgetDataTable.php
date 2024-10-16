@@ -4,7 +4,7 @@ namespace App\Livewire\DataTable;
 
 use App\Models\Budget;
 use App\Models\Accounting;
-use App\Models\DvInventoryAccountUnprocessed;
+use App\Models\DvInventoryBudgetProcessed;
 use App\Models\Programs;
 use Livewire\Attributes\Layout;
 use Livewire\WithPagination;
@@ -205,10 +205,33 @@ class BudgetDataTable extends Component
             'outgoingDate' => now(),
         ]);
 
-        $this->dvInventorybudget($budgetRecord->transaction_no);
+        $this->dvbudgetinventory($budgetRecord->transaction_no);
 
         session()->flash('message', 'DV sent to Accounting successfully.');
     }
+
+    public function dvbudgetinventory($transaction_no)
+    {
+          // Find the cash record
+        $budgetRecord = Budget::findOrFail($transaction_no);
+
+        // Check if the transaction_no already exists in the dv_inventory table
+        $existingDvInventory = DvInventoryBudgetProcessed::where('transaction_no', $budgetRecord->transaction_no)->first();
+
+        if ($existingDvInventory) {
+            // If the transaction_no already exists, skip the counting to avoid duplicates
+            return;
+        }
+
+        // but ensure the transaction_no is unique
+        DvInventoryBudgetProcessed::create([
+            'program' => $budgetRecord->program,
+            'no_of_processed_dv' => 1,  // Since this is a new entry, set it to 1
+            'total_amount_processed' => $budgetRecord->gross_amount,
+            'transaction_no' => $budgetRecord->transaction_no,  // Store the transaction_no to track this entry
+        ]);
+    }
+
 
     public function edit($transaction_no)
     {
