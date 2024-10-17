@@ -259,7 +259,7 @@
             <div class="min-h-[35rem] overflow-x-auto">
                <div class="max-h-[40rem] overflow-y-auto">
                   <table class="min-w-full bg-white">
-                     <thead class="bg-blue-700 text-white sticky top-0">
+                     <thead class="bg-blue-700 text-white sticky top-0 z-10">
                         <tr>
                            <th class="py-2 px-4 text-center font-bold min-w-[150px]">DRN No.</th>
                            
@@ -290,8 +290,8 @@
                                  @endif
                            </th>
                            <th class="py-2 px-4 text-center font-bold min-w-[150px]">Budget Controller</th>
-                           <th class="py-2 px-4 text-right font-bold min-w-[150px]">Gross Amount</th>
-                           <th class="py-2 px-4 text-right font-bold min-w-[150px]">Final Amount</th>
+                           <th class="py-2 px-4 text-center font-bold min-w-[150px]">Gross Amount</th>
+                           <th class="py-2 px-4 text-center font-bold min-w-[150px]">Final Amount NORSA</th>
                            <th class="py-2 px-4 text-center font-bold min-w-[150px]">Fund Cluster</th>
                            <th class="py-2 px-4 text-center font-bold min-w-[150px]">Appropriation</th>
                            <th class="py-2 px-4 text-center font-bold min-w-[150px]">Remarks</th>

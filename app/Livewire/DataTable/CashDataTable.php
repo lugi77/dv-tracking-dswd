@@ -2,8 +2,11 @@
 
 namespace App\Livewire\DataTable;
 use App\Models\Accounting;
+use App\Models\ActivityLog;
 use App\Models\Cash;
 use App\Models\DvInventory;
+use App\Models\DvInventoryAccountProcessed;
+use App\Models\DvInventoryUnprocessed;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -29,24 +32,26 @@ class CashDataTable extends Component
 
     protected $rules = [
         'date_received' => 'required|date',
-        'dv_no' => 'nullable|string',
-        'payment_type' => 'nullable|string|max:255',
-        'check_ada_no' => 'nullable|string|max:255',
-        'gross_amount' => 'required|numeric',
-        'net_amount' => 'required|numeric',
+        'dv_no' => 'nullable|string|max:20',
+        'payment_type' => 'nullable|string|max:10',
+        'check_ada_no' => 'nullable|string|max:20',
+        'gross_amount' => 'required|numeric|min:0',
+        'net_amount' => 'required|numeric|min:0',
         'date_issued' => 'nullable|date',
-        'receipt_no' => 'nullable|string|max:255',
+        'receipt_no' => 'nullable|string|max:20',
         'remarks' => 'string|max:1000',
-        'payee' => 'nullable|string|max:255',
+        'payee' => 'nullable|string|max:30',
         'orsNum' => 'nullable|string|max:50',
-        'particulars' => 'nullable|string|max:255',
+        'particulars' => 'nullable|string|max:250',
         'outgoing_date' => 'nullable|date',
-        'status' => 'required|string|max:255',
+        'status' => 'required|string|max:50',
     ];
 
     public function saveEntry()
     {
         $this->validate();
+
+        $action = $this->isEditing ? 'Updated' : 'Created';
 
         if ($this->isEditing) {
             // Update existing entry
@@ -71,8 +76,10 @@ class CashDataTable extends Component
             session()->flash('message', 'Entry updated successfully.');
 
             if ($this->status === 'Return to Accounting') {
+                $action = 'Returned a DV to Accounting'; 
                 $this->sendBackToAccounting($entry->id);
             } elseif ($this->status === 'Issuance Approved') {
+                $action = 'Approved'; 
                 $this->issuanceApproved($entry->id);
             }
 
@@ -97,11 +104,23 @@ class CashDataTable extends Component
             session()->flash('message', 'Entry created successfully.');
 
             if ($this->status === 'Return to Accounting') {
+                $action = 'Returned a DV to Accounting';
                 $this->sendBackToCash($entry->id);
             } elseif ($this->status === 'Issuance Approved') {
+                $action = 'Approved'; 
                 $this->issuanceApproved($entry->id);
             }
         }
+
+        ActivityLog::create([
+            'user_id' => auth()->id(),
+            'section' => 'Cash',
+            'user_name' => auth()->user()->name,
+            'dv_no' => $entry->dv_no,
+            'dswd_id' => auth()->user()->dswd_id,
+            'action' => $action,
+            'details' => "User {$action} a cash entry with DV Number: {$entry->dv_no}",
+    ]);
 
         $this->resetInputFields();
         $this->isEditing = false;
@@ -160,6 +179,19 @@ class CashDataTable extends Component
         if ($dvInventory) {
             // Subtract the cash record's amount from the total amount in dv_inventory
             $dvInventory->delete();
+        }
+
+        $dvInventoryunprocessed = DvInventoryUnprocessed::where('transaction_no', $cashRecord->transaction_no)->first();
+        if ($dvInventoryunprocessed) {
+            // Subtract the cash record's amount from the total amount in dv_inventory
+            $dvInventoryunprocessed->delete();
+        }
+
+        $dvInventoryAccountProcessed = DvInventoryAccountProcessed::where('transaction_no', $cashRecord->transaction_no)->first();
+
+        if ($dvInventoryAccountProcessed) {
+            // Subtract the cash record's amount from the total amount in dv_inventory
+            $dvInventoryAccountProcessed->delete();
         }
 
         // Find the related Accounting record using the transaction_no

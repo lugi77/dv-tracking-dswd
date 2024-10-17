@@ -91,7 +91,7 @@ new #[Layout('layouts.guest')] class extends Component
                     <select id="section" name="section" wire:model="section"
                     class="block mt-1 w-full shadow-sm focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded
                     @error('section') border-red-500 @enderror" required>
-                    <option value="">Select Section</option>
+                    <option value="">--Select Section--</option>
                     <option value="Budget">Budget</option>
                     <option value="Accounting">Accounting</option>
                     <option value="Cash">Cash</option>

@@ -147,8 +147,8 @@
                                                 <div class="md:col-span-2">
                                                     <label for="particulars"
                                                         class="block text-sm font-medium text-gray-700">Particulars</label>
-                                                    <textarea id="particulars" wire:model.defer="particulars"
-                                                        class="border rounded px-4 py-2 w-full"></textarea>
+                                                    <input type="text" id="particulars" wire:model.defer="particulars"
+                                                        class="border rounded px-4 py-2 w-full">
                                                     @error('particulars') <span
                                                     class="text-red-600 text-sm">{{ $message }}</span> @enderror
                                                 </div>
@@ -245,7 +245,7 @@
                     <div class="min-h-[35rem] overflow-x-auto">
                         <div class="max-h-[40rem] overflow-y-auto">
                             <table class="min-w-full bg-white">
-                                <thead class="bg-blue-700 text-white sticky top-0">
+                                <thead class="bg-blue-700 text-white sticky top-0 z-10">
                                     <tr>
                                         <th class="py-2 px-4 text-center font-bold min-w-[150px]">Date Received</th>
                                         <th class="py-2 px-4 text-center font-bold min-w-[150px]">ORS Number</th>

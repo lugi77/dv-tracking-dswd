@@ -11,13 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('dv_inventory', function (Blueprint $table) {
+        Schema::create('account_dv_inventory_unprocessed', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('transaction_no')->nullable();
+            $table->string('payee', 30)->nullable();
+            $table->integer('no_unprocessed_account_dv')->nullable();
+            $table->decimal('total_unprocessed_account_dv', 15, 2)->nullable();
+
             $table->foreign('transaction_no')->references('transaction_no')->on('budget')->onDelete('cascade');
-            $table->string('program', 20)->nullable();
-            $table->integer('no_of_processed_dv')->nullable();
-            $table->decimal('total_amount_processed', 15, 2)->nullable(); // 15 total digits, 2 decimal places
+
             $table->timestamps();
         });
     }
@@ -27,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('dv_inventory');
+        Schema::dropIfExists('account_dv_inventory_unprocessed');
     }
 };

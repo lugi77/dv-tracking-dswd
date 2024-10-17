@@ -4,12 +4,14 @@ namespace App\Livewire\DataTable;
 
 use App\Models\Budget;
 use App\Models\Accounting;
+use App\Models\DvInventoryBudgetProcessed;
 use App\Models\Programs;
 use Livewire\Attributes\Layout;
 use Livewire\WithPagination;
 use Livewire\Component;
 use Livewire\Attributes\On;
 use App\Models\DvInventory;
+use App\Models\ActivityLog;
 
 
 #[Layout('layouts.app')]
@@ -43,7 +45,7 @@ class BudgetDataTable extends Component
 
     protected $rules = [
         'transaction_no' => 'nullable|unique:budget,transaction_no',
-        'drn_no' => 'required|string|max:100',
+        'drn_no' => 'required|string|max:30',
         'incomingDate' => 'required|date',
         'payee' => 'required|string|max:150',
         'particulars' => 'required|string|max:250',
@@ -53,15 +55,17 @@ class BudgetDataTable extends Component
         'final_amount_norsa' => 'nullable|numeric|',
         'fund_cluster' => 'required|string|max:50',
         'appropriation' => 'required|string|max:50',
-        'remarks' => 'nullable|string|max:250',
-        'orsNum' => 'required|string|max:50',
+        'remarks' => 'nullable|string',
+        'orsNum' => 'required|string|max:20',
         'outgoingDate' => 'required|date',
-        'status' => 'required|string|max:50',
+        'status' => 'required|string|max:30',
     ];
 
     public function saveEntry()
     {
         $this->validate();
+
+        $action = $this->isEditing ? 'Updated' : 'Created';
 
         if ($this->isEditing) {
             // Update existing record
@@ -84,9 +88,11 @@ class BudgetDataTable extends Component
             ]);
 
             session()->flash('message', 'Entry Updated Successfully.');
+            
 
             // Check if status is "FORWARD TO ACCOUNTING" and send the data
             if ($this->status === 'Forward to Accounting') {
+                $action = 'Sent to Accounting'; 
                 $this->sendToAccounting($entry->transaction_no);
             }
         } else {
@@ -116,10 +122,23 @@ class BudgetDataTable extends Component
 
             // Check if status is "FORWARD TO ACCOUNTING" and send the data
             if ($this->status === 'Forward to Accounting') {
+                $action = 'has sent to accounting'; 
                 $this->sendToAccounting($entry->transaction_no);
             }
 
         }
+
+        // Log the action
+        ActivityLog::create([
+            'user_id' => auth()->id(),
+            'section' => 'Budget',
+            'user_name' => auth()->user()->name,
+            'dv_no' => $entry->orsNum,
+            'dswd_id' => auth()->user()->dswd_id,
+            'action' => $action,
+            'details' => "User {$action} a budget entry with ORS Number: {$entry->orsNum}",
+    ]);
+
         $this->resetInputFields();
         $this->dispatch('entry-saved');
     }
@@ -186,8 +205,33 @@ class BudgetDataTable extends Component
             'outgoingDate' => now(),
         ]);
 
+        $this->dvbudgetinventory($budgetRecord->transaction_no);
+
         session()->flash('message', 'DV sent to Accounting successfully.');
     }
+
+    public function dvbudgetinventory($transaction_no)
+    {
+          // Find the cash record
+        $budgetRecord = Budget::findOrFail($transaction_no);
+
+        // Check if the transaction_no already exists in the dv_inventory table
+        $existingDvInventory = DvInventoryBudgetProcessed::where('transaction_no', $budgetRecord->transaction_no)->first();
+
+        if ($existingDvInventory) {
+            // If the transaction_no already exists, skip the counting to avoid duplicates
+            return;
+        }
+
+        // but ensure the transaction_no is unique
+        DvInventoryBudgetProcessed::create([
+            'program' => $budgetRecord->program,
+            'no_of_processed_dv' => 1,  // Since this is a new entry, set it to 1
+            'total_amount_processed' => $budgetRecord->gross_amount,
+            'transaction_no' => $budgetRecord->transaction_no,  // Store the transaction_no to track this entry
+        ]);
+    }
+
 
     public function edit($transaction_no)
     {

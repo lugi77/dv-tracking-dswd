@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('dv_inventory', function (Blueprint $table) {
+        Schema::create('budget_dv_inventory_processed', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('transaction_no')->nullable();
             $table->foreign('transaction_no')->references('transaction_no')->on('budget')->onDelete('cascade');
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('dv_inventory');
+        Schema::dropIfExists('budget_dv_inventory_processed');
     }
 };

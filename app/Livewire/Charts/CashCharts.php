@@ -33,7 +33,7 @@ class CashCharts extends Component
                 [
                     'program' => $approvedDV->program,
                     'no_of_processed_dv' => 1, // Assuming 1 DV per transaction
-                    'total_amount_processed' => $approvedDV->gross_amount, // Assuming total amount from gross_amount
+                    'total_amount_processed' => $approvedDV->net_amount, 
                 ]
             );
         }
@@ -61,7 +61,7 @@ class CashCharts extends Component
                 [
                     'program' => $unprocessedDV->program,
                     'no_of_unprocessed_dv' => 1,
-                    'total_amount_unprocessed' => $unprocessedDV->gross_amount,
+                    'total_amount_unprocessed' => $unprocessedDV->net_amount,
                 ]
             );
         }
@@ -99,7 +99,7 @@ class CashCharts extends Component
         ->groupBy('program')
         ->get();
     
-        $pdf = PDF::loadView('pdf-view', compact('processedPrograms', 'unprocessedPrograms'));
+        $pdf = PDF::loadView('livewire.pdf-views.budget-pdf-view', compact('processedPrograms', 'unprocessedPrograms'));
         
         return $pdf->download('dv_report.pdf'); // Download the PDF
     }
