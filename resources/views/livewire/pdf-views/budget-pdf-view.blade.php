@@ -118,13 +118,13 @@
                         <tr>
                             <td>{{ $processed->program }}</td>
                             <td>{{ $processed->total_processed_dvs ?? 0 }}</td>
-                            <td>₱{{ number_format($processed->total_processed_amount, 2) ?? 0.00 }}</td>
+                            <td>{{ number_format($processed->total_processed_amount, 2) ?? 0.00 }}</td>
                         </tr>
                     @endforeach
                     <tr class="total-row">
                         <td>Total</td>
                         <td>{{ $processedPrograms->sum('total_processed_dvs') ?? 0 }}</td>
-                        <td>₱{{ number_format($processedPrograms->sum('total_processed_amount'), 2) ?? 0.00 }}</td>
+                        <td>{{ number_format($processedPrograms->sum('total_processed_amount'), 2) ?? 0.00 }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -145,13 +145,13 @@
                         <tr>
                             <td>{{ $unprocessed->program }}</td>
                             <td>{{ $unprocessed->total_unprocessed_dvs ?? 0 }}</td>
-                            <td>₱{{ number_format($unprocessed->total_unprocessed_amount, 2) ?? 0.00 }}</td>
+                            <td>{{ number_format($unprocessed->total_unprocessed_amount, 2) ?? 0.00 }}</td>
                         </tr>
                     @endforeach
                     <tr class="total-row">
                         <td>Total</td>
                         <td>{{ $unprocessedPrograms->sum('total_unprocessed_dvs') ?? 0 }}</td>
-                        <td>₱{{ number_format($unprocessedPrograms->sum('total_unprocessed_amount'), 2) ?? 0.00 }}</td>
+                        <td>{{ number_format($unprocessedPrograms->sum('total_unprocessed_amount'), 2) ?? 0.00 }}</td>
                     </tr>
                 </tbody>
             </table>

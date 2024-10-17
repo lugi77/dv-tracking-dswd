@@ -124,13 +124,13 @@
                         <tr>
                             <td>{{  $data->payee }}</td>
                             <td>{{ $data->total_processed_dvs ?? 0 }}</td>
-                            <td>₱{{ number_format($data->total_processed_amount ?? 0, 2) }}</td> <!-- Fix here -->
+                            <td>{{ number_format($data->total_processed_amount ?? 0, 2) }}</td> <!-- Fix here -->
                         </tr>
                     @endforeach
                     <tr class="total-row">
                         <td>Total</td>
                         <td>{{ $processedPayee->sum('total_processed_dvs') ?? 0 }}</td>
-                        <td>₱{{ number_format($processedPayee->sum('total_processed_amount') ?? 0, 2) }}</td>
+                        <td>{{ number_format($processedPayee->sum('total_processed_amount') ?? 0, 2) }}</td>
                         <!-- Fix here -->
                     </tr>
                 </tbody>
@@ -152,13 +152,13 @@
                         <tr>
                             <td>{{  $data->payee }}</td>
                             <td>{{ $data->total_unprocessed_dvs ?? 0 }}</td>
-                            <td>₱{{ number_format($data->total_unprocessed_amount , 2) }}</td> <!-- Fix here -->
+                            <td>{{ number_format($data->total_unprocessed_amount , 2) }}</td> <!-- Fix here -->
                         </tr>
                     @endforeach
                     <tr class="total-row">
                         <td>Total</td>
                         <td>{{ $unprocessedPayee->sum('total_unprocessed_dvs')}}</td>
-                        <td>₱{{ number_format($unprocessedPayee->sum('total_unprocessed_amount'),2) }}</td>
+                        <td>{{ number_format($unprocessedPayee->sum('total_unprocessed_amount'),2) }}</td>
                         <!-- Fix here -->
                     </tr>
                 </tbody>
