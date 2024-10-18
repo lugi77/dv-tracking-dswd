@@ -10,11 +10,25 @@
             color: #333;
         }
 
+        header {
+            text-align: center;
+            padding: 10px 0;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #3498db;
+        }
+
+        header h2 {
+            margin: 0;
+            padding: 5px 0;
+            font-size: 22px;
+            font-weight: normal;
+        }
+
         h1 {
             text-align: center;
-            /* Centering the heading */
-            font-size: 24px;
+            font-size: 26px;
             margin-bottom: 20px;
+            color: #2c3e50;
         }
 
         h3 {
@@ -57,7 +71,6 @@
             width: 100%;
             margin-top: 20px;
             page-break-inside: avoid;
-            /* Avoid page breaks within the container */
         }
 
         .processed,
@@ -68,37 +81,31 @@
             page-break-inside: avoid;
         }
 
-        /* For printing legal size and pagination */
+        /* For printing A4 size and pagination */
         @media print {
             @page {
-                size: legal;
+                size: A4;
                 margin: 1in;
             }
 
             body {
                 margin: 0;
                 -webkit-print-color-adjust: exact;
-                /* Ensure colors print correctly */
             }
 
             .container {
                 page-break-before: always;
-                /* Insert page break before each section */
             }
 
             .processed,
             .unprocessed {
                 page-break-after: always;
-                /* Ensure sections don't split over pages */
             }
 
-            /* Optional: hide borders in print to reduce clutter */
-            th,
-            td {
+            th, td {
                 border: 1px solid black;
             }
 
-            /* Ensuring each table fits within its own page */
             table {
                 page-break-inside: avoid;
             }
@@ -107,6 +114,12 @@
 </head>
 
 <body>
+    <header>
+        <h2>INVENTORY OF DV'S ON HAND AS OF</h2>
+        <h2>{{ \Carbon\Carbon::now()->format('F j, Y') }}</h2>
+        <h2>ACCOUNTING SECTION</h2>
+    </header>
+
     <h1>DV Inventory Report</h1>
     <div class="container">
         <div class="processed">
@@ -131,7 +144,6 @@
                         <td>Total</td>
                         <td>{{ $processedPayee->sum('total_processed_dvs') ?? 0 }}</td>
                         <td>{{ number_format($processedPayee->sum('total_processed_amount') ?? 0, 2) }}</td>
-                        <!-- Fix here -->
                     </tr>
                 </tbody>
             </table>
@@ -159,10 +171,8 @@
                         <td>Total</td>
                         <td>{{ $unprocessedPayee->sum('total_unprocessed_dvs')}}</td>
                         <td>{{ number_format($unprocessedPayee->sum('total_unprocessed_amount'),2) }}</td>
-                        <!-- Fix here -->
                     </tr>
                 </tbody>
-
             </table>
         </div>
     </div>
