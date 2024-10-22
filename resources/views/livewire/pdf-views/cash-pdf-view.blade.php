@@ -115,8 +115,8 @@
 
 <body>
     <header>
-        <h2>INVENTORY OF DV'S ON HAND AS OF</h2>
-        <h2>{{ \Carbon\Carbon::now()->format('F j, Y') }}</h2>
+        <h2>WEEKLY INVENTORY OF DV'S ON HAND</h2>
+        <h2>FROM {{ \Carbon\Carbon::now()->subWeek()->format('F j, Y') }} TO {{ \Carbon\Carbon::now()->format('F j, Y') }}</h2>
         <h2>CASH SECTION</h2>
     </header>
 

@@ -7,7 +7,7 @@ use App\Models\Cash;
 use App\Models\DvInventory;
 use App\Models\DvInventoryUnprocessed;
 use Barryvdh\DomPDF\Facade\Pdf;
-
+use Carbon\Carbon;
 class CashCharts extends Component
 {
 
@@ -85,23 +85,30 @@ class CashCharts extends Component
         ]);
     }
 
+    
+
     public function generatePdf()
     {
-        $processedPrograms = DvInventory::select('program')
-        ->selectRaw('SUM(no_of_processed_dv) as total_processed_dvs')
-        ->selectRaw('SUM(total_amount_processed) as total_processed_amount')
-        ->groupBy('program')
-        ->get();
-        
-        $unprocessedPrograms = DvInventoryUnprocessed::select('program')
-        ->selectRaw('SUM(no_of_unprocessed_dv) as total_unprocessed_dvs')
-        ->selectRaw('SUM(total_amount_unprocessed) as total_unprocessed_amount')
-        ->groupBy('program')
-        ->get();
+        $lastWeek = Carbon::now()->subWeek(); // Get the date of one week ago
     
-        $pdf = PDF::loadView('livewire.pdf-views.budget-pdf-view', compact('processedPrograms', 'unprocessedPrograms'));
+        $processedPrograms = DvInventory::select('program')
+            ->selectRaw('SUM(no_of_processed_dv) as total_processed_dvs')
+            ->selectRaw('SUM(total_amount_processed) as total_processed_amount')
+            ->where('created_at', '>=', $lastWeek) // Filter by the past week
+            ->groupBy('program')
+            ->get();
+    
+        $unprocessedPrograms = DvInventoryUnprocessed::select('program')
+            ->selectRaw('SUM(no_of_unprocessed_dv) as total_unprocessed_dvs')
+            ->selectRaw('SUM(total_amount_unprocessed) as total_unprocessed_amount')
+            ->where('created_at', '>=', $lastWeek) // Filter by the past week
+            ->groupBy('program')
+            ->get();
+    
+        $pdf = PDF::loadView('livewire.pdf-views.cash-pdf-view', compact('processedPrograms', 'unprocessedPrograms'));
         
-        return $pdf->download('dv_report.pdf'); // Download the PDF
+        return $pdf->download('weekly_dv_report.pdf'); // Download the PDF with a descriptive name
     }
+    
 
 }
