@@ -10,10 +10,25 @@
             color: #333;
         }
 
+        header {
+            text-align: center;
+            padding: 10px 0;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #3498db;
+        }
+
+        header h2 {
+            margin: 0;
+            padding: 5px 0;
+            font-size: 22px;
+            font-weight: normal;
+        }
+
         h1 {
-            text-align: center; /* Centering the heading */
-            font-size: 24px;
+            text-align: center;
+            font-size: 26px;
             margin-bottom: 20px;
+            color: #2c3e50;
         }
 
         h3 {
@@ -55,7 +70,7 @@
             display: table;
             width: 100%;
             margin-top: 20px;
-            page-break-inside: avoid; /* Avoid page breaks within the container */
+            page-break-inside: avoid;
         }
 
         .processed,
@@ -66,33 +81,31 @@
             page-break-inside: avoid;
         }
 
-        /* For printing legal size and pagination */
+        /* For printing A4 size and pagination */
         @media print {
             @page {
-                size: legal;
+                size: A4;
                 margin: 1in;
             }
 
             body {
                 margin: 0;
-                -webkit-print-color-adjust: exact; /* Ensure colors print correctly */
+                -webkit-print-color-adjust: exact;
             }
 
             .container {
-                page-break-before: always; /* Insert page break before each section */
+                page-break-before: always;
             }
 
             .processed,
             .unprocessed {
-                page-break-after: always; /* Ensure sections don't split over pages */
+                page-break-after: always;
             }
 
-            /* Optional: hide borders in print to reduce clutter */
             th, td {
                 border: 1px solid black;
             }
 
-            /* Ensuring each table fits within its own page */
             table {
                 page-break-inside: avoid;
             }
@@ -101,6 +114,12 @@
 </head>
 
 <body>
+    <header>
+        <h2>WEEKLY INVENTORY OF DV'S ON HAND</h2>
+        <h2>FROM {{ \Carbon\Carbon::now()->subWeek()->format('F j, Y') }} TO {{ \Carbon\Carbon::now()->format('F j, Y') }}</h2>
+        <h2>CASH SECTION</h2>
+    </header>
+
     <h1>DV Inventory Report</h1>
     <div class="container">
         <div class="processed">
