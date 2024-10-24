@@ -11,15 +11,39 @@ class AdminTable extends Component
     use WithPagination;
 
     public $name, $email, $dswd_id, $section;
-
+    public $search = ''; // New search property
     // This property will be used to confirm approval actions
     public $selectedUserId;
+    public $showPendingOnly = false;
+
 
     public function render()
     {
-        $users = User::where('section', '!=', 0)->paginate(10);
+        $query = User::where('section', '!=', 0)
+        ->orderBy('is_approved', 'desc'); // Approved users will be at the top
+
+        // Apply search filter
+        if (!empty($this->search)) {
+            $query->where(function ($subQuery) {
+                $subQuery->where('name', 'like', '%' . $this->search . '%')
+                    ->orWhere('email', 'like', '%' . $this->search . '%')
+                    ->orWhere('dswd_id', 'like', '%' . $this->search . '%');
+            });
+        }
+
+        // Apply filter if showPendingOnly is true
+        if ($this->showPendingOnly) {
+            $query->where('is_approved', false);
+        }
+
+        $users = $query->paginate(10);
 
         return view('livewire.admin.admin-table', ['users' => $users]);
+    }
+
+    public function togglePendingFilter()
+    {
+        $this->showPendingOnly = !$this->showPendingOnly;
     }
 
     /**
