@@ -63,9 +63,6 @@ Route::middleware(['auth', 'otp', 'PreventBackHistory'])->group(function () {
     Route::get('/cash/generate-pdf', [CashCharts::class, 'generatePdf'])
         ->middleware('check.section:3')
         ->name('cash-generatePdf');
-
-
-    
 });
 
 require __DIR__.'/auth.php';
