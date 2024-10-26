@@ -223,7 +223,7 @@
             <!-- Search Input -->
             <div class="mb-1 flex items-center justify-between">
                <input type="text" placeholder="Search..." wire:model.live.debounce.500ms="search"
-                  class="border rounded p-2 w-64" />
+                  class="border-solid-gray-500 rounded p-2 w-64" />
 
                <!-- Alerts -->
                <div class="flex space-x-4">
@@ -258,8 +258,8 @@
             <!-- Table Wrapper for Horizontal Scrolling -->
             <div class="min-h-[35rem] overflow-x-auto">
                <div class="max-h-[40rem] overflow-y-auto">
-                  <table class="min-w-full bg-white">
-                     <thead class="bg-blue-700 text-white sticky top-0 z-10">
+                 <table class="min-w-full bg-white">
+                   <thead class="bg-blue-700 text-white sticky top-0 z-10">
                         <tr>
                            <th class="py-2 px-4 text-center font-bold min-w-[150px]">DRN No.</th>
                            

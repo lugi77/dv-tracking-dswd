@@ -156,7 +156,7 @@
                     <div class="mb-4 flex items-center justify-between">
                         <!-- Search Input -->
                         <input type="text" placeholder="Search..." wire:model.live.debounce.500ms="search"
-                            class="border border-gray-300 rounded-md px-4 py-2 w-64 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+                            class="border-solid-gray-500 rounded-md px-4 py-2 w-64 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
 
                         <!-- Alerts -->
                         <div class="flex space-x-4">
@@ -245,8 +245,9 @@
                                 </thead>
                                 <tbody>
                                     @forelse ($accountingRecords as $entry)
-                                        <tr class="hover:bg-gray-100 cursor-pointer">
-                                            <td class="py-2 px-2 text-center border-b border-r border-gray-300">
+                                    <tr class="hover:bg-gray-100 cursor-pointer 
+                                        {{ $entry->created_at->gt(now()->subDay()) && $entry->updated_at == $entry->created_at ? 'bg-yellow-100' : '' }}">            
+                                        <td class="py-2 px-2 text-center border-b border-r border-gray-300">
                                                 {{ $entry->date_received }}
                                             </td>
                                             <td class="py-2 px-2 text-center border-b border-r border-gray-300">

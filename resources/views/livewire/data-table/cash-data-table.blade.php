@@ -134,7 +134,7 @@
                                                     @error('outgoing_date') <span
                                                     class="text-red-600 text-sm">{{ $message }}</span> @enderror
                                                 </div>
-                                                
+
                                                 <div>
                                                     <label for="check_ada_no"
                                                         class="block text-sm font-medium text-gray-700">CHECK/ADA
@@ -175,7 +175,7 @@
                                                         </option>
                                                         <option value="Return to Accounting">Return to Accounting
                                                         </option>
-                                                      ion value="Return to End User">Return to End User</option>
+                                                        ion value="Return to End User">Return to End User</option>
                                                     </select>
                                                     @error('status') <span
                                                     class="text-red-600 text-sm">{{ $message }}</span> @enderror
@@ -278,103 +278,113 @@
                                 </thead>
                                 <tbody>
                                     @forelse($cashRecords as $record)
-                                        <tr class="hover:bg-gray-100 cursor-pointer">
-                                            <td class="py-2 px-2 text-center border-b border-r border-gray-300">
-                                                {{ $record->date_received }}</td>
-                                            <td class="py-2 px-2 text-center border-b border-r border-gray-300">
-                                                {{ $record->orsNum }}</td>
-                                            <td class="py-2 px-2 text-center border-b border-r border-gray-300">{{ $record->dv_no }}
-                                            </td>
-                                            <td class="py-2 px-2 border-b border-r border-gray-300">
-                                                {{ $record->payment_type }}</td>
-                                            <td class="py-2 px-2 text-center border-b border-r border-gray-300">
-                                                {{ $record->check_ada_no }}</td>
-                                            <td class="py-2 px-2 text-center border-b border-r border-gray-300">
-                                                ₱{{number_format($record->gross_amount)}}</td>
-                                            <td class="py-2 px-2 text-center border-b border-r border-gray-300">
-                                                ₱{{number_format($record->net_amount)}}</td>
-                                            <td class="py-2 px-2 border-b border-r border-gray-300">
-                                                {{ $record->date_issued }}</td>
-                                            <td class="py-2 px-2 border-b border-r border-gray-300">
-                                                {{ $record->receipt_no }}</td>
-                                            <td class="py-2 px-2 border-b border-r border-gray-300">{{ $record->payee }}
-                                            </td>
-                                            <td class="py-2 px-2 text-center border-b border-r border-gray-300 max-w-[50px] cursor-pointer relative"
-                                                x-data="{ expanded: false, hovering: false, x: 0, y: 0}"
-                                                @mouseenter="hovering = true; let rect = $el.getBoundingClientRect(); x = rect.left; y = rect.bottom;" 
-                                                @mouseleave="hovering = false"
-                                                @click="expanded = !expanded">
+                                                                <tr
+                                                                    class="hover:bg-gray-100 cursor-pointer 
+                                        {{ $record->created_at->gt(now()->subDay()) && $record->updated_at == $record->created_at ? 'bg-yellow-100' : '' }}">
+                                                                        <td class="py-2 px-2 text-center border-b border-r border-gray-300">
+                                                                            {{ $record->date_received }}
+                                                                        </td>
+                                                                        <td class="py-2 px-2 text-center border-b border-r border-gray-300">
+                                                                            {{ $record->orsNum }}
+                                                                        </td>
+                                                                        <td class="py-2 px-2 text-center border-b border-r border-gray-300">
+                                                                            {{ $record->dv_no }}
+                                                                        </td>
+                                                                        <td class="py-2 px-2 border-b border-r border-gray-300">
+                                                                            {{ $record->payment_type }}
+                                                                        </td>
+                                                                        <td class="py-2 px-2 text-center border-b border-r border-gray-300">
+                                                                            {{ $record->check_ada_no }}
+                                                                        </td>
+                                                                        <td class="py-2 px-2 text-center border-b border-r border-gray-300">
+                                                                            ₱{{number_format($record->gross_amount)}}</td>
+                                                                        <td class="py-2 px-2 text-center border-b border-r border-gray-300">
+                                                                            ₱{{number_format($record->net_amount)}}</td>
+                                                                        <td class="py-2 px-2 border-b border-r border-gray-300">
+                                                                            {{ $record->date_issued }}
+                                                                        </td>
+                                                                        <td class="py-2 px-2 border-b border-r border-gray-300">
+                                                                            {{ $record->receipt_no }}
+                                                                        </td>
+                                                                        <td class="py-2 px-2 border-b border-r border-gray-300">{{ $record->payee }}
+                                                                        </td>
+                                                                        <td class="py-2 px-2 text-center border-b border-r border-gray-300 max-w-[50px] cursor-pointer relative"
+                                                                            x-data="{ expanded: false, hovering: false, x: 0, y: 0}"
+                                                                            @mouseenter="hovering = true; let rect = $el.getBoundingClientRect(); x = rect.left; y = rect.bottom;"
+                                                                            @mouseleave="hovering = false" @click="expanded = !expanded">
 
-                                                <!-- Truncated Text (always shown unless clicked to expand) -->
-                                                <span x-show="!expanded" class="whitespace-nowrap overflow-hidden text-ellipsis block">
-                                                    {{ Str::limit($record->particulars, ) }} <!-- Adjust the character limit if needed -->
-                                                </span>
+                                                                            <!-- Truncated Text (always shown unless clicked to expand) -->
+                                                                            <span x-show="!expanded"
+                                                                                class="whitespace-nowrap overflow-hidden text-ellipsis block">
+                                                                                {{ Str::limit($record->particulars, ) }}
+                                                                                <!-- Adjust the character limit if needed -->
+                                                                            </span>
 
-                                                <!-- Full Text (shown when clicked to expand) -->
-                                                <span x-show="expanded" class="whitespace-normal">
-                                                    {{ $record->particulars }}
-                                                </span>
+                                                                            <!-- Full Text (shown when clicked to expand) -->
+                                                                            <span x-show="expanded" class="whitespace-normal">
+                                                                                {{ $record->particulars }}
+                                                                            </span>
 
-                                                <!-- Hover Pop-up (shown when hovered, fixed position to avoid scrolling) -->
-                                                <div x-show="hovering && !expanded" 
-                                                    class="fixed z-10 w-auto max-w-xs bg-white border border-gray-300 shadow-lg p-2 rounded-lg"
-                                                    :style="'left:' + x + 'px; top:' + y + 'px;'"
-                                                    x-cloak>
-                                                    <p class="text-sm">{{ $record->particulars }}</p>
-                                                </div>
-                                            </td>
-                                            <td class="py-2 px-2 text-center border-b border-r border-gray-300 max-w-[50px] cursor-pointer relative"
-                                                x-data="{ expanded: false, hovering: false, x: 0, y: 0}"
-                                                @mouseenter="hovering = true; let rect = $el.getBoundingClientRect(); x = rect.left; y = rect.bottom;" 
-                                                @mouseleave="hovering = false"
-                                                @click="expanded = !expanded">
+                                                                            <!-- Hover Pop-up (shown when hovered, fixed position to avoid scrolling) -->
+                                                                            <div x-show="hovering && !expanded"
+                                                                                class="fixed z-10 w-auto max-w-xs bg-white border border-gray-300 shadow-lg p-2 rounded-lg"
+                                                                                :style="'left:' + x + 'px; top:' + y + 'px;'" x-cloak>
+                                                                                <p class="text-sm">{{ $record->particulars }}</p>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td class="py-2 px-2 text-center border-b border-r border-gray-300 max-w-[50px] cursor-pointer relative"
+                                                                            x-data="{ expanded: false, hovering: false, x: 0, y: 0}"
+                                                                            @mouseenter="hovering = true; let rect = $el.getBoundingClientRect(); x = rect.left; y = rect.bottom;"
+                                                                            @mouseleave="hovering = false" @click="expanded = !expanded">
 
-                                                <!-- Truncated Text (always shown unless clicked to expand) -->
-                                                <span x-show="!expanded" class="whitespace-nowrap overflow-hidden text-ellipsis block">
-                                                    {{ Str::limit($record->remarks, 26) }} <!-- Adjust the character limit if needed -->
-                                                </span>
+                                                                            <!-- Truncated Text (always shown unless clicked to expand) -->
+                                                                            <span x-show="!expanded"
+                                                                                class="whitespace-nowrap overflow-hidden text-ellipsis block">
+                                                                                {{ Str::limit($record->remarks, 26) }}
+                                                                                <!-- Adjust the character limit if needed -->
+                                                                            </span>
 
-                                                <!-- Full Text (shown when clicked to expand) -->
-                                                <span x-show="expanded" class="whitespace-normal">
-                                                    {{ $record->remarks }}
-                                                </span>
+                                                                            <!-- Full Text (shown when clicked to expand) -->
+                                                                            <span x-show="expanded" class="whitespace-normal">
+                                                                                {{ $record->remarks }}
+                                                                            </span>
 
-                                                <!-- Hover Pop-up (shown when hovered, fixed position to avoid scrolling) -->
-                                                <div x-show="hovering && !expanded" 
-                                                    class="fixed z-10 w-auto max-w-xs bg-white border border-gray-300 shadow-lg p-2 rounded-lg"
-                                                    :style="'left:' + x + 'px; top:' + y + 'px;'"
-                                                    x-cloak>
-                                                    <p class="text-sm">{{ $record->remarks }}</p>
-                                                </div>
-                                            </td>
-                                            <td class="py-2 px-2 border-b border-r border-gray-300">
-                                                {{ $record->outgoing_date }}</td>
+                                                                            <!-- Hover Pop-up (shown when hovered, fixed position to avoid scrolling) -->
+                                                                            <div x-show="hovering && !expanded"
+                                                                                class="fixed z-10 w-auto max-w-xs bg-white border border-gray-300 shadow-lg p-2 rounded-lg"
+                                                                                :style="'left:' + x + 'px; top:' + y + 'px;'" x-cloak>
+                                                                                <p class="text-sm">{{ $record->remarks }}</p>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td class="py-2 px-2 border-b border-r border-gray-300">
+                                                                            {{ $record->outgoing_date }}
+                                                                        </td>
 
-                                            <td class="py-2 px-2 text-center border-b border-r border-gray-300"
-                                                style="color: 
-                                                    {{ $record->status === 'Issuance Approved' ? '#3AC430' : 
-                                                    ($record->status === 'Sent from Accounting' ? 'orange' : 'inherit') }};">
-                                                {{ $record->status }}
-                                            </td>
+                                                                        <td class="py-2 px-2 text-center border-b border-r border-gray-300"
+                                                                            style="color: 
+                                                                                    {{ $record->status === 'Issuance Approved' ? '#3AC430' :
+                                        ($record->status === 'Sent from Accounting' ? 'orange' : 'inherit') }};">
+                                                                            {{ $record->status }}
+                                                                        </td>
 
-                                            <td class="py-2 px-2 text-center border-b border-r border-gray-300">
-                                                <button @click="$wire.editEntry({{ $record->id }}); modelOpen = true;"
-                                                    class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                                                    <!-- SVG Icon -->
-                                                    <svg class="h-5 w-5 text-white mr-2" viewBox="0 0 24 24"
-                                                        stroke-width="2" stroke="currentColor" fill="none"
-                                                        stroke-linecap="round" stroke-linejoin="round">
-                                                        <path stroke="none" d="M0 0h24v24H0z" />
-                                                        <path
-                                                            d="M9 7h-3a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-3" />
-                                                        <path d="M9 15h3l8.5 -8.5a1.5 1.5 0 0 0 -3 -3l-8.5 8.5v3" />
-                                                        <line x1="16" y1="5" x2="19" y2="8" />
-                                                    </svg>
-                                                    <!-- Button Text -->
-                                                    Edit
-                                                </button>
-                                            </td>
-                                        </tr>
+                                                                        <td class="py-2 px-2 text-center border-b border-r border-gray-300">
+                                                                            <button @click="$wire.editEntry({{ $record->id }}); modelOpen = true;"
+                                                                                class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                                                                <!-- SVG Icon -->
+                                                                                <svg class="h-5 w-5 text-white mr-2" viewBox="0 0 24 24"
+                                                                                    stroke-width="2" stroke="currentColor" fill="none"
+                                                                                    stroke-linecap="round" stroke-linejoin="round">
+                                                                                    <path stroke="none" d="M0 0h24v24H0z" />
+                                                                                    <path
+                                                                                        d="M9 7h-3a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-3" />
+                                                                                    <path d="M9 15h3l8.5 -8.5a1.5 1.5 0 0 0 -3 -3l-8.5 8.5v3" />
+                                                                                    <line x1="16" y1="5" x2="19" y2="8" />
+                                                                                </svg>
+                                                                                <!-- Button Text -->
+                                                                                Edit
+                                                                            </button>
+                                                                        </td>
+                                                                    </tr>
                                     @empty
                                         <tr>
                                             <td class="py-2 px-2 text-center border-b border-r border-gray-300"
