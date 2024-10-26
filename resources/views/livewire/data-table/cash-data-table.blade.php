@@ -277,6 +277,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <!-- Highlight for new data or unedited entry -->
                                     @forelse($cashRecords as $record)
                                                                 <tr
                                                                     class="hover:bg-gray-100 cursor-pointer 

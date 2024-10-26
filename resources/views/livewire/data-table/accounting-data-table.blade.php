@@ -244,12 +244,14 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <!-- Highlight for new data or unedited entry -->
                                     @forelse ($accountingRecords as $entry)
                                     <tr class="hover:bg-gray-100 cursor-pointer 
                                         {{ $entry->created_at->gt(now()->subDay()) && $entry->updated_at == $entry->created_at ? 'bg-yellow-100' : '' }}">            
                                         <td class="py-2 px-2 text-center border-b border-r border-gray-300">
                                                 {{ $entry->date_received }}
                                             </td>
+
                                             <td class="py-2 px-2 text-center border-b border-r border-gray-300">
                                                 {{ $entry->orsNum }}
                                             </td>
