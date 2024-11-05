@@ -164,6 +164,7 @@
                                  <select wire:model.defer="status"
                                     class="border-1 border-solid rounded text-center px-4 py-2 mx-auto">
                                     <option value="">Status</option>
+                                    <option value="FOR APPROVAL">FOR APPROVAL</option>
                                     <option value="FOR PROCESSING">FOR PROCESSING</option>
                                     <option value="Forward to Accounting">Forward to Accounting</option>
                                     <option value="FORWARD TO ARDA">FORWARD TO ARDA</option>

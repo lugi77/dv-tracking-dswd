@@ -11,6 +11,11 @@ class BudgetCharts extends Component
 {
     public function render()
     {
+        // Count DVs with status "Return to End User"
+        $returnToEndUserCount = Budget::where('status', 'RETURN TO END USER')->count();
+        
+        // Count DVs with status "For Approval"
+        $forApprovalCount = Budget::where('status', 'FOR APPROVAL')->count();
 
          // Processed DVs grouped by program
          $processedPrograms = DvInventoryBudgetProcessed::select('program')
@@ -50,6 +55,8 @@ class BudgetCharts extends Component
         return view('livewire.charts.budget-charts', [
             'processedPrograms' => $processedPrograms,
             'unprocessedPrograms' => $unprocessedPrograms,
+            'returnToEndUserCount' => $returnToEndUserCount,
+            'forApprovalCount' => $forApprovalCount,
             
         ]);
     }
