@@ -17,13 +17,16 @@ Route::redirect('/', '/login')->name('login');
 
 Route::get('/otp-verify', OtpVerify::class)->name('otp-verify')->middleware('auth');
 
-Route::middleware(['auth', 'otp', 'PreventBackHistory'])->group(function () {
+Route::middleware(['auth', 'otp',])->group(function () {
     
     Route::get('/home', [UserDashboardController::class, 'index'])->name('home');
 
     Route::view('profile', 'profile')->name('profile');
 
     Route::get('/history', ActivityLogs::class)->name('view history');
+
+    Route::get('/export-combined', [AdminTable::class, 'export']);
+
 
     // Dashboard Routes for Different Sections
     Route::get('/admin', [UserDashboardController::class, 'index'])

@@ -65,7 +65,7 @@ class CashCharts extends Component
                 ]
             );
         }
-
+        
         // Sync DvInventoryUnprocessed with the latest data from the Cash table
         foreach ($approvedCashDVs as $processedDV) {
             DvInventoryUnprocessed::where('transaction_no', $processedDV->transaction_no)->delete();
