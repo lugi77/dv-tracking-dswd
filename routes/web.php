@@ -12,17 +12,19 @@ use App\Http\Controllers\UserDashboardController;
 use App\Livewire\DataTable\BudgetDataTable;
 use App\Livewire\ActivityLogs;
 
-Route::redirect('/', '/login')->name('login');
+
+Route::redirect('/', '/login');
+
 
 
 Route::get('/otp-verify', OtpVerify::class)->name('otp-verify')->middleware('auth');
 
-Route::middleware(['auth', 'otp',])->group(function () {
+Route::middleware(['auth', 'otp', 'PreventBackHistory'])->group(function () {
     
     Route::get('/home', [UserDashboardController::class, 'index'])->name('home');
 
     Route::view('profile', 'profile')->name('profile');
-
+    
     Route::get('/history', ActivityLogs::class)->name('view history');
 
     Route::get('/export-combined', [AdminTable::class, 'export']);
