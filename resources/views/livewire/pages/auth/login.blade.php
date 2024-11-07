@@ -33,9 +33,9 @@ new #[Layout('layouts.guest')] class extends Component
         <x-auth-session-status class="mb-4" :status="session('status')" />
 
         @if (session('message'))
-            <div class="mb-4 font-medium text-sm text-red-600">
-                {{ session('message') }}
-            </div>
+                <div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 5000)" class="mb-4 text-green-600">
+                    {{ session('message') }}
+                </div>
         @endif
 
         <!-- Loading state with spinning circle for "Generating OTP" -->

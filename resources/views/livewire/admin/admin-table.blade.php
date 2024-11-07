@@ -17,6 +17,11 @@
                         <button wire:click="togglePendingFilter" class="bg-blue-500 text-white border rounded p-2 ml-2">
                             {{ $showPendingOnly ? 'Show All Users' : 'Show Pending Accounts' }}
                         </button>
+
+                        <!-- Export button -->
+                        <button wire:click="export" class="bg-green-500 text-white border rounded p-2 ml-2">
+                            Export to Excel
+                        </button>
                     </div>
 
                     <div class="overflow-x-auto bg-white shadow rounded-lg">

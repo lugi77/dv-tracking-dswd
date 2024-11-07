@@ -10,13 +10,14 @@
         <div class="bg-white p-4 border rounded shadow text-center">
             <p class="font-semibold">RETURN TO END USER</p>
             <h2 class="text-2xl font-bold text-red-500">
-                
+                {{ $returnToEndUserCount }} <!-- Display count for "Return to End User" -->
             </h2>
         </div>
+
         <div class="bg-white p-4 border rounded shadow text-center">
             <p class="font-semibold">FOR APPROVAL</p>
             <h2 class="text-2xl font-bold text-green-600">
-
+                {{ $forApprovalCount }} <!-- Display count for "For Approval" -->
             </h2>
         </div>
     </div>

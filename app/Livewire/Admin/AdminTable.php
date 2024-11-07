@@ -5,6 +5,8 @@ namespace App\Livewire\Admin;
 use App\Models\User;
 use Livewire\Component;
 use Livewire\WithPagination;
+use App\Exports\CombinedExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AdminTable extends Component
 {
@@ -68,5 +70,9 @@ class AdminTable extends Component
         $user->save();
 
         session()->flash('message', 'User denied successfully.');
+    }
+    public function export()
+    {
+        return Excel::download(new CombinedExport, 'combined_data.xlsx');
     }
 }
