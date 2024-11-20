@@ -64,7 +64,7 @@
                                         <line x1="4" y1="10" x2="20" y2="10" />
                                         <line x1="10" y1="4" x2="10" y2="20" />
                                     </svg>
-                                    {{ __('Budget Data Table') }}
+                                    {{ __('Budget') }}
                                 </x-dropdown-link>
 
                                 <!-- Accounting Data Table Link -->
@@ -78,7 +78,7 @@
                                         <line x1="4" y1="10" x2="20" y2="10" />
                                         <line x1="10" y1="4" x2="10" y2="20" />
                                     </svg>
-                                    {{ __('Accounting Data Table') }}
+                                    {{ __('Accounting') }}
                                 </x-dropdown-link>
 
                                 <!-- Cash Data Table Link -->
@@ -92,7 +92,7 @@
                                         <line x1="4" y1="10" x2="20" y2="10" />
                                         <line x1="10" y1="4" x2="10" y2="20" />
                                     </svg>
-                                    {{ __('Cash Data Table') }}
+                                    {{ __('Cash') }}
                                 </x-dropdown-link>
                             </x-slot>
                         </x-dropdown>
