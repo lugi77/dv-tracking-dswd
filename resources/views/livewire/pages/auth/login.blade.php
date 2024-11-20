@@ -81,7 +81,7 @@ new #[Layout('layouts.guest')] class extends Component
         </form>
         <style>
             .login-bg {
-                background-image: url('{{ asset('/build/assets/img/dswd.png') }}');
+                background-image: url('{{ asset('/img/dswd.png') }}');
                 background-size: cover;
                 background-position: center;
                 background-repeat: no-repeat;
