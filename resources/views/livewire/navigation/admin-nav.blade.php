@@ -94,6 +94,18 @@
                                     </svg>
                                     {{ __('Cash') }}
                                 </x-dropdown-link>
+
+                                <!-- Export Combined Table Button -->
+                                <!-- <x-dropdown-link wire:click="export"
+                                   >
+                                    <svg class="h-6 w-6 text-white inline-block mr-2" width="24" height="24"
+                                        viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                        stroke-linecap="round" stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" />
+                                        <path d="M3 12h4l3 8l4 -16l3 8h4" />
+                                    </svg>
+                                    {{ __('Export Combined Table') }}
+                                </x-dropdown-link> -->
                             </x-slot>
                         </x-dropdown>
                     </div>
