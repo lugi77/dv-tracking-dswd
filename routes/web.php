@@ -15,8 +15,6 @@ use App\Livewire\ActivityLogs;
 
 Route::redirect('/', '/login');
 
-
-
 Route::get('/otp-verify', OtpVerify::class)->name('otp-verify')->middleware('auth');
 
 Route::middleware(['auth', 'otp', 'PreventBackHistory'])->group(function () {
