@@ -28,22 +28,22 @@
         <table class="min-w-full bg-gray-100">
             <thead class="bg-blue-600 text-white">
                 <tr>
-                    <th class="py-3 px-4 text-left">User</th>
-                    <th class="py-3 px-4 text-left">DSWD ID</th>
-                    <th class="py-3 px-4 text-left">Email</th>
-                    <th class="py-3 px-4 text-left">Section</th>
-                    <th class="py-3 px-4 text-left">Status</th>
-                    <th class="py-3 px-4 text-center">Action</th>
+                    <th class="border py-3 px-4 text-left">User</th>
+                    <th class="border py-3 px-4 text-left">DSWD ID</th>
+                    <th class="border py-3 px-4 text-left">Email</th>
+                    <th class="border py-3 px-4 text-left">Section</th>
+                    <th class="border py-3 px-4 text-left">Status</th>
+                    <th class="border py-3 px-4 text-center">Action</th>
                 </tr>
             </thead>
             <tbody class="text-gray-700">
                 @isset($users)
                     @foreach($users as $user)
                         <tr class="hover:bg-gray-100 cursor-pointer">
-                            <td class="py-3 px-4">{{ $user->name }}</td>
-                            <td class="py-3 px-4">{{ $user->dswd_id }}</td>
-                            <td class="py-3 px-4">{{ $user->email }}</td>
-                            <td class="py-3 px-4">
+                            <td class="border py-3 px-4">{{ $user->name }}</td>
+                            <td class="border py-3 px-4">{{ $user->dswd_id }}</td>
+                            <td class="border py-3 px-4">{{ $user->email }}</td>
+                            <td class="border py-3 px-4">
                                 @if($user->section == 1)
                                     Budget
                                 @elseif($user->section == 2)
@@ -54,25 +54,38 @@
                                     Admin
                                 @endif
                             </td>
-                            <td class="py-3 px-4">
+                            <td class=" border py-3 px-4">
                                 @if ($user->is_approved == 1)
                                     <h1 class="text-green-500">Approved</h1>
                                 @else
                                     <h1 class="text-red-500">Pending</h1>
                                 @endif
                             </td>
-                            <td class="py-3 text-center">
+                            <td class="border py-3 text-center">
                                 <div class="flex justify-center space-x-4">
                                     <!-- Approve Button -->
                                     <button title="Approve" wire:click="approveUser({{ $user->id }})"
                                         class="flex items-center justify-center">
-                                        <svg class="h-8 w-8 text-green-500"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">  <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3" /></svg>
+                                        <svg class="h-5 w-5 text-green-500"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">  <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3" /></svg>
                                     </button>
 
                                     <!-- Deny Button -->
                                     <button title="Deny" wire:click="denyUser({{ $user->id }})" class="flex items-center justify-center">
-                                    <svg class="h-8 w-8 text-red-500"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">  <path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17" /></svg>
+                                    <svg class="h-5 w-5 text-red-500"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">  <path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17" /></svg>
                                     </button>
+
+                                    <button 
+                                        title="Delete" 
+                                        class="flex items-center justify-center"
+                                        onclick="confirm('Are you sure you want to delete this user?') || event.stopImmediatePropagation();" 
+                                        wire:click="softDeleteUser({{ $user->id }})">
+                                        <svg class="h-5 w-5 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                        </svg>
+                                    </button>
+
+
                                 </div>
                             </td>
                         </tr>
