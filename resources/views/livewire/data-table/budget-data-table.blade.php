@@ -166,7 +166,7 @@
                                     <option value="">Status</option>
                                     <option value="FOR APPROVAL">FOR APPROVAL</option>
                                     <option value="FOR PROCESSING">FOR PROCESSING</option>
-                                    <option value="Forward to Accounting">Forward to Accounting</option>
+                                    <option value="Forward to Accounting" class="text-green-500">Forward to Accounting</option>
                                     <option value="FORWARD TO ARDA">FORWARD TO ARDA</option>
                                     <option value="FORWARD TO ARDO">FORWARD TO ARDO</option>
                                     <option value="FORWARD TO BAC">FORWARD TO BAC</option>
@@ -229,24 +229,16 @@
                <!-- Alerts -->
                <div class="flex space-x-4">
                   @if (session()->has('error'))
-                 <div x-data="{ show: true }" x-show="show"
-                   class="bg-red-100 text-red-800 border border-red-300 rounded-md px-4 py-2 text-sm relative">
-                   {{ session('error') }}
-                   <button @click="show = false" class="absolute top-1 right-1 text-red-600 hover:text-red-800">
-                     &times;
-                   </button>
-                 </div>
-              @endif
+                     <div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 5000)" 
+                        class="mb-4 text-green-600"> {{ session('error') }}
+                     </div>
+                     @endif
 
                   @if (session()->has('message'))
-                 <div x-data="{ show: true }" x-show="show"
-                   class="bg-green-100 text-green-800 border border-green-300 rounded-md px-4 py-2 text-sm relative">
-                   {{ session('message') }}
-                   <button @click="show = false" class="absolute top-1 right-1 text-green-600 hover:text-green-800">
-                     &times;
-                   </button>
-                 </div>
-              @endif
+                     <div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 5000)" 
+                        class="mb-4 text-green-600"> {{ session('message') }}
+                     </div>
+                      @endif
                </div>
 
                <select wire:model="perPage" class="border rounded px-8 py-2 mb-4">

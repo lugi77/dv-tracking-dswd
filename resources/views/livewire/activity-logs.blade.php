@@ -14,7 +14,7 @@
 
                 <div class="min-h-[35rem] overflow-x-auto">
                     <div class="max-h-[40rem] overflow-y-auto">
-                        <table class="min-w-full bg-white border-collapse">
+                        <table class="min-w-full bg-gray-100 border-collapse">
                             <thead>
                                 <tr>
                                     <th class="py-2 px-3 border-b border-gray-200 text-sm"></th>

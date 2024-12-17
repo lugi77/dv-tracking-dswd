@@ -3,6 +3,7 @@
 
 use App\Livewire\Admin\AdminTable;
 use App\Livewire\Charts\AccountingCharts;
+use App\Livewire\Charts\BudgetCharts;
 use App\Livewire\Charts\CashCharts;
 use App\Livewire\DataTable\AccountingDataTable;
 use App\Livewire\DataTable\CashDataTable;
@@ -39,6 +40,7 @@ Route::middleware(['auth', 'otp', 'PreventBackHistory'])->group(function () {
     Route::middleware('check.section:1')->group(function () {
         Route::get('/budget', [UserDashboardController::class, 'index'])->name('budget');
         Route::get('/BudgetDataTable', BudgetDataTable::class)->name('budget table');
+        Route::get('/budget/generate-pdf',[BudgetCharts::class, 'generatePdf'])->name('budget-generatePdf');
    
     });
 

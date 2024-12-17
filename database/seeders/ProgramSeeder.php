@@ -26,7 +26,7 @@ class ProgramSeeder extends Seeder
             ['program' => 'CCAM'],
             ['program' => 'CCSN'],
             ['program' => 'CENTENARIAN'],
-            ['program' => 'CENTER - FO RETENTION'],
+            ['program' => 'CENTER-FO RETENTION'],
             ['program' => 'CENTER (DR)'],
             ['program' => 'CLIMATE CHANGE'],
             ['program' => 'COMM BASED'],
