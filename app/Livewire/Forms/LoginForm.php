@@ -63,7 +63,7 @@ class LoginForm extends Form
         $user = Auth::user();
         $otp = rand(100000, 999999); // Generate a 6-digit OTP
         $user->otp = $otp;
-        $user->otp_expires_at = Carbon::now()->addMinutes(5); // OTP valid for 10 minutes
+        $user->otp_expires_at = Carbon::now()->addMinutes(10); // OTP valid for 10 minutes
         $user->save();
 
         Mail::to($user->email)->send(new OtpMail($otp));

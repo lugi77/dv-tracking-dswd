@@ -207,24 +207,14 @@
                         <!-- Alerts -->
                         <div class="flex space-x-4">
                             @if (session()->has('error'))
-                                <div x-data="{ show: true }" x-show="show"
-                                    class="bg-red-100 text-red-800 border border-red-300 rounded-md px-4 py-2 text-sm relative">
-                                    {{ session('error') }}
-                                    <button @click="show = false"
-                                        class="absolute top-1 right-1 text-red-600 hover:text-red-800">
-                                        &times;
-                                    </button>
+                                <div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 5000)"
+                                    class="mb-4 text-green-600"> {{ session('error') }}
                                 </div>
                             @endif
 
                             @if (session()->has('message'))
-                                <div x-data="{ show: true }" x-show="show"
-                                    class="bg-green-100 text-green-800 border border-green-300 rounded-md px-4 py-2 text-sm relative">
-                                    {{ session('message') }}
-                                    <button @click="show = false"
-                                        class="absolute top-1 right-1 text-green-600 hover:text-green-800">
-                                        &times;
-                                    </button>
+                                <div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 5000)"
+                                    class="mb-4 text-green-600"> {{ session('message') }}
                                 </div>
                             @endif
                         </div>
@@ -279,34 +269,26 @@
                                 <tbody>
                                     <!-- Highlight for new data or unedited entry -->
                                     @forelse($cashRecords as $record)
-                                                                <tr
-                                                                    class="hover:bg-gray-100 cursor-pointer 
-                                        {{ $record->created_at->gt(now()->subDay()) && $record->updated_at == $record->created_at ? 'bg-yellow-100' : '' }}">
+                                                                    <tr
+                                                                        class="hover:bg-gray-100 cursor-pointer {{ $record->created_at->gt(now()->subDay()) && $record->updated_at == $record->created_at ? 'bg-yellow-100' : '' }}">
                                                                         <td class="py-2 px-2 text-center border-b border-r border-gray-300">
-                                                                            {{ $record->date_received }}
-                                                                        </td>
+                                                                            {{ $record->date_received }}</td>
                                                                         <td class="py-2 px-2 text-center border-b border-r border-gray-300">
-                                                                            {{ $record->orsNum }}
-                                                                        </td>
+                                                                            {{ $record->orsNum }}</td>
                                                                         <td class="py-2 px-2 text-center border-b border-r border-gray-300">
-                                                                            {{ $record->dv_no }}
-                                                                        </td>
+                                                                            {{ $record->dv_no }}</td>
                                                                         <td class="py-2 px-2 border-b border-r border-gray-300">
-                                                                            {{ $record->payment_type }}
-                                                                        </td>
+                                                                            {{ $record->payment_type }}</td>
                                                                         <td class="py-2 px-2 text-center border-b border-r border-gray-300">
-                                                                            {{ $record->check_ada_no }}
-                                                                        </td>
+                                                                            {{ $record->check_ada_no }}</td>
                                                                         <td class="py-2 px-2 text-center border-b border-r border-gray-300">
                                                                             ₱{{number_format($record->gross_amount)}}</td>
                                                                         <td class="py-2 px-2 text-center border-b border-r border-gray-300">
                                                                             ₱{{number_format($record->net_amount)}}</td>
                                                                         <td class="py-2 px-2 border-b border-r border-gray-300">
-                                                                            {{ $record->date_issued }}
-                                                                        </td>
+                                                                            {{ $record->date_issued }}</td>
                                                                         <td class="py-2 px-2 border-b border-r border-gray-300">
-                                                                            {{ $record->receipt_no }}
-                                                                        </td>
+                                                                            {{ $record->receipt_no }}</td>
                                                                         <td class="py-2 px-2 border-b border-r border-gray-300">{{ $record->payee }}
                                                                         </td>
                                                                         <td class="py-2 px-2 text-center border-b border-r border-gray-300 max-w-[50px] cursor-pointer relative"
@@ -358,12 +340,11 @@
                                                                             </div>
                                                                         </td>
                                                                         <td class="py-2 px-2 border-b border-r border-gray-300">
-                                                                            {{ $record->outgoing_date }}
-                                                                        </td>
+                                                                            {{ $record->outgoing_date }}</td>
 
                                                                         <td class="py-2 px-2 text-center border-b border-r border-gray-300"
                                                                             style="color: 
-                                                                                    {{ $record->status === 'Issuance Approved' ? '#3AC430' :
+                                                                                {{ $record->status === 'Issuance Approved' ? '#3AC430' :
                                         ($record->status === 'Sent from Accounting' ? 'orange' : 'inherit') }};">
                                                                             {{ $record->status }}
                                                                         </td>

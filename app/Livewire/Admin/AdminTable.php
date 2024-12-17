@@ -38,7 +38,7 @@ class AdminTable extends Component
             $query->where('is_approved', false);
         }
 
-        $users = $query->paginate(10);
+        $users = User::paginate(10);
 
         return view('livewire.admin.admin-table', ['users' => $users]);
     }

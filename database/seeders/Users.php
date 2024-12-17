@@ -2,19 +2,17 @@
 
 namespace Database\Seeders;
 
-use App\Models\Cash;
+use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\DB;
 
-class CashTableSeeder extends Seeder
+class Users extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        Cash::factory()->count(12)->create();
+        User::factory()->count(10)->create();
     }
 }

@@ -5,14 +5,14 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('login') }}" wire:navigate>
+                    <a href="{{ route('login') }}">
                         <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
                     </a>
                 </div>
 
                 <!-- Navigation Links for Accounting Section -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('accounting')" :active="request()->routeIs('accounting')" wire:navigate>
+                    <x-nav-link :href="route('accounting')" :active="request()->routeIs('accounting')" >
                         <svg class="h-6 w-6 text-gray-500 inline-block mr-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                             <path stroke="none" d="M0 0h24v24H0z"/>
                             <circle cx="12" cy="13" r="2" />
@@ -35,7 +35,7 @@
                     </x-nav-link>
 
                     <x-nav-link :href="route('view history')" :active="request()->routeIs('view history')"
-                        wire:navigate>
+                       >
                         <svg class="h-6 w-6 text-gray-500 inline-block mr-2" width="24" height="24" viewBox="0 0 24 24"
                             stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
                             stroke-linejoin="round">
