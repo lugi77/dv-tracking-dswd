@@ -21,8 +21,9 @@ class AdminTable extends Component
 
     public function render()
     {
+        // Build the query with the condition that section != 0
         $query = User::where('section', '!=', 0)
-        ->orderBy('is_approved', 'desc'); // Approved users will be at the top
+            ->orderBy('is_approved', 'desc'); // Approved users will be at the top
 
         // Apply search filter
         if (!empty($this->search)) {
@@ -38,7 +39,8 @@ class AdminTable extends Component
             $query->where('is_approved', false);
         }
 
-        $users = User::paginate(10);
+        // Fetch the filtered users with pagination
+        $users = User::where('section', '!=', 0)->paginate(10);
 
         return view('livewire.admin.admin-table', ['users' => $users]);
     }
@@ -75,4 +77,12 @@ class AdminTable extends Component
     {
         return Excel::download(new CombinedExport, 'combined_data.xlsx');
     }
+
+    public function softDeleteUser($id)
+    {
+        $user = User::find($id);
+        $user->delete(); // Soft delete the record
+        return back()->with('success', 'User soft deleted successfully.');
+    }
+
 }

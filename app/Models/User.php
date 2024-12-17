@@ -9,10 +9,15 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
 use App\Mail\OtpMail;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Model;
+
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable; use SoftDeletes;
+
+    protected $dates = ['deleted_at'];
 
     protected $fillable = [
         'name',
