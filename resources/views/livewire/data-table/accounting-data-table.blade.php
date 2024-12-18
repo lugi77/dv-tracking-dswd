@@ -26,7 +26,7 @@
                                 x-transition:leave="transition ease-in duration-200 transform"
                                 x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
                                 x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                                class="inline-block w-full max-w-4xl p-4 mt-4 overflow-hidden text-left transition-all transform bg-white rounded-lg shadow-xl 2xl:max-w-6xl">
+                                class="inline-block w-full max-w-4xl p-4 mt-4 overflow-hidden text-left transition-all transform bg-gray-100 rounded-lg shadow-xl 2xl:max-w-6xl">
                                 <div class="p-2">
                                    
                                      <form wire:submit.prevent="saveEntry">
@@ -108,7 +108,7 @@
                                                     <option value="Processing">Processing</option>
                                                     <option value="Forward to ARDA">Forward to ARDA</option>
                                                     <option value="Forward to ARDO">Forward to ARDO</option>
-                                                    <option value="Forward to Cash">Forward to Cash</option>
+                                                    <option class="text-green-500" value="Forward to Cash">Forward to Cash</option>
                                                     <option value="Forward to Chief - FMD">Forward to Chief - FMD
                                                     </option>
                                                     <option value="Forward to DRMD">Forward to DRMD</option>
@@ -122,7 +122,7 @@
                                                     <option value="Forward to HR - PAS">Forward to HR - PAS</option>
                                                     <option value="Forward to Admin">Forward to Admin</option>
                                                     <option value="Return to End User">Return to End User</option>
-                                                    <option value="Return to Budget">Return to Budget</option>
+                                                    <option class="text-orange-500" value="Return to Budget">Return to Budget</option>
                                                     <option value="Complied">Complied</option>
                                                     <option value="Cancelled">Cancelled</option>
                                                     <option value="For Approval">For Approval</option>

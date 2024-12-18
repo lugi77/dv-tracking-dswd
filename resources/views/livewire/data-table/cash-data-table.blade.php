@@ -27,7 +27,7 @@
                                 x-transition:leave="transition ease-in duration-200 transform"
                                 x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
                                 x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                                class="inline-block w-full max-w-4xl p-4 mt-4 overflow-hidden text-left transition-all transform bg-white rounded-lg shadow-xl 2xl:max-w-6xl">
+                                class="inline-block w-full max-w-4xl p-4 mt-4 overflow-hidden text-left transition-all transform bg-gray-100 rounded-lg shadow-xl 2xl:max-w-6xl">
 
                                 <form wire:submit.prevent="saveEntry">
                                     @csrf
@@ -168,12 +168,12 @@
                                                     <select id="status" wire:model.defer="status"
                                                         class="border-1 border-solid rounded text-center px-4 py-2 mx-auto">
                                                         <option value="">Select Status</option>
-                                                        <option value="Issuance Approved">Issuance Approved</option>
+                                                        <option class="text-green-500" value="Issuance Approved">Issuance Approved</option>
                                                         <option value="Forward to Accounting">Forward to Accounting
                                                         </option>
                                                         <option value="Forward to Budget Unit">Forward to Budget Unit
                                                         </option>
-                                                        <option value="Return to Accounting">Return to Accounting
+                                                        <option class="text-orange-500" value="Return to Accounting">Return to Accounting
                                                         </option>
                                                         ion value="Return to End User">Return to End User</option>
                                                     </select>
